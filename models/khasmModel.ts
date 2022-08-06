@@ -1,0 +1,25 @@
+export type KhasmModel = {
+  // PersonkhasmHistory Table
+  PersonKhasmId: number;
+  SubmitPersonCode: number;
+  KhasmReasonID: number;
+  PureKhasmValue: number;
+  NumberOfLateHours: number;
+  KhasmLateHourRatio: number;
+  NumberOfGhyabDays: number;
+  KhasGhyabDayRatio: number;
+  DayOfKhasm: number;
+  MonthOfKhasm: number;
+  YearOfKhasm: number;
+};
+
+export type KhasmModelHistory = {
+  PersonName: {
+    PersonFirstName: string;
+    PersonSecondName: string;
+    PersonThirdName: string;
+    PersonFourthName: string;
+  };
+  PersonCode: number;
+  totalKhasminThatMonth: number;
+};

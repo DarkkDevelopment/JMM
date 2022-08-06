@@ -1,0 +1,32 @@
+export type PayrolModel = {
+  PersonName: {
+    PersonFirstName: string;
+    PersonSecondName: string;
+    PersonThirdName: string;
+    PersonFourthName: string;
+  };
+  PersonCode: number;
+  PersonMorattabAtThatMonth: number;
+  Total3adadSa3atElTa25eerAtThatMonth: number;
+  ValueOfKhasmFor3adadSa3atElTa25eerAtThatMonth: number;
+  Total3adadAyamEl5asmAwElGheyabaAtThatMonth: number;
+  ValueOfKhasmForTotal3adadAyamEl5asmAwElGheyabaAtThatMonth: number;
+  TotalValueOfIndividualKhasmAtThatMonth: number;
+  TotalKhasmSummationValue: number;
+  Total3adadSa3atElExtraAtThatMonth: number;
+  ValueOfHafezForTotal3adadSa3atElExtraAtThatMonth: number;
+  Total3adadAyamElEdafyAwElHafezAtThatMonth: number;
+  ValueOfHafezForTotal3adadAyamElEdafyAwElHafezAtThatMonth: number;
+  TotalValueOfIndividualHafezAtThatMonth: number;
+  TotalHafezSummationValue: number;
+  TotalValueOfSolafTakenAtThatMonth: number;
+  DrayebPercentageForMorattabAtThatMonth: number;
+  TotalValueOfDarayebAtThatMonth: number;
+  PersonTa2meenValue: number;
+  PersonTa2meenPercentage: number;
+  TotalValueOfTa2meenAtThatMonth: number;
+  NetSalary: number;
+  PersonPayrollDate: Date;
+  PayrolMonth: number;
+  PayrolYear: number;
+};

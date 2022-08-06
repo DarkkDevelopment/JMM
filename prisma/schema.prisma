@@ -1,0 +1,359 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AgazaTypesLookup {
+  AgazaTypeID                       Int                                 @id @default(autoincrement())
+  AgazaType                         String                              @db.VarChar(50)
+  PersonAgazaRequestAndHistoryTable PersonAgazaRequestAndHistoryTable[]
+}
+
+model AgazatRasmyaLookup {
+  AgazaRasmyaID   Int      @id @default(autoincrement())
+  AgazaRasmyaName String   @db.VarChar(50)
+  AgazaRasmyaDate DateTime @db.Date
+}
+
+model DyanaLookup {
+  DyanaID   Int      @id  @default(autoincrement())
+  DyanaName String   @db.VarChar(20)
+  Person    Person[]
+}
+
+model FixedHafezAndKhasmRatios {
+  id                  Int   @id @default(autoincrement())
+  FixedKhasmHourRatio Float
+  FixedHafezHourRatio Float
+  FixedKhasmDayRatio  Float
+  FixedHafezDayRatio  Float
+}
+
+model KhasmReasons {
+  ReasonID           Int                  @id @default(autoincrement())
+  ReasonDescription  String               @db.VarChar(50)
+  PersonKhasmHistory PersonKhasmHistory[]
+}
+
+model HafezReasons {
+  ReasonID           Int                  @id @default(autoincrement())
+  ReasonDescription  String               @db.VarChar(50)
+  PersonHafezHistory PersonHafezHistory[]
+}
+
+model ManteqaLookup {
+  ManteqaID     Int             @id @default(autoincrement())
+  ManteqaName   String          @db.VarChar(50)
+  PersonAddress PersonAddress[]
+}
+
+model MohafzatLookup {
+  MohafzaID     Int             @id @default(autoincrement())
+  MohafzaName   String          @db.VarChar(30)
+  PersonAddress PersonAddress[]
+}
+
+model NamesLookup {
+  NameID Int    @id @default(autoincrement())
+  Name   String @db.VarChar(25)
+}
+
+model Person {
+  PersonCode                                Int                                         @id
+  PersonFirstName                           String                                      @db.VarChar(20)
+  PersonSecondName                          String                                      @db.VarChar(20)
+  PersonThirdName                           String                                      @db.VarChar(20)
+  PersonFourthName                          String                                      @db.VarChar(20)
+  PersonRaqamQawmy                          String                                      @db.VarChar(20)
+  PersonRaqamTa2meeny                       String                                      @db.VarChar(20)
+  PersonTelephoneArdy                       String?                                     @db.VarChar(12)
+  PersonTaree5Milad                         DateTime                                    @db.Date
+  PersonTaree5Ta3yeen                       DateTime                                    @db.Date
+  PersonSanawatTa2meen                      Int
+  PersonDyanaId                             Int
+  PersonTypeId                              Int
+  PersonTa2meenValue                        Int
+  deletedAt                                 DateTime?                                   @db.Date
+  PersonAddress                             PersonAddress?
+  PersonAgazaLimit                          PersonAgazaLimit[]
+  PersonAgazaRequestAndHistoryTable         PersonAgazaRequestAndHistoryTable[]
+  PersonCurrentMorattabAndDarayebPercentage PersonCurrentMorattabAndDarayebPercentage[]
+  PersonDarayebHistory                      PersonDarayebHistory[]
+  PersonDocuments                           PersonDocuments[]
+  PersonHafezHistory                        PersonHafezHistory[]
+  PersonHodoorEnseraf                       PersonHodoorEnseraf[]
+  PersonKhasmHistory                        PersonKhasmHistory[]
+  PersonMobileNumbers                       PersonMobileNumbers[]
+  PersonPassword                            PersonPassword[]
+  PersonSQLRequestHistory                   PersonSQLRequestHistory[]
+  PersonSolfaPerMonth                       PersonSolfaPerMonth[]
+  PersonSystemLogging                       PersonSystemLogging[]
+  PersonTa2meenatPaidBySherkaAndByPerson    PersonTa2meenatPaidBySherkaAndByPerson[]
+  PersonWazeefa                             PersonWazeefa?
+  HafezSubmitMove                           HafezSubmitMove[]
+  KhasmSubmitMove                           KhasmSubmitMove[]
+  GheyabHistory                             GheyabHistory[]
+  PersonDyana                               DyanaLookup                                 @relation(fields: [PersonDyanaId], references: [DyanaID])
+  PersonType                                PersonTypesLookup                           @relation(fields: [PersonTypeId], references: [PersonTypeID])
+}
+
+model PersonAddress {
+  PersonCode      Int            @id
+  PersonAddress   String         @db.VarChar(100)
+  PersonManteqaID Int
+  PersonMohafzaID Int
+  Person          Person         @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeAddressConstraint")
+  ManteqaLookup   ManteqaLookup  @relation(fields: [PersonManteqaID], references: [ManteqaID], onDelete: NoAction, onUpdate: NoAction, map: "PersonManteqaConstraint")
+  MohafzatLookup  MohafzatLookup @relation(fields: [PersonMohafzaID], references: [MohafzaID], onDelete: NoAction, onUpdate: NoAction, map: "PersonMohafzaConstraint")
+}
+
+model PersonAgazaLimit {
+  PersonCode        Int
+  NumberOfAgazaDays Int
+  Year              Int
+  Person            Person @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCode")
+
+  @@id([PersonCode, Year])
+}
+
+model PersonAgazaRequestAndHistoryTable {
+  id          Int              @id @default(autoincrement())
+  PersonCode  Int
+  AgazaTypeId Int
+  AgazaDate   DateTime         @db.Date
+  deletedAt   DateTime?        @db.Date
+  Person      Person           @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeAgazaConstraint")
+  AgazaType   AgazaTypesLookup @relation(fields: [AgazaTypeId], references: [AgazaTypeID], onDelete: NoAction, onUpdate: NoAction, map: "AgazaTypeConstraint")
+}
+
+model PersonCurrentMorattabAndDarayebPercentage {
+  PersonCode                      Int    @id
+  CurrentMorattab                 Int
+  PersonMorattabDareebaPercentage Float
+  Person                          Person @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeCurrentMorattabConstraint")
+}
+
+model PersonDarayebHistory {
+  PersonCode                         Int    @id
+  PersonMorattabAtThatMonth          Int
+  PersonDarayebPercentageAtThatMonth Float
+  TotalValueOfDarayeb                Float
+  Month                              Int
+  Year                               Int
+  Person                             Person @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCode_fkey")
+}
+
+model PersonDocuments {
+  PersonCode     Int     @id
+  Beta2aWesh     String?
+  Beta2aDahr     String?
+  Feesh          String?
+  ShehadetMilad  String?
+  ShehadetGeish  String?
+  PersonContract String?
+  Person         Person  @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeDocumentsConstraint")
+}
+
+model PersonHafezHistory {
+  id                  Int               @id @default(autoincrement())
+  PersonHafezId       Int
+  HafezReasonID       Int?
+  PureHafezValue      Int?              @default(0)
+  NumberOfBonusHours  Float?            @default(0)
+  HafezBonusHourRatio Float?            @default(0)
+  HafezTotalValue     Float?            @default(0)
+  NumberOfBonusDays   Int?              @default(0)
+  HafezBonusDayRatio  Float?            @default(0)
+  DayOfHafez          Int?              @default(0)
+  MonthOfHafez        Int?              @default(0)
+  YearOfHafez         Int?              @default(0)
+  Person              Person            @relation(fields: [PersonHafezId], references: [PersonCode])
+  HafezReasons        HafezReasons?     @relation(fields: [HafezReasonID], references: [ReasonID])
+  HafezSubmitMove     HafezSubmitMove[]
+}
+
+model HafezSubmitMove {
+  HafezHistoryId     Int
+  SubmitPersonCode   Int
+  Person             Person             @relation(fields: [SubmitPersonCode], references: [PersonCode])
+  PersonHafezHistory PersonHafezHistory @relation(fields: [HafezHistoryId], references: [id])
+
+  @@id([HafezHistoryId, SubmitPersonCode])
+}
+
+model KhasmSubmitMove {
+  KhasmHistoryId     Int
+  SubmitPersonCode   Int
+  Person             Person             @relation(fields: [SubmitPersonCode], references: [PersonCode])
+  PersonKhasmHistory PersonKhasmHistory @relation(fields: [KhasmHistoryId], references: [id])
+
+  @@id([KhasmHistoryId, SubmitPersonCode])
+}
+
+model GheyabHistory {
+  PersonGheyabCode Int
+  GheyabDate       DateTime @db.Date
+  Person           Person   @relation(fields: [PersonGheyabCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeGheyabConstraint")
+
+  @@id([PersonGheyabCode, GheyabDate])
+}
+
+model PersonHodoorEnseraf {
+  PersonCode                         Int
+  HodoorTime                         DateTime? @db.Time(6)
+  EnserafTime                        DateTime? @db.Time(6)
+  TotalNumberOfWorkingHoursAtThatDay Float?
+  ExtraHours                         Int       @default(0)
+  LateHours                          Int       @default(0)
+  Date                               DateTime  @db.Date
+  Person                             Person    @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "person_code_fkey")
+
+  @@id([PersonCode, Date])
+}
+
+model PersonKhasmHistory {
+  id                 Int               @id @default(autoincrement())
+  PersonKhasmId      Int
+  KhasmReasonID      Int?
+  PureKhasmValue     Int?              @default(0)
+  NumberOfLateHours  Float?            @default(0)
+  KhasmLateHourRatio Float?            @default(0)
+  KhasmLateValue     Float?            @default(0)
+  NumberOfGhyabDays  Int?              @default(0)
+  KhasmGhyabDayRatio Float?            @default(0)
+  DayOfKhasm         Int?              @default(0)
+  MonthOfKhasm       Int?              @default(0)
+  YearOfKhasm        Int?              @default(0)
+  Person             Person            @relation(fields: [PersonKhasmId], references: [PersonCode])
+  KhasmReasons       KhasmReasons?     @relation(fields: [KhasmReasonID], references: [ReasonID])
+  KhasmSubmitMove    KhasmSubmitMove[]
+}
+
+model PersonMobileNumbers {
+  PersonCode   Int    @id
+  MobileNumber String @db.VarChar(15)
+  Person       Person @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonMobileConstraint")
+}
+
+model PersonPassword {
+  PersonCode           Int    @id
+  PersonSystemPassword String @db.VarChar(50)
+  Person               Person @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodePasswordConstraint")
+}
+
+model PersonPayrollHistory {
+  id                                                             Int      @id @default(autoincrement())
+  PersonCode                                                     Int
+  PersonMorattabAtThatMonth                                      Int
+  Total3adadSa3atElTa25eerAtThatMonth                            Float
+  ValueOfKhasmForTotal3adadSa3atElTa25eerAtThatMonth             Float
+  Total3adadAyyamEl5asmAwElGhyabAtThatMonth                      Float
+  ValueOfKhasmForTotal3adadAyyamEl5asmAwElGhyabAtThatMonth       Float
+  TotalValueOfIndividualKhasmAtThatMonth                         Float
+  TotalKhasmSummationValue                                       Float
+  Total3adadSa3atElExtraAtThatMonth                              Float
+  ValueOfHafezForTotal3adadSa3atElExtraAtThatMonth               Float
+  Total3adadAyyamElEdafyAwElHafezAtThatMonth                     Float
+  ValueOfHafezForTotalTotal3adadAyyamElEdafyAwElHafezAtThatMonth Float
+  TotalValueOfIndividualHafezAtThatMonth                         Float
+  TotalHafezSummationValue                                       Float
+  TotalValueOfSolafTakenAtThatMonth                              Float
+  DarayebPercentageForThatMorattabAtThatMonth                    Float
+  TotalValueOfDarayebAtThatMonth                                 Float
+  PersonTa2meenValue                                             Int
+  PersonTa2meenPercentage                                        Float
+  TotalValueOfTa2meenatAtThatMonth                               Float
+  NetSalary                                                      Float
+  PersonPayrollDate                                              DateTime @db.Date
+  PayrollMonth                                                   Int
+  PayrollYear                                                    Int
+}
+
+model PersonSQLRequestHistory {
+  id            Int      @id @default(autoincrement())
+  PersonCode    Int
+  PageID        Int
+  RequestMade   String
+  RequestMadeAt DateTime @db.Time(6)
+  Person        Person   @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "pcode_fkey")
+}
+
+model PersonSolfaPerMonth {
+  id                    Int      @id @default(autoincrement())
+  PersonCode            Int
+  SolfaValue            Int
+  SolfaRequestDate      DateTime @db.Date
+  SolfaMonthToBeApplied Int
+  SolfaYearToBeApplied  Int
+  IsApproved            Boolean
+  IsDoneAndPaid         Boolean
+  Person                Person   @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeConstraint")
+}
+
+model PersonSystemLogging {
+  id          Int      @id @default(autoincrement())
+  PersonCode  Int
+  PageID      Int
+  LoggingTime DateTime @db.Timetz(6)
+  Person      Person   @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeLastLoggedConstraint")
+}
+
+model PersonTa2meenatPaidBySherkaAndByPerson {
+  PersonCode                               Int    @id
+  PersonTa2meenValueAtThatMonth            Int
+  Ta2meenPercentagePaidBySherkaAtThatMonth Float
+  Ta2meenPercentagePaidByPersonAtThatMonth Float
+  Ta2meenValuePaidBySherkaAtThatMonth      Float
+  Ta2meenValuePaidByPersonAtThatMonth      Float
+  Month                                    Int
+  Year                                     Int
+  Person                                   Person @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeTa2meenatConstraint")
+}
+
+model PersonTypesLookup {
+  PersonTypeID Int      @id @default(autoincrement())
+  PersonType   String   @db.VarChar(10)
+  Person       Person[]
+}
+
+model PersonWazeefa {
+  PersonCode      Int                @id
+  PersonWazeefaId Int
+  Person          Person             @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeConstraint")
+  PersonWazeefa   WazayefTypesLookup @relation(fields: [PersonWazeefaId], references: [WazeefaID], onDelete: NoAction, onUpdate: NoAction, map: "PersonWazeefaIdConstraint")
+}
+
+model Ta2meenatFixedPercentage {
+  id                              Int   @id @default(autoincrement())
+  Ta2meenatPercentagePaidBySherka Float
+  Ta2meenatPercentagePaidByPerson Float
+}
+
+model WazayefTypesLookup {
+  WazeefaID          Int             @id  @default(autoincrement())
+  WazeefaName        String          @db.VarChar(50)
+  WazeefaDescription String?         @db.VarChar(255)
+  PersonWazeefa      PersonWazeefa[]
+}
+
+model WorkingHoursLookup {
+  id        Int      @id @default(autoincrement())
+  StartTime DateTime @db.Time(6)
+  EndTime   DateTime @db.Time(6)
+}
+
+model agazaDaysInWeek {
+  id      Int    @id @default(autoincrement())
+  DayName String @db.VarChar(10)
+}
+
+model FixedGlobalValues {
+  id    Int    @id @default(autoincrement())
+  Value Float
+  Name  String @db.VarChar(50)
+}
