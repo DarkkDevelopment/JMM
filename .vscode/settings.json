@@ -1,4 +1,6 @@
 {
   "WillLuke.nextjs.addTypesOnSave": true,
-  "WillLuke.nextjs.hasPrompted": true
+  "WillLuke.nextjs.hasPrompted": true,
+  "appService.defaultWebAppToDeploy": "/subscriptions/55b6cd9b-9cde-4eb9-9ef6-06711047c638/microsoft.web/sites/subscriptions/55b6cd9b-9cde-4eb9-9ef6-06711047c638/resourceGroups/JMM_Trial/providers/Microsoft.Web/sites/jmm-app",
+  "appService.deploySubpath": "."
 }
