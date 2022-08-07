@@ -5,7 +5,11 @@ import prisma from "../../../../lib/prisma";
 
 const getMohafazat = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const mohafazat = await prisma.mohafzatLookup.findMany({});
+    const mohafazat = await prisma.mohafzatLookup.findMany({
+      where: {
+        deletedAt: null,
+      },
+    });
     res.status(200).json(mohafazat);
   } catch {
     res.status(500).json({ error: "something went wrong" });

@@ -5,7 +5,11 @@ import prisma from "../../../../lib/prisma";
 
 const getAgazaTypes = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const agazaTypes = await prisma.agazaTypesLookup.findMany({});
+    const agazaTypes = await prisma.agazaTypesLookup.findMany({
+      where: {
+        deletedAt: null,
+      },
+    });
     res.status(200).json(agazaTypes);
   } catch (error: any) {
     res.status(500).json({

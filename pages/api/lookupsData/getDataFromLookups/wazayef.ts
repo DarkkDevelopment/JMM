@@ -5,7 +5,11 @@ import prisma from "../../../../lib/prisma";
 
 const getWazayef = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const wazayef = await prisma.wazayefTypesLookup.findMany({});
+    const wazayef = await prisma.wazayefTypesLookup.findMany({
+      where: {
+        deletedAt: null,
+      },
+    });
     res.status(200).json(wazayef);
   } catch (error) {
     res.status(500).json({ error: "something went wrong" });

@@ -5,7 +5,11 @@ import prisma from "../../../../lib/prisma";
 
 const getPersonTypes = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const personTypes = await prisma.personTypesLookup.findMany({});
+    const personTypes = await prisma.personTypesLookup.findMany({
+      where: {
+        deletedAt: null,
+      },
+    });
     res.status(200).json(personTypes);
   } catch (error) {
     res.status(500).json({ error: "something went wrong" });

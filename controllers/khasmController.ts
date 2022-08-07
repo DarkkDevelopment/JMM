@@ -5,7 +5,11 @@ import getWorkingHours from "./getWorkingHours";
 import { getMorattabAndDarebaPercentage } from "./taxesController";
 
 const getKhasmReasons = async () => {
-  const reasons = await prisma.khasmReasons.findMany({});
+  const reasons = await prisma.khasmReasons.findMany({
+    where: {
+      deletedAt: null,
+    },
+  });
   return reasons;
 };
 
