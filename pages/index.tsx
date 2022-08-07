@@ -5,11 +5,7 @@ import { useState } from "react";
 import LoginForm from "../components/LoginForm";
 import Logo from "../public/images/logo.png";
 
-const Home: NextPage = () => {
-  const [clickedImage, setClickedImage] = useState(false);
-  const handleClickImage = () => {
-    setClickedImage(!clickedImage);
-  };
+const Home: NextPage = (props) => {
   return (
     <>
       <div className="font-display">
@@ -23,27 +19,11 @@ const Home: NextPage = () => {
         </Head>
       </div>
       <div className="flex flex-col">
-        {clickedImage ? (
-          <div className="flex flex-row justify-evenly mt-52">
-           
-            
-            <Image src={Logo} width={300} height={300} alt="logo" />
-            <div className="border-l-4 border-blue-900 h-500 "></div>
-            <LoginForm />
-          </div>
-        ) : (
-          <div className="flex flex-col items-center  mt-80">
-            <button onClick={handleClickImage}>
-              <Image
-                className="flex items-center transition-all duration-200 ease-in-out hover:animate-pulse"
-                src={Logo}
-                alt="logo"
-                width={300}
-                height={300}
-              />
-            </button>
-          </div>
-        )}
+        <div className="flex flex-row justify-evenly mt-52">
+          <Image src={Logo} width={300} height={300} alt="logo" />
+          <div className="border-l-4 border-blue-900 h-500 "></div>
+          <LoginForm />
+        </div>
       </div>
     </>
   );
