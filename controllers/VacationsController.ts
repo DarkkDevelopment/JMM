@@ -53,6 +53,15 @@ const checkForAgazaRasmeya = async (agazaDate: Date) => {
   }
 };
 
+const getAgazatRasmeya = async () => {
+  const AgazatRasmeya = await prisma.agazatRasmyaLookup.findMany({
+    where: {
+      deletedAt: null,
+    },
+  });
+  return AgazatRasmeya;
+};
+
 // todo : not working
 const convertDateToString = (date: Date) => {
   const newDate = new Date(date).toLocaleDateString("en-US", {
@@ -124,4 +133,9 @@ const getVacationsAtThatDay = async (
   return vacationsModels;
 };
 
-export { checkForVacation, getVacationsAtThatDay };
+export {
+  checkForVacation,
+  getVacationsAtThatDay,
+  getVacationsInWeek,
+  getAgazatRasmeya,
+};

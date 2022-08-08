@@ -70,7 +70,9 @@ const createHafezExtraHours = async (model: HawafezModel) => {
             model.HafezBonusHourRatio *
             morattab.morattab) /
             30) *
-          (await getWorkingHours()),
+          (
+            await getWorkingHours()
+          ).NumberOfWorkingHours,
         NumberOfBonusDays: 0,
         HafezBonusDayRatio: 0,
         DayOfHafez: model.DayOfHafez,

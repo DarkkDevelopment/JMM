@@ -70,7 +70,9 @@ const createKhasmLateHours = async (model: KhasmModel) => {
             model.KhasmLateHourRatio *
             morattab.morattab) /
             30) *
-          (await getWorkingHours()),
+          (
+            await getWorkingHours()
+          ).NumberOfWorkingHours,
         PureKhasmValue: 0,
         NumberOfGhyabDays: 0,
         KhasmGhyabDayRatio: 0,
