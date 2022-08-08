@@ -127,7 +127,7 @@ const getTotalNumberOfBonusHoursAndValueInThatMonth = async (
         bonus?.HafezBonusHourRatio *
         getMorattabByCode!.CurrentMorattab *
         30) /
-      (await getWorkingHours());
+      (await getWorkingHours()).NumberOfWorkingHours;
   });
   return { totalNumberOfhours, totalValue };
 };
@@ -160,7 +160,7 @@ const getTotalNumberOfLateHoursAndValueInThatMonth = async (
         // @ts-ignore
         bonus?.KhasmLateHourRatio *
         30) /
-      (await getWorkingHours());
+      (await getWorkingHours()).NumberOfWorkingHours;
   });
   return { totalNumberOfhours, totalValue };
 };
