@@ -122,19 +122,29 @@ function VacationsCard(props: Props) {
       ).getDate()
       : endDate.getDate() - startDate.getDate();
   };
-
   return (
-    <div className="flex flex-col justify-center mr-14 p-5 space-y-10 bg-white shadow-lg rounded-3xl font-display">
-      <h2 className="mt-10 text-5xl text-center text-black font-display">
-        {name}
-      </h2>
-      <h3 className="text-2xl text-center text-black font-display">
+    <div className="flex flex-row bg-gray-100 ">
+    <div className="font-display basis-[96.285%] ">
+    <div className="flex flex-col items-center px-5 space-y-10 bg-white rounded-3xl shadow-lg font-display">
+        <h3 className="mt-10 text-3xl text-center text-black font-display">
+            {name}
+        </h3>
+
+        <p>
         الكود : {code}
-      </h3>
-      <h4 className="mt-10 text-xl text-center text-black font-display">
+        </p>
+        <p>
         عدد الاجازات المتاحة : {availableVacations}
-      </h4>
-      <div className="flex  space-x-32">
+        </p>
+
+
+      {/*   <div className="flex flex-row flex-1 w-3/4 align-baseline justify-between font-display ">
+            <Dropdown options={hwafezReasons} title='الحوافز' onChange={setHafez} value={hafez} />
+            <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
+        </div> */}
+         <div className="grid justify-center grid-cols-2 ">
+
+         <div className="mr-24  ">
         <div className="flex flex-col items-center pt-14 space-y-5 text-center text-black font-display">
           <h6 className="text-xl text-center pl-52 text-black font-display">
             الاجازات السابقة
@@ -180,25 +190,29 @@ function VacationsCard(props: Props) {
             <h1 className="text-xl">لا يوجد اجازات سابقة</h1>
           )}
         </div>
+        </div>
+    
         <div className="flex flex-col ">
-          <h5 className="pr-56 space-x-10 text-xl text-right text-black font-display">
+        <h5 className="pr-44 space-x-10 text-xl text-right text-black font-display">
             الايام المطلوبة
           </h5>
-
-          <div className="flex   ">
-            <div className="flex  mt-16 ">
-              <Dropdown
-                title="نوع الاجازة"
-                options={agazatConst}
-                value={selected}
-                onChange={setSelected}
-              />
-            </div>
-            <div className="flex flex-col  justify-center">
-              <h6 className="mt-10 text-xl text-center text-black font-display">
-                الي
+          
+          <div className=" flex flex-row mt-5 ml-28  ">
+              <h6 className="text-xl pr-60   text-black font-display">
+             
+              الي
+                
               </h6>
-              <DatePicker
+              <h6 className="text-xl  text-black font-display">
+             
+              من
+                
+              </h6>
+              </div>
+
+              <div className="flex flex-row mt-5 mr-62 ">            
+           
+             <DatePicker
                 className="
                 m-3
                 px-4
@@ -209,12 +223,10 @@ function VacationsCard(props: Props) {
                 "
                 selected={endDate}
                 onChange={(date: Date) => setEndDate(date)}
+              
               />
-            </div>
-            <div className="flex flex-col justify-center">
-              <h6 className="mt-10 text-xl text-center text-black font-display">
-                من
-              </h6>
+              
+            
               <DatePicker
                 className="m-3
             
@@ -226,8 +238,10 @@ function VacationsCard(props: Props) {
                 selected={startDate}
                 onChange={(date: Date) => setStartDate(date)}
               />
-            </div>
-          </div>
+             
+              
+             </div>
+
           {calculateVacationDays() < 0 ? (
             <h5 className="mt-2 text-xl font-bold text-center text-red-600">
               برجاء ادخال التاريخ بشكل صحيح
@@ -238,18 +252,33 @@ function VacationsCard(props: Props) {
             </h5>
           ) : (
             calculateVacationDays() + 1 <= availableVacations && (
-              <div className="flex flex-col   pt-4">
-
-                <h5 className=" pr-44 text-xl text-right text-black font-display">
+              <div className="flex flex-col  items-center  pt-4">
+            
+             
+            <div className=" mt-2.5   ">
+             <Dropdown
+               title="نوع الاجازة"
+               options={agazatConst}
+               value={selected}
+               onChange={setSelected}
+              />
+           </div>
+              
+           
+               <h5 className=" text-xl mt-12 text-center text-black font-display">
                   اجمالي عدد الايام المطلوبة
                 </h5>
-
-                <h1 className="mt-2 pl-44 text-3xl text-center text-black font-display ">
+              
+               
+               
+              
+            
+                <h1 className="mt-2  text-3xl text-center text-black font-display ">
                   {calculateVacationDays() + 1}
                 </h1>
-                <h1 className="mt-2 pl-44 text-center text-black font-display ">
+                <h1 className="mt-2 text-center text-black font-display ">
                   <button
-                    className="m-3 px-4 py-2 font-bold text-center  shadow appearance-none border rounded w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900"
+                    className="m-3 mb- 5 px-4 py-2 font-bold text-center  shadow appearance-none border rounded w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900"
                     onClick={sendVacation}
                   >
 
@@ -257,12 +286,16 @@ function VacationsCard(props: Props) {
                   </button>
                 </h1>
               </div>
+              
             )
           )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+      </div>
+      </div>
+    
+  ); 
 }
 
 export default VacationsCard;
