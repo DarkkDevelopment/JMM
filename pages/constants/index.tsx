@@ -83,6 +83,14 @@ const Home = (props: any) => {
                 >
                     الاجازات الاسبوعية
                 </button>
+                <button
+                    className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+                    onClick={() => {
+                        router.push("/constants/officialagaza");
+                    }}
+                >
+                    الاجازات الرسمية
+                </button>
             </div>
             <SideBar pageName="const" />
         </div>
