@@ -11,7 +11,7 @@ interface Props {
 const Dropdown = (props: Props) => {
   const { title, options, value, isDisabled, onChange } = props;
   return (
-    <div className="p-10">
+    <div className="">
       <select
         className="relative flex jutify-center w-fit items-centerbg-white bg-blue-900 text-white rounded focus:outline-none focus:ring ring-gray-200border shadow group p-2"
         value={value}

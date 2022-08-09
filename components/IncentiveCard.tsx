@@ -34,10 +34,15 @@ function IncentiveCard(props: any) {
             <p>
                 اجمالي مبلغ ال{title} في الشهر : {totalIncentive}
             </p>
-
-            <div className="flex flex-row flex-1 w-3/4 align-baseline justify-between font-display ">
-                <Dropdown options={hwafezReasons} title='الحوافز' onChange={setHafez} value={hafez} />
+            <div className="flex flex-row align-baseline justify-between font-display space-x-64 ">
+            <div className=" mt-7 ">
+            <Dropdown options={hwafezReasons} title='الحوافز' onChange={setHafez} value={hafez} />
+            </div>
+            
+                
+                <div className="ml- ">
                 <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
+            </div>
             </div>
             <button
                 onClick={sendHafez}

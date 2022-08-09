@@ -75,14 +75,13 @@ const Absence = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col mr-16 justify-center p-10 bg-white shadow-xl space-y-7 ">
-            <p className="text-3xl text-center text-black font-display">
-              الغياب
-            </p>
-            <p className="text-3xl text-center text-black font-display">
-              &quot;{filterDate.toLocaleDateString()}&quot;
-            </p>
-
+      
+                <div className="flex flex-col mr-16 justify-center p-10 bg-white shadow-xl space-y-7 ">
+          <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
+            <div >  الغياب</div>
+            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div> 
+           
+          </p> 
             <table
               title="الغياب"
               className="text-center border-collapse table-auto font-display"
@@ -119,11 +118,11 @@ const Absence = () => {
             </table>
           </div>
           <div className="flex flex-col justify-center p-10 mt-5 mr-16  bg-white shadow-xl space-y-7 ">
-            <h1 className="text-3xl text-center text-black font-display">
-              الاجازات
-            </h1>
-            <p className="text-3xl text-center text-black font-display">
-              &quot;{filterDate.toLocaleDateString()}&quot;
+          <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
+            <div >   الاجازات</div>
+            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div> 
+           
+   
             </p>
             <table
               title="الاجازات"

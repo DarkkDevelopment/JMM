@@ -272,11 +272,13 @@ function Attendance(props: any) {
 
 
         </div>
-        <div className="flex flex-col justify-center mr-20 pr-10 pt-10 pl-10 bg-white shadow-xl space-y-7 ">
-          <p className="text-3xl text-center justify-center text-black font-display">
-            الحضور
-            &quot;{filterDate.toLocaleDateString()}&quot;
-          </p>
+        
+        <div className="flex flex-col justify-center mr-32 pr-10 pt-10 pl-10 bg-white shadow-xl space-y-7 ">
+          <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
+            <div >  الحضور</div>
+            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div> 
+           
+          </p> 
 
 
           <table
