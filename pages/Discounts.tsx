@@ -68,9 +68,9 @@ function Discounts(props: ReactPropTypes) {
 
   return (
     <div className="flex flex-row bg-gray-100 ">
-      <div className="font-display basis-5/6">
+      <div className="font-display basis-5/6 ">
         <div className="flex flex-col m-10 ">
-          <div className="flex flex-row   justify-center   space-x-80 ">
+          <div className="flex flex-row   justify-center   space-x-80  ">
             <SearchField setSearchTerm={setSearchTerm} />
             <DatePicker
               className="

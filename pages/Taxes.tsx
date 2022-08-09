@@ -68,19 +68,19 @@ function Taxes(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   }, [isMonthSearch, month, year]);
 
   return (
-    <div className="flex flex-row bg-gray-100 ">
+    <div className=" flex flex-row bg-gray-100 ">
       <div className="pr-10 m-10 font-display basis-5/6">
-        <div className="flex flex-row pr-10 space-x-64 ">
+        <div className="flex flex-row pr-10 space-x-64 justify-between mr-10 ">
+        <div className=" mr-10 ">
           <SearchField setSearchTerm={setSearchTerm} />
-        </div>
-        <div className="flex flex-row items-center justify-evenly">
+          </div>
           <button
-            className="px-12 py-4 text-2xl font-bold text-center text-white bg-red-400 shadow-lg hover:bg-red-700 rounded-xl"
+            className="px-8 py-2 text-2xl mb-5 font-bold text-center text-white bg-blue-500 shadow-lg hover:bg-blue-900 rounded-xl"
             onClick={handleSearchButton}
           >
             بحث
           </button>
-          <div className="flex flex-row justify-center space-x-10">
+          <div className="flex flex-row justify-center space-x-10 ">
             <DropDownDateComp
               month={month}
               year={year}

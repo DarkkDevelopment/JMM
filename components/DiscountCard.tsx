@@ -37,7 +37,7 @@ function DiscountCard(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center p-10 space-y-10 bg-white shadow-lg rounded-3xl font-display">
+    <div className="flex flex-col items-center p-10 space-y-10 mr-10 bg-white shadow-lg rounded-3xl font-display">
       <h3 className="mt-10 text-3xl text-center text-black font-display">
         {name}
       </h3>
@@ -47,14 +47,34 @@ function DiscountCard(props: any) {
       </p>
 
       <div className="flex flex-row justify-between flex-1 w-3/4 align-baseline font-display ">
-        <Dropdown
+       
+      </div>
+
+
+
+
+
+
+
+
+        <div className="flex flex-row align-baseline justify-between font-display space-x-64 ">
+            <div className=" mt-7 ">
+            <Dropdown
           options={discountReasons}
           title="اسباب الخصم"
           onChange={setDiscount}
           value={discount}
         />
-        <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
-      </div>
+       
+            </div>
+            
+                
+                <div className="ml- ">
+                <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
+            </div>
+            </div>
+
+
       <button
         onClick={sendHafez}
         className="m-3 px-4 py-2 text-center shadow appearance-none border rounded w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900 "
