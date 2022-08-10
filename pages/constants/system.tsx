@@ -4,12 +4,14 @@ import SideBar from "../../components/sideBar";
 import { SystemConstantsRow } from "../../components/SystemConstantsRow";
 import { InferGetServerSidePropsType } from "next";
 
-type Props = {};
 const System = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
-  const idOfFixedLoanPercentage =
-    props.idOfLoanPercentageProp == 0 ? 0 : props.idOfLoanPercentageProp;
+  const idOfFixedLoanPercentage = props
+    ? props.idOfLoanPercentageProp === 0
+      ? 0
+      : props.idOfLoanPercentageProp
+    : 0;
 
   const [hafezExtraDayRatio, setHafezExtraDayRatio] = useState<string | number>(
     0
