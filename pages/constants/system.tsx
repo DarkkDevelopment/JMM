@@ -56,7 +56,7 @@ const System = (props: Props) => {
   const onPersonLoanPercentageChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setLoanPercentage(Number(e.target.value));
+    setLoanPercentage(e.target.value);
   };
 
   const onCompanyInsuranceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
