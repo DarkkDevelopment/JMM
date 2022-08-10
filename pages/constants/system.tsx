@@ -162,10 +162,10 @@ const System = (props: Props) => {
       "/api/lookupsData/getDataFromLookups/globalValues"
     );
 
-    if (loanPercentageResponse.data.length > 0) {
-      setLoanPercentage(loanPercentageResponse.data[0].loanPercentage);
+    if (loanPercentageResponse !== null) {
+      setLoanPercentage(loanPercentageResponse.data.loanPercentage);
       setIsLoanPercentageNew(false);
-      setIdOfLoanPercentage(loanPercentageResponse.data[0].id);
+      setIdOfLoanPercentage(loanPercentageResponse.data.id);
     } else {
       setLoanPercentage(0);
       setIsLoanPercentageNew(true);
