@@ -21,6 +21,8 @@ const System = (
     props.InsurancePercentage.companyInsurancePercentage;
   const ourLoanPercentage = props.loanPercentage.loanPercentage;
 
+  console.log(props);
+
   const [hafezExtraDayRatio, setHafezExtraDayRatio] = useState<string | number>(
     ourHafezExtraDayRatio
   );
@@ -372,10 +374,10 @@ const System = (
 
 export async function getServerSideProps(context: any) {
   const getAllConstants = await fetch(
-    `${NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/getConstants`
+    `https://jmm-systems.vercel.app/api/lookupsData/getDataFromLookups/getConstants`
   );
   const getAllLoanPercentage = await fetch(
-    `${NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/globalValues`
+    `https://jmm-systems.vercel.app/api/lookupsData/getDataFromLookups/globalValues`
   );
 
   const Constants = await getAllConstants.json();
