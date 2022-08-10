@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import SideBar from "../../components/sideBar";
 import { SystemConstantsRow } from "../../components/SystemConstantsRow";
 import { InferGetServerSidePropsType } from "next";
+import { NEXT_PUBLIC_HOST } from "../../config/config";
 
 const System = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -371,10 +372,10 @@ const System = (
 
 export async function getServerSideProps(context: any) {
   const getAllConstants = await fetch(
-    "/api/lookupsData/getDataFromLookups/getConstants"
+    `${NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/getConstants`
   );
   const getAllLoanPercentage = await fetch(
-    "/api/lookupsData/getDataFromLookups/globalValues"
+    `${NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/globalValues`
   );
 
   const Constants = await getAllConstants.json();
