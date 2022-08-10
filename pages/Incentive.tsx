@@ -49,7 +49,7 @@ function Incentive() {
             text-center
       
             appearance-none
-            shadow-lg
+            shadow-md
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
             "
             selected={filterDate}

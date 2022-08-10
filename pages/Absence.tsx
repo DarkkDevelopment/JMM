@@ -62,7 +62,7 @@ const Absence = () => {
 
               <DatePicker
                 className="
-            m-3
+            my-3
             px-4
             py-2
             text-right
