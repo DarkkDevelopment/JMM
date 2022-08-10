@@ -165,11 +165,7 @@ const System = () => {
     );
 
     if (loanPercentageResponse !== null) {
-      setLoanPercentage(loanPercentageResponse.data.Value);
       setIsLoanPercentageNew(false);
-    } else {
-      setLoanPercentage(0);
-      setIsLoanPercentageNew(true);
     }
 
     if (
@@ -195,6 +191,7 @@ const System = () => {
     }
 
     // setIsTimeNew(true);
+    setLoanPercentage(loanPercentageResponse.data.Value);
     setHafezExtraDayRatio(response.data.HafezExtraDayRatio);
     setHafezExtraHourRatio(response.data.HafezExtraHourRatio);
     setKhasmLateDayRatio(response.data.KhasmLateDayRatio);
