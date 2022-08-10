@@ -7,7 +7,6 @@ const updateGlobalValues = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const nameOfNewValue = req.body.nameOfNewValue;
   const newValue = req.body.newValue;
   const idOfValue = req.body.idOfValue;
   const updatedValue = await prisma.fixedGlobalValues.update({
@@ -15,7 +14,6 @@ const updateGlobalValues = async (
       id: idOfValue,
     },
     data: {
-      Name: nameOfNewValue,
       Value: newValue,
     },
   });

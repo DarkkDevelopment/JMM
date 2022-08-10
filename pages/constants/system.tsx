@@ -118,6 +118,7 @@ const System = () => {
   const editLoanPercentage = async () => {
     await axios.put("/api/lookupsData/updateDataIntoLookups/globalValues", {
       idOfValue: idOfFixedLoanPercentage,
+      newValue: Number.parseFloat(loanPercentage.toString()),
     });
     fetchData();
   };
