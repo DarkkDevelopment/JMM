@@ -20,7 +20,7 @@ function VacationsCard(props: Props) {
     props;
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [selected, setSelected] = useState<string | undefined>(undefined);
+  const [selected, setSelected] = useState<string | undefined>(agazatConst[0].name);
 
   const addDays = (date: Date, days: number) => {
     var result = new Date(date);

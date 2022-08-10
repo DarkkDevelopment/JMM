@@ -124,6 +124,10 @@ function AddEmployee() {
     setWazayef(workData);
     setReligion(dyanaData);
     setTypes(typeData);
+    
+    onGovChange(govData[0].name);
+    onDistrictChange(manteqData[0].name);
+    onWorkChange(workData[0].name);
   };
 
   useEffect(() => {
