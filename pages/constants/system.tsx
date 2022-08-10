@@ -76,7 +76,6 @@ const System = (props: AppProps) => {
         idOfHafezKhasmRatios: 1,
       }
     );
-    fetchData();
   };
 
   const addHafezAndKahsm = async () => {
@@ -89,7 +88,6 @@ const System = (props: AppProps) => {
         khasmHourRatio: Number.parseFloat(khasmLateHourRatio.toString()),
       }
     );
-    fetchData();
   };
 
   const editInsurance = async () => {
@@ -105,20 +103,17 @@ const System = (props: AppProps) => {
         idOfInsurance: 1,
       }
     );
-    fetchData();
   };
   const addLoanPercentage = async () => {
     await axios.post("/api/lookupsData/insertDataIntoLookups/globalValues", {
       nameOfNewValue: "LoanPercentage",
       newValue: Number.parseFloat(loanPercentage.toString()),
     });
-    fetchData();
   };
   const editLoanPercentage = async () => {
     await axios.post("/api/lookupsData/updateDataIntoLookups/globalValues", {
       newValue: Number.parseFloat(loanPercentage.toString()),
     });
-    fetchData();
   };
 
   const addInsurance = async () => {
@@ -133,7 +128,6 @@ const System = (props: AppProps) => {
         ),
       }
     );
-    fetchData();
   };
 
   const editTime = async () => {
@@ -155,51 +149,57 @@ const System = (props: AppProps) => {
     });
   };
 
-  const fetchData = async () => {
-    const response = await axios.get(
-      "/api/lookupsData/getDataFromLookups/getConstants"
-    );
-    const loanPercentageResponse = await axios.get(
-      "/api/lookupsData/getDataFromLookups/globalValues"
-    );
-
-    if (loanPercentageResponse !== null) {
-      setIsLoanPercentageNew(false);
-    }
-
-    if (
-      response.data.HafezExtraDayRatio !== null &&
-      response.data.HafezExtraHourRatio !== null &&
-      response.data.KhasmLateDayRatio !== null &&
-      response.data.KhasmLateHourRatio !== null
-    )
-      setIsHafezAndKhasmNew(false);
-    if (
-      response.data.PersonInsurancePercentage !== 0 &&
-      response.data.SherkaInsurancePercentage !== 0
-    )
-      setIsInsuranceNew(false);
-
-    const { startHour, endHour } = response.data;
-    if (startHour !== "" && endHour !== "") {
-      let newStartHour = response.data.startHour.split("T")[1].slice(0, 5);
-      let newEndHour = response.data.endHour.split("T")[1].slice(0, 5);
-      setStartHour(newStartHour);
-      setEndHour(newEndHour);
-      setIsTimeNew(false);
-    }
-
-    // setIsTimeNew(true);
-    setLoanPercentage(loanPercentageResponse.data.Value);
-    setHafezExtraDayRatio(response.data.HafezExtraDayRatio);
-    setHafezExtraHourRatio(response.data.HafezExtraHourRatio);
-    setKhasmLateDayRatio(response.data.KhasmLateDayRatio);
-    setKhasmLateHourRatio(response.data.KhasmLateHourRatio);
-    setPersonInsurancePercentage(response.data.PersonInsurancePercentage);
-    setCompanyInsurancePercentage(response.data.SherkaInsurancePercentage);
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        "/api/lookupsData/getDataFromLookups/getConstants"
+      );
+      const loanPercentageResponse = await axios.get(
+        "/api/lookupsData/getDataFromLookups/globalValues"
+      );
+
+      if (loanPercentageResponse !== null) {
+        setIsLoanPercentageNew(false);
+      }
+
+      if (
+        response.data.HafezExtraDayRatio !== null &&
+        response.data.HafezExtraHourRatio !== null &&
+        response.data.KhasmLateDayRatio !== null &&
+        response.data.KhasmLateHourRatio !== null
+      ) {
+        setIsHafezAndKhasmNew(false);
+      } else {
+        setIsHafezAndKhasmNew(true);
+      }
+      if (
+        response.data.PersonInsurancePercentage !== 0 &&
+        response.data.SherkaInsurancePercentage !== 0
+      ) {
+        setIsInsuranceNew(false);
+      } else {
+        setIsInsuranceNew(true);
+      }
+
+      const { startHour, endHour } = response.data;
+      if (startHour !== "" && endHour !== "") {
+        let newStartHour = response.data.startHour.split("T")[1].slice(0, 5);
+        let newEndHour = response.data.endHour.split("T")[1].slice(0, 5);
+        setStartHour(newStartHour);
+        setEndHour(newEndHour);
+        setIsTimeNew(false);
+      } else {
+        setIsTimeNew(true);
+      }
+      // setIsTimeNew(true);
+      setLoanPercentage(loanPercentageResponse.data.Value);
+      setHafezExtraDayRatio(response.data.HafezExtraDayRatio);
+      setHafezExtraHourRatio(response.data.HafezExtraHourRatio);
+      setKhasmLateDayRatio(response.data.KhasmLateDayRatio);
+      setKhasmLateHourRatio(response.data.KhasmLateHourRatio);
+      setPersonInsurancePercentage(response.data.PersonInsurancePercentage);
+      setCompanyInsurancePercentage(response.data.SherkaInsurancePercentage);
+    };
     fetchData();
   }, []);
 
