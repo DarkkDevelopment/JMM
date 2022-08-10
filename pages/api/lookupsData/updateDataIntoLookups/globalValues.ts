@@ -8,10 +8,9 @@ const updateGlobalValues = async (
   res: NextApiResponse
 ) => {
   const newValue = req.body.newValue;
-  const idOfValue = req.body.idOfValue;
   const updatedValue = await prisma.fixedGlobalValues.update({
     where: {
-      id: idOfValue,
+      id: 1,
     },
     data: {
       Value: newValue,

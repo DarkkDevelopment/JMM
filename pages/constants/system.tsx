@@ -116,8 +116,7 @@ const System = () => {
     fetchData();
   };
   const editLoanPercentage = async () => {
-    await axios.put("/api/lookupsData/updateDataIntoLookups/globalValues", {
-      idOfValue: idOfFixedLoanPercentage,
+    await axios.post("/api/lookupsData/updateDataIntoLookups/globalValues", {
       newValue: Number.parseFloat(loanPercentage.toString()),
     });
     fetchData();
@@ -168,7 +167,6 @@ const System = () => {
     if (loanPercentageResponse !== null) {
       setLoanPercentage(loanPercentageResponse.data.Value);
       setIsLoanPercentageNew(false);
-      // setIdOfLoanPercentage(loanPercentageResponse.data.id);
     } else {
       setLoanPercentage(0);
       setIsLoanPercentageNew(true);
