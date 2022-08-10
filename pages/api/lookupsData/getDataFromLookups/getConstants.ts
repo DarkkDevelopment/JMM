@@ -4,6 +4,8 @@ import gethafezAndKhasmRatiosEndpoint from "../../../../controllers/getHafezAndK
 import getWorkingHours from "../../../../controllers/getWorkingHours";
 import { getInsurancePercentageRatio } from "../../../../controllers/InsuranceController";
 
+// http://localhost:3000/api/lookupsData/getDataFromLookups/getConstants
+
 const getAllNeededConstants = async (
   req: NextApiRequest,
   res: NextApiResponse
