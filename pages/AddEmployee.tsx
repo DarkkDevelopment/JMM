@@ -223,69 +223,97 @@ function AddEmployee() {
             }
             errorMsg="كود الموظف يجب أن يكون رقم"
           />
-          <div className="flex flex-col p-4 mt-3 space-y-10 bg-white ">
-            <div className="flex flex-row items-center justify-around">
+          <div className="flex flex-col  space-y-10 bg-white ">
+            
+            
+           
+         
+          <div className="flex flex-row mr-4 pt-0.5">
+          
+          <DatePicker
+            className="w-80 px-4 py-2 m-3 leading-tight text-center text-black border rounded "
+            selected={birthDate}
+            onChange={(date: Date) => setBirthDate(date)}
+          />
+  
+           <div className="flex flex-row items-center ml-32">
+          <h6 className="text-lg text-right self-center text-gray-700">
+          تاريخ الميلاد
+          </h6>
+   
+          </div>
+          </div>
+         
+          <div className="flex flex-row mr-4  pt-4">
+          
               <DatePicker
-                className="w-1/2 px-4 py-2 m-3 leading-tight text-center text-black border rounded "
-                selected={birthDate}
-                onChange={(date: Date) => setBirthDate(date)}
-              />
-              <h6 className="text-sm text-right text-gray-700">
-                تاريخ الميلاد
-              </h6>
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <DatePicker
-                className="w-full px-4 py-2 m-3 leading-tight text-right text-black border rounded appearance-none focus:outline-none focus:shadow-outline"
+                className="w-80 px-4 py-2 m-3 leading-tight text-center text-black border rounded "
                 selected={assignDate}
                 onChange={(date: Date) => setAssignDate(date)}
               />
-              <h6 className="text-sm text-right text-gray-700">
+      
+               <div className="flex flex-row items-center ml-32">
+              <h6 className="text-lg text-right self-center text-gray-700 ">
                 تاريخ التعيين
               </h6>
-            </div>
-          </div>
-          <div className="flex flex-col justify-around bg-white ">
-            <div className="flex flex-row justify-end ">
-              <Dropdown
-                title="المحافظة"
-                options={govs}
-                onChange={onGovChange}
-                value={govVal}
-              />
-              <Dropdown
-                title="المنطقة"
-                options={manateq}
-                value={district}
-                onChange={onDistrictChange}
-              />
-            </div>
-            <TextField label="العنوان" value={address} onChange={setAddress} />
-          </div>
-          <div className="flex flex-row items-center justify-end bg-white rounded-lg ">
-            <Dropdown
-              title="الوظيفة"
-              options={wazayef}
-              value={work}
-              onChange={onWorkChange}
-            />
-            <label className="p-2 text-sm text-right text-gray-700 ">
-              الوظيفة
-            </label>
-          </div>
+       
+              </div>
+              </div>
+              <div className=" pt-9">
           <RadioButtonComp
             label="الديانة"
             options={religion}
             onChange={setDyana}
             value={dyana}
           />
+          </div>
+          <div className=" pt-9">
           <RadioButtonComp
             label="النوع"
             options={types}
             onChange={setType}
             value={type}
           />
+              </div>
+          </div>
+          <div className="flex flex-row items-center justify-end space-x-64 bg-white rounded-lg mr-2 pt-8">
+            <Dropdown
+              title="الوظيفة"
+              options={wazayef}
+              value={work}
+              onChange={onWorkChange}
+            />
+            <label className="p-2 text-lg text-right self-center text-gray-700 ">
+              الوظيفة
+            </label>
+          </div>
+          
+
+
+          <div className="flex flex-row justify-around space-x-28  bg-white rounded-lg ml-24 pt-10">
+         
+              <Dropdown
+                title="المحافظة"
+                options={govs}
+                onChange={onGovChange}
+                value={govVal}
+              />
+             
+              <Dropdown
+                title="المنطقة"
+                options={manateq}
+                value={district}
+                onChange={onDistrictChange}
+              />
+               <label className="p-2 text-lg text-right self-center text-gray-700 ">
+              العنوان
+            </label>
+               </div>
+               <div className="item-right pt-2">
+              <TextField  label="الشارع"  value={address} onChange={setAddress} />
+              </div>
         </div>
+        
         <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
           <CustomizableTextField
             label="الاسم"

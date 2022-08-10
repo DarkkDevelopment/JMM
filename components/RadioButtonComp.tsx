@@ -14,15 +14,15 @@ function RadioButtonComp(props: any) {
     }
   }, [onChange, props.value, value]);
   return (
-    <div className="flex flex-col justify-around p-5 bg-white rounded-lg ">
-      <label className="mb-5 text-3xl text-right text-gray-700">{label}</label>
-      <div className="flex flex-row justify-around items-center space-x-32 ">
+    <div className="flex flex-row justify-around space-x-28  bg-white rounded-lg ml-24">
+      
+      
         {options.map((option: any) => {
           if (options) {
             return (
-              <div key={option.value} className="flex flex-row justify-end">
+              <div key={option.value} className="flex flex-row justify-between">
                 <input
-                  className="w-full p-2 text-right border border-gray-300 rounded-lg focus:outline-blue-500"
+                  className="w-full p-2 text-right borderjustify-between  border-gray-300 rounded-lg focus:outline-blue-500"
                   type="radio"
                   name={label}
                   value={option.value}
@@ -32,14 +32,16 @@ function RadioButtonComp(props: any) {
                     onChange(option.value);
                   }}
                 />
-                <label className="p-2 text-right text-gray-700 text-md ">
+                <label className="p-2 text-lg text-right self-center text-gray-700 -">
                   {option.label}
                 </label>
+                
               </div>
             );
           }
         })}
-      </div>
+    
+      <label className="mt-1 text-xl text-right text-gray-700">{label}</label>
     </div>
   );
 }
