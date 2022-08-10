@@ -9,7 +9,7 @@ const Home: NextPage = (props) => {
     <>
       <div className="font-display">
         <Head>
-          <title>JMM-System</title>
+          <title>JMM</title>
           <meta
             name="description"
             content="this is an erp-system Website fully customizable"
