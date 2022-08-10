@@ -7,7 +7,11 @@ const getLoanPercentage = async (req: NextApiRequest, res: NextApiResponse) => {
       Name: "LoanPercentage",
     },
   });
-  return loanPercentage;
+  if (loanPercentage) {
+    return loanPercentage.Value;
+  } else {
+    return 0;
+  }
 };
 
 export default getLoanPercentage;

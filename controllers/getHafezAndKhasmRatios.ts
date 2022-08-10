@@ -30,10 +30,10 @@ const gethafezAndKhasmRatiosEndpoint = async () => {
   } else {
     return {
       id: null,
-      hafezHourRatio: null,
-      khasmHourRatio: null,
-      hafezDayRatio: null,
-      khasmDayRatio: null,
+      hafezHourRatio: 0,
+      khasmHourRatio: 0,
+      hafezDayRatio: 0,
+      khasmDayRatio: 0,
     };
   }
 };
