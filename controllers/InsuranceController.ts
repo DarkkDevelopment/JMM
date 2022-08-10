@@ -4,9 +4,13 @@ import { InsuranceModel, sendInsuranceModel } from "../models/insuranceModel";
 
 const getInsurancePercentageRatio = async () => {
   const percentage = await prisma.ta2meenatFixedPercentage.findFirst({});
-  const percentageRatioOfSherka = percentage!.Ta2meenatPercentagePaidBySherka;
-  const percentageRatioOfPerson = percentage!.Ta2meenatPercentagePaidByPerson;
-  return { percentageRatioOfSherka, percentageRatioOfPerson };
+  if (percentage) {
+    const percentageRatioOfSherka = percentage!.Ta2meenatPercentagePaidBySherka;
+    const percentageRatioOfPerson = percentage!.Ta2meenatPercentagePaidByPerson;
+    return { percentageRatioOfSherka, percentageRatioOfPerson };
+  } else {
+    return { percentageRatioOfSherka: 0, percentageRatioOfPerson: 0 };
+  }
 };
 const calculateFinalInsuranceValue = (
   InsurancePercentage: number,
