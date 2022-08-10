@@ -368,8 +368,7 @@ model agazaDaysInWeek {
 }
 
 model FixedGlobalValues {
-  id    Int    @id @default(autoincrement())
+  Name  String @db.VarChar(50)      @id
   Value Float
-  Name  String @db.VarChar(50)
   deletedAt                         DateTime?
 }

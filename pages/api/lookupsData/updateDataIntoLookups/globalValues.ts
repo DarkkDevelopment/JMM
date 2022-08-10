@@ -10,10 +10,9 @@ const updateGlobalValues = async (
   const newValue = req.body.newValue;
   const updatedValue = await prisma.fixedGlobalValues.update({
     where: {
-      id: 1,
+      Name: "LoanPercentage",
     },
     data: {
-      Name: "LoanPercentage",
       Value: newValue,
     },
   });

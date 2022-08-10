@@ -7,10 +7,10 @@ const deleteGlobalValues = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const id = req.body.id;
+  const name = req.body.name;
   const deletedValue = await prisma.fixedGlobalValues.delete({
     where: {
-      id: id,
+      Name: name,
     },
   });
   res.status(200).json(deletedValue);

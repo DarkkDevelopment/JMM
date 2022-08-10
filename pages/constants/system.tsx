@@ -1,12 +1,11 @@
 import axios from "axios";
+import { AppProps } from "next/dist/shared/lib/router/router";
 import React, { useEffect, useState } from "react";
 import SideBar from "../../components/sideBar";
 import { SystemConstantsRow } from "../../components/SystemConstantsRow";
-import { InferGetServerSidePropsType } from "next";
 
-const System = () => {
-  const idOfFixedLoanPercentage = 1;
-
+const System = (props: AppProps) => {
+  const myProps = props as AppProps;
   const [hafezExtraDayRatio, setHafezExtraDayRatio] = useState<string | number>(
     0
   );
