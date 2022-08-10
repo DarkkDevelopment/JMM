@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import LoansCard from "../components/LoansCard";
 import SearchField from "../components/searchField";
 import SideBar from "../components/sideBar";
-import DatePicker from "react-datepicker";
-import axios from "axios";
 import { SolfaModel } from "../models/SolfaModel";
+import { InferGetServerSidePropsType } from "next";
 
-function Loan(props: any) {
-  const filteredEmployees: SolfaModel[] = props.data;
+function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const filteredEmployees: SolfaModel[] = props ? props.data : [];
   const [searchterm, setSearchTerm] = useState("");
 
   return (
