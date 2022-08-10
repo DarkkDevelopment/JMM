@@ -2,8 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SideBar from "../../components/sideBar";
 import { SystemConstantsRow } from "../../components/SystemConstantsRow";
+import { InferGetServerSidePropsType } from "next";
+
 type Props = {};
-const System = (props: Props) => {
+const System = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
+  const idOfFixedLoanPercentage =
+    props.idOfLoanPercentageProp == 0 ? 0 : props.idOfLoanPercentageProp;
+
   const [hafezExtraDayRatio, setHafezExtraDayRatio] = useState<string | number>(
     0
   );
@@ -33,6 +40,10 @@ const System = (props: Props) => {
   const [isInsuranceNew, setIsInsuranceNew] = useState(false);
   const [isTimeNew, setIsTimeNew] = useState(false);
   const [isLoanPercentageNew, setIsLoanPercentageNew] = useState(false);
+
+  useEffect(() => {
+    setIdOfLoanPercentage(idOfFixedLoanPercentage);
+  }, [idOfFixedLoanPercentage]);
 
   const onHafezDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHafezExtraDayRatio(e.target.value);
@@ -164,7 +175,7 @@ const System = (props: Props) => {
     if (loanPercentageResponse !== null) {
       setLoanPercentage(loanPercentageResponse.data.Value);
       setIsLoanPercentageNew(false);
-      setIdOfLoanPercentage(loanPercentageResponse.data.id);
+      // setIdOfLoanPercentage(loanPercentageResponse.data.id);
     } else {
       setLoanPercentage(0);
       setIsLoanPercentageNew(true);
@@ -313,5 +324,28 @@ const System = (props: Props) => {
     </div>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const getIdOfLoanPercentageFromGlobalValues = await fetch(
+    "/api/lookupsData/getDataFromLookups/globalValues"
+  );
+
+  const IdOfLoanPercentageValue =
+    await getIdOfLoanPercentageFromGlobalValues.json();
+
+  if (IdOfLoanPercentageValue) {
+    return {
+      props: {
+        idOfLoanPercentageProp: IdOfLoanPercentageValue.data.id,
+      },
+    };
+  } else {
+    return {
+      props: {
+        idOfLoanPercentageProp: 0,
+      },
+    };
+  }
+}
 
 export default System;
