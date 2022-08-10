@@ -64,7 +64,7 @@ const System = () => {
         setIsTimeNew(true);
       }
       // setIsTimeNew(true);
-      setLoanPercentage(loanPercentageResponse.data.Value);
+      setLoanPercentage(loanPercentageResponse.data);
       setHafezExtraDayRatio(response.data.HafezExtraDayRatio);
       setHafezExtraHourRatio(response.data.HafezExtraHourRatio);
       setKhasmLateDayRatio(response.data.KhasmLateDayRatio);
