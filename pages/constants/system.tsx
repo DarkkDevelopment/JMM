@@ -163,7 +163,7 @@ const System = (props: Props) => {
     );
 
     if (loanPercentageResponse !== null) {
-      setLoanPercentage(loanPercentageResponse.data.loanPercentage);
+      setLoanPercentage(loanPercentageResponse.data.Value);
       setIsLoanPercentageNew(false);
       setIdOfLoanPercentage(loanPercentageResponse.data.id);
     } else {
