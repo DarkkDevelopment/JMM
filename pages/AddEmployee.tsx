@@ -207,51 +207,87 @@ function AddEmployee() {
   };
 
   return (
-    <div className="bg-gray-100 font-display">
-      <h1 className="p-10 text-4xl text-center text-black pt-14 font-display">
-        بيانات شخصية
-      </h1>
-      <div className="grid justify-center grid-cols-2 px-4 mx-16 rounded-lg">
-        <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-l-2xl">
-          <TextField
-            label="الكود"
-            value={code}
-            onChange={setCode}
-            condition={(val: string) =>
-              !Number.parseInt(val) && val != "" ? false : true
-            }
-            errorMsg="كود الموظف يجب أن يكون رقم"
-          />
-          <div className="flex flex-col p-4 mt-3 space-y-10 bg-white ">
-            <div className="flex flex-row items-center justify-around">
-              <DatePicker
-                className="w-1/2 px-4 py-2 m-3 leading-tight text-center text-black border rounded "
-                selected={birthDate}
-                onChange={(date: Date) => setBirthDate(date)}
-              />
-              <h6 className="text-sm text-right text-gray-700">
-                تاريخ الميلاد
-              </h6>
+    <>
+      <div className="bg-gray-100 font-display">
+        <h1 className="p-10 text-4xl text-center text-black pt-14 font-display">
+          بيانات شخصية
+        </h1>
+        <div className="grid justify-center grid-cols-2 px-4 mx-16 rounded-lg">
+          <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-l-2xl">
+            <TextField
+              label="الكود"
+              value={code}
+              onChange={setCode}
+              condition={(val: string) =>
+                !Number.parseInt(val) && val != "" ? false : true
+              }
+              errorMsg="كود الموظف يجب أن يكون رقم"
+            />
+            <div className="flex flex-col space-y-10 bg-white ">
+              <div className="flex flex-row mr-4 pt-0.5">
+                <DatePicker
+                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                  selected={birthDate}
+                  onChange={(date: Date) => setBirthDate(date)}
+                />
+
+                <div className="flex flex-row items-center ml-32">
+                  <h6 className="self-center text-lg text-right text-gray-700">
+                    تاريخ الميلاد
+                  </h6>
+                </div>
+              </div>
+
+              <div className="flex flex-row pt-4 mr-4">
+                <DatePicker
+                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                  selected={assignDate}
+                  onChange={(date: Date) => setAssignDate(date)}
+                />
+
+                <div className="flex flex-row items-center ml-32">
+                  <h6 className="self-center text-lg text-right text-gray-700 ">
+                    تاريخ التعيين
+                  </h6>
+                </div>
+              </div>
+              <div className=" pt-9">
+                <RadioButtonComp
+                  label="الديانة"
+                  options={religion}
+                  onChange={setDyana}
+                  value={dyana}
+                />
+              </div>
+              <div className=" pt-9">
+                <RadioButtonComp
+                  label="النوع"
+                  options={types}
+                  onChange={setType}
+                  value={type}
+                />
+              </div>
             </div>
-            <div className="flex flex-row items-center justify-between">
-              <DatePicker
-                className="w-full px-4 py-2 m-3 leading-tight text-right text-black border rounded appearance-none focus:outline-none focus:shadow-outline"
-                selected={assignDate}
-                onChange={(date: Date) => setAssignDate(date)}
+            <div className="flex flex-row items-center justify-end pt-8 mr-2 space-x-64 bg-white rounded-lg">
+              <Dropdown
+                title="الوظيفة"
+                options={wazayef}
+                value={work}
+                onChange={onWorkChange}
               />
-              <h6 className="text-sm text-right text-gray-700">
-                تاريخ التعيين
-              </h6>
+              <label className="self-center p-2 text-lg text-right text-gray-700 ">
+                الوظيفة
+              </label>
             </div>
-          </div>
-          <div className="flex flex-col justify-around bg-white ">
-            <div className="flex flex-row justify-end ">
+
+            <div className="flex flex-row justify-around pt-10 ml-24 bg-white rounded-lg space-x-28">
               <Dropdown
                 title="المحافظة"
                 options={govs}
                 onChange={onGovChange}
                 value={govVal}
               />
+
               <Dropdown
                 title="المنطقة"
                 options={manateq}
@@ -276,20 +312,15 @@ function AddEmployee() {
             <label className="p-2 text-sm text-right text-gray-700 ">
               الوظيفة
             </label>
+            <label className="self-center p-2 text-lg text-right text-gray-700 ">
+              العنوان
+            </label>
           </div>
-          <RadioButtonComp
-            label="الديانة"
-            options={religion}
-            onChange={setDyana}
-            value={dyana}
-          />
-          <RadioButtonComp
-            label="النوع"
-            options={types}
-            onChange={setType}
-            value={type}
-          />
+          <div className="pt-2 item-right">
+            <TextField label="الشارع" value={address} onChange={setAddress} />
+          </div>
         </div>
+
         <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
           <CustomizableTextField
             label="الاسم"
@@ -585,7 +616,7 @@ function AddEmployee() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
