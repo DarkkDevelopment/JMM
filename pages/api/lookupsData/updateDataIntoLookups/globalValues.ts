@@ -13,6 +13,7 @@ const updateGlobalValues = async (
       id: 1,
     },
     data: {
+      Name: "LoanPercentage",
       Value: newValue,
     },
   });
