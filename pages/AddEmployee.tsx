@@ -50,6 +50,7 @@ function AddEmployee() {
   const [birthDate, setBirthDate] = useState(new Date());
   const [assignDate, setAssignDate] = useState(new Date());
   const [draybPercent, setDraybPercent] = useState<"" | number>("");
+  const [agazaLimit, setAgazaLimit] = useState("");
 
   const [govVal, onGovChange] = useState(undefined);
   const [district, onDistrictChange] = useState(undefined);
@@ -149,6 +150,7 @@ function AddEmployee() {
       PersonAddress: address,
       ManteqaLookup: district,
       MohafzatLookup: govVal,
+      agazaLimit,
       work,
       salary,
       mobileNo,
@@ -159,7 +161,11 @@ function AddEmployee() {
       tagneedCertificate,
       contractImage,
     };
-    let error = employeeFormValidator(employee);
+    let error = {
+      response: true,
+      message: "",
+    }
+    //employeeFormValidator(employee);
     if (!error.response) {
       setError(error.message!);
     } else {
@@ -200,6 +206,7 @@ function AddEmployee() {
         CurrentMorattab: Number.parseInt(salary),
         MobileNumber: mobileNo,
         PersonWazeefa: wazefaId,
+        NumberOfAgazaDays: Number.parseInt(agazaLimit),
       });
       console.log(response);
       if (response.status == 200) alert(response.data.message);
@@ -261,6 +268,7 @@ function AddEmployee() {
               />
             </div>
             <TextField label="العنوان" value={address} onChange={setAddress} />
+            <TextField label="الحد الاقصي للاجازات في السنة" value={agazaLimit.toString()} onChange={setAgazaLimit} />
           </div>
           <div className="flex flex-row items-center justify-end bg-white rounded-lg ">
             <Dropdown
@@ -403,10 +411,10 @@ function AddEmployee() {
             label="نسبة الضرائب"
             value={draybPercent.toString()}
             onChange={setDraybPercent}
-            /*  condition={(val: number) =>
-               1400 <= val && val <= 9600 ? true : false
-             }
-             errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
+          /*  condition={(val: number) =>
+             1400 <= val && val <= 9600 ? true : false
+           }
+           errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
           />
         </div>
       </div>
@@ -418,7 +426,7 @@ function AddEmployee() {
       <div className="flex flex-col p-10 mt-5 ml-20 mr-20 space-y-10 text-right bg-white justify-space-between rounded-2xl">
         <div className="grid self-center justify-center grid-cols-2 grid-rows-6">
           <div className="flex flex-row self-center justify-between p-5 bg-white ">
-            <FileCheck isUploaded={bta2aDahr.uploaded} />
+            <FileCheck isUploaded={bta2aFace.uploaded} />
 
             <div>
               <input
@@ -428,7 +436,7 @@ function AddEmployee() {
                 onChange={(e) => {
                   let files = e.target.files as FileList;
                   if (!files || files.length > 0) {
-                    setBta2aDahr({
+                    setBta2aFace({
                       fileInfo: files[0],
                       uploaded: true,
                     });
@@ -469,7 +477,7 @@ function AddEmployee() {
             ظهر البطاقة
           </label>
           <div className="flex flex-row self-center justify-between p-5 bg-white ">
-            <FileCheck isUploaded={bta2aDahr.uploaded} />
+            <FileCheck isUploaded={feesh.uploaded} />
 
             <div>
               <input
@@ -479,7 +487,7 @@ function AddEmployee() {
                 onChange={(e) => {
                   let files = e.target.files as FileList;
                   if (!files || files.length > 0) {
-                    setBta2aDahr({
+                    setFeesh({
                       fileInfo: files[0],
                       uploaded: true,
                     });
@@ -494,7 +502,7 @@ function AddEmployee() {
             فيش جنائي
           </label>
           <div className="flex flex-row self-center justify-between p-5 bg-white ">
-            <FileCheck isUploaded={bta2aDahr.uploaded} />
+            <FileCheck isUploaded={birthCertificate.uploaded} />
 
             <div>
               <input
@@ -504,7 +512,7 @@ function AddEmployee() {
                 onChange={(e) => {
                   let files = e.target.files as FileList;
                   if (!files || files.length > 0) {
-                    setBta2aDahr({
+                    setBirthCertificate({
                       fileInfo: files[0],
                       uploaded: true,
                     });
@@ -519,7 +527,7 @@ function AddEmployee() {
             شهادة الميلاد
           </label>
           <div className="flex flex-row self-center justify-between p-5 bg-white ">
-            <FileCheck isUploaded={bta2aDahr.uploaded} />
+            <FileCheck isUploaded={tagneedCertificate.uploaded} />
 
             <div>
               <input
@@ -529,7 +537,7 @@ function AddEmployee() {
                 onChange={(e) => {
                   let files = e.target.files as FileList;
                   if (!files || files.length > 0) {
-                    setBta2aDahr({
+                    setTagneedCertficate({
                       fileInfo: files[0],
                       uploaded: true,
                     });
@@ -544,7 +552,7 @@ function AddEmployee() {
             شهادة التجنيد
           </label>
           <div className="flex flex-row self-center justify-between p-5 bg-white ">
-            <FileCheck isUploaded={bta2aDahr.uploaded} />
+            <FileCheck isUploaded={contractImage.uploaded} />
 
             <div>
               <input
@@ -554,7 +562,7 @@ function AddEmployee() {
                 onChange={(e) => {
                   let files = e.target.files as FileList;
                   if (!files || files.length > 0) {
-                    setBta2aDahr({
+                    setContractImage({
                       fileInfo: files[0],
                       uploaded: true,
                     });
@@ -568,158 +576,6 @@ function AddEmployee() {
           <label className="self-center mr-20 text-right text-gray-700 text-md">
             صورة العقد
           </label>
-          {/* <div className="flex flex-col justify-center mt-10 text-right">
-        <h1 className="mb-5 text-3xl text-center text-black font-display">
-          ملفات الموظف
-        </h1>
-        <div className="flex flex-row justify-between p-5 bg-white rounded-lg shadow-lg">
-          
-          <FileCheck isUploaded={bta2aFace.uploaded} />
-          <div>
-            <input
-              className="w-full p-2 text-right border border-gray-300 rounded-lg focus:outline-blue-500"
-              type="file"
-              accept={"image/*, .pdf"} 
-              onChange={(e) => {
-                let files = e.target.files as FileList;
-                if (!files || files.length > 0) {
-                  setBta2aFace({
-                    fileInfo: files[0],
-                    uploaded: true
-                  })
-                } else {
-                  console.log(files);
-                }
-              }}
-            />
-          </div>
-          <label className="text-right text-gray-700 text-md">
-            وجه البطاقة
-          </label>
-        </div>
-        <div className="flex flex-row justify-between p-5 bg-white ">
-          <FileCheck isUploaded={bta2aDahr.uploaded} />
-
-          <div>
-            <input
-              className="w-full p-2 text-right border border-gray-300 rounded-lg focus:outline-blue-500"
-              type="file"
-              accept={"image/*, .pdf"} 
-              onChange={(e) => {
-                let files = e.target.files as FileList;
-                if (!files || files.length > 0) {
-                  setBta2aDahr({
-                    fileInfo: files[0],
-                    uploaded: true
-                  })
-                } else {
-                  console.log(files);
-                }
-              }}
-            />
-          </div>
-          <label className="text-right text-gray-700 text-md">
-            ظهر البطاقة
-          </label>
-        </div>
-        <div className="flex flex-row justify-between p-5 bg-white ">
-          <FileCheck isUploaded={feesh.uploaded} />
-
-          <div>
-            <input
-              className="w-full p-2 text-right border border-gray-300 rounded-lg focus:outline-blue-500"
-              type="file"
-              accept={"image/*, .pdf"} 
-              onChange={(e) => {
-                let files = e.target.files as FileList;
-                if (!files || files.length > 0) {
-                  setFeesh({
-                    fileInfo: files[0],
-                    uploaded: true
-                  })
-                } else {
-                  console.log(files);
-                }
-              }}
-            />
-          </div>
-          <label className="text-right text-gray-700 text-md ">فيش جنائي</label>
-        </div>
-        <div className="flex flex-row justify-between p-5 bg-white rounded-lg shadow-lg">
-          <FileCheck isUploaded={birthCertificate.uploaded} />
-
-          <div>
-            <input
-              className="w-full p-2 text-right border border-gray-300 rounded-lg focus:outline-blue-500"
-              type="file"
-              accept={"image/*, .pdf"} 
-              onChange={(e) => {
-                let files = e.target.files as FileList;
-                if (!files || files.length > 0) {
-                  setBirthCertificate({
-                    fileInfo: files[0],
-                    uploaded: true
-                  })
-                } else {
-                  console.log(files);
-                }
-              }}
-            />
-          </div>
-          <label className="text-right text-gray-700 text-md">
-            شهادة الميلاد
-          </label>
-        </div>
-        <div className="flex flex-row justify-between p-5 bg-white rounded-lg shadow-lg">
-          <FileCheck isUploaded={tagneedCertificate.uploaded} />
-          <div>
-            <input
-
-              className="w-full p-2 text-right border border-gray-300 rounded-lg focus:outline-blue-500"
-              type="file"
-              accept={"image/*, .pdf"} 
-              onChange={(e) => {
-                let files = e.target.files as FileList;
-                if (!files || files.length > 0) {
-                  setTagneedCertficate({
-                    fileInfo: files[0],
-                    uploaded: true
-                  })
-                } else {
-                  console.log(files);
-                }
-              }}
-            />
-          </div>
-          <label className="text-right text-gray-700 text-md">
-            شهادة التجنيد
-          </label>
-        </div>
-        <div className="flex flex-row justify-between p-5 bg-white rounded-lg shadow-lg">
-          <FileCheck isUploaded={contractImage.uploaded} />
-          <div>
-            <input
-              className="w-full p-2 text-right border border-gray-300 rounded-lg focus:outline-blue-500"
-              type="file"
-              accept={"image/*, .pdf"} 
-              onChange={(e) => {
-                let files = e.target.files as FileList;
-                if (!files || files.length > 0) {
-                  setContractImage({
-                    fileInfo: files[0],
-                    uploaded: true
-                  })
-                } else {
-                  console.log(files);
-                }
-              }}
-            />
-          </div>
-          <label className="text-right text-gray-700 text-md">
-            صورة العقد
-          </label>
-        </div>
-      </div> */}
           <div className="flex items-center justify-center p-5 mt-10 text-center">
             {error ? <h1 className="text-3xl text-red-600 ">{error}</h1> : null}
           </div>
