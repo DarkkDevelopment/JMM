@@ -80,7 +80,7 @@ const renderLoanHistoryByDate = async (
           PersonFourthName: employee.PersonFourthName,
         },
         PersonCode: employee.PersonCode,
-        SolfaLimitAtThatMonth: CurrentMorattab * loanPercentage!.Value,
+        SolfaLimitAtThatMonth: CurrentMorattab * loanPercentage,
         LastSolfaValue: solfaHistory[0]?.SolfaValue,
         LastSolfaRequestDate: solfaHistory[0]?.SolfaRequestDate,
         LastSolfaMonthToBeApplied: solfaHistory[0]?.SolfaMonthToBeApplied,
