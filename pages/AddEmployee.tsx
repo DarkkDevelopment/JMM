@@ -4,11 +4,11 @@ import FileCheck from "../components/FileCheck";
 import RadioButtonComp from "../components/RadioButtonComp";
 import TextField from "../components/TextField";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import CustomizableTextField from "../components/CustomizableTextField";
 import axios from "axios";
 import employeeFormValidator from "../services/validators/employeeFormValidator";
+import { AppProps } from "next/app";
 
 interface FileModel {
   uploaded: boolean;
@@ -115,7 +115,7 @@ function AddEmployee() {
     setWazayef(workData);
     setReligion(dyanaData);
     setTypes(typeData);
-    
+
     onGovChange(govData[0].name);
     onDistrictChange(manteqData[0].name);
     onWorkChange(workData[0].name);
@@ -211,66 +211,64 @@ function AddEmployee() {
   };
 
   return (
-    <>
-      <div className="bg-gray-100 font-display">
-        <h1 className="p-10 text-4xl text-center text-black pt-14 font-display">
-          بيانات شخصية
-        </h1>
-        <div className="grid justify-center grid-cols-2 px-4 mx-16 rounded-lg">
-          <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-l-2xl">
-            <TextField
-              label="الكود"
-              value={code}
-              onChange={setCode}
-              condition={(val: string) =>
-                !Number.parseInt(val) && val != "" ? false : true
-              }
-              errorMsg="كود الموظف يجب أن يكون رقم"
-            />
-            <div className="flex flex-col space-y-10 bg-white ">
-              <div className="flex flex-row mr-4 pt-0.5">
-                <DatePicker
-                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
-                  selected={birthDate}
-                  onChange={(date: Date) => setBirthDate(date)}
-                />
+    <div className="bg-gray-100 font-display">
+      <h1 className="p-10 text-4xl text-center text-black pt-14 font-display">
+        بيانات شخصية
+      </h1>
+      <div className="grid justify-center grid-cols-2 px-4 mx-16 rounded-lg">
+        <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-l-2xl">
+          <TextField
+            label="الكود"
+            value={code}
+            onChange={setCode}
+            condition={(val: string) =>
+              !Number.parseInt(val) && val != "" ? false : true
+            }
+            errorMsg="كود الموظف يجب أن يكون رقم"
+          />
+          <div className="flex flex-col space-y-10 bg-white ">
+            <div className="flex flex-row mr-4 pt-0.5">
+              <DatePicker
+                className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                selected={birthDate}
+                onChange={(date: Date) => setBirthDate(date)}
+              />
 
-                <div className="flex flex-row items-center ml-32">
-                  <h6 className="self-center text-lg text-right text-gray-700">
-                    تاريخ الميلاد
-                  </h6>
-                </div>
+              <div className="flex flex-row items-center ml-32">
+                <h6 className="self-center text-lg text-right text-gray-700">
+                  تاريخ الميلاد
+                </h6>
               </div>
+            </div>
 
-              <div className="flex flex-row pt-4 mr-4">
-                <DatePicker
-                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
-                  selected={assignDate}
-                  onChange={(date: Date) => setAssignDate(date)}
-                />
+            <div className="flex flex-row pt-4 mr-4">
+              <DatePicker
+                className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                selected={assignDate}
+                onChange={(date: Date) => setAssignDate(date)}
+              />
 
-                <div className="flex flex-row items-center ml-32">
-                  <h6 className="self-center text-lg text-right text-gray-700 ">
-                    تاريخ التعيين
-                  </h6>
-                </div>
+              <div className="flex flex-row items-center ml-32">
+                <h6 className="self-center text-lg text-right text-gray-700 ">
+                  تاريخ التعيين
+                </h6>
               </div>
-              <div className=" pt-9">
-                <RadioButtonComp
-                  label="الديانة"
-                  options={religion}
-                  onChange={setDyana}
-                  value={dyana}
-                />
-              </div>
-              <div className=" pt-9">
-                <RadioButtonComp
-                  label="النوع"
-                  options={types}
-                  onChange={setType}
-                  value={type}
-                />
-              </div>
+            </div>
+            <div className=" pt-9">
+              <RadioButtonComp
+                label="الديانة"
+                options={religion}
+                onChange={setDyana}
+                value={dyana}
+              />
+            </div>
+            <div className=" pt-9">
+              <RadioButtonComp
+                label="النوع"
+                options={types}
+                onChange={setType}
+                value={type}
+              />
             </div>
             <div className="flex flex-row items-center justify-end pt-8 mr-2 space-x-64 bg-white rounded-lg">
               <Dropdown
@@ -620,7 +618,7 @@ function AddEmployee() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
