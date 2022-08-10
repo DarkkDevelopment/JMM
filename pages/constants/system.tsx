@@ -164,7 +164,7 @@ const System = (props: AppProps) => {
     );
 
     if (loanPercentageResponse !== null) {
-      setIsLoanPercentageNew(true);
+      setIsLoanPercentageNew(false);
     }
 
     if (
@@ -173,12 +173,12 @@ const System = (props: AppProps) => {
       response.data.KhasmLateDayRatio !== null &&
       response.data.KhasmLateHourRatio !== null
     )
-      setIsHafezAndKhasmNew(true);
+      setIsHafezAndKhasmNew(false);
     if (
       response.data.PersonInsurancePercentage !== 0 &&
       response.data.SherkaInsurancePercentage !== 0
     )
-      setIsInsuranceNew(true);
+      setIsInsuranceNew(false);
 
     const { startHour, endHour } = response.data;
     if (startHour !== "" && endHour !== "") {
@@ -186,7 +186,7 @@ const System = (props: AppProps) => {
       let newEndHour = response.data.endHour.split("T")[1].slice(0, 5);
       setStartHour(newStartHour);
       setEndHour(newEndHour);
-      setIsTimeNew(true);
+      setIsTimeNew(false);
     }
 
     // setIsTimeNew(true);
@@ -231,10 +231,10 @@ const System = (props: AppProps) => {
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
               onClick={
-                isHafezAndKhasmNew ? editHafezAndKahsm : addHafezAndKahsm
+                isHafezAndKhasmNew ? addHafezAndKahsm : editHafezAndKahsm
               }
             >
-              {isHafezAndKhasmNew ? "تعديل" : "ادخال"}
+              {isHafezAndKhasmNew ? "ادخال" : "تعديل"}
             </button>
           </div>
         </div>
@@ -252,9 +252,9 @@ const System = (props: AppProps) => {
           <div className="flex self-center justify-center">
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
-              onClick={isInsuranceNew ? editInsurance : addInsurance}
+              onClick={isInsuranceNew ? addInsurance : editInsurance}
             >
-              {isInsuranceNew ? "تعديل" : "ادخال"}
+              {isInsuranceNew ? "ادخال" : "تعديل"}
             </button>
           </div>
         </div>
@@ -268,10 +268,10 @@ const System = (props: AppProps) => {
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
               onClick={
-                isLoanPercentageNew ? editLoanPercentage : addLoanPercentage
+                isLoanPercentageNew ? addLoanPercentage : editLoanPercentage
               }
             >
-              {isLoanPercentageNew ? "تعديل" : "ادخال"}
+              {isLoanPercentageNew ? "ادخال" : "تعديل"}
             </button>
           </div>
         </div>
@@ -300,9 +300,9 @@ const System = (props: AppProps) => {
           <div className="flex self-center justify-center">
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
-              onClick={isTimeNew ? editTime : addTime}
+              onClick={isTimeNew ? addTime : editTime}
             >
-              {isTimeNew ? "تعديل" : "ادخال"}
+              {isTimeNew ? "ادخال" : "تعديل"}
             </button>
           </div>
         </div>
@@ -311,28 +311,5 @@ const System = (props: AppProps) => {
     </div>
   );
 };
-
-// export async function getServerSideProps(context: any) {
-//   const getIdOfLoanPercentageFromGlobalValues = await fetch(
-//     "/api/lookupsData/getDataFromLookups/globalValues"
-//   );
-
-//   const IdOfLoanPercentageValue =
-//     await getIdOfLoanPercentageFromGlobalValues.json();
-
-//   if (IdOfLoanPercentageValue) {
-//     return {
-//       props: {
-//         idOfLoanPercentageProp: IdOfLoanPercentageValue.data.id,
-//       },
-//     };
-//   } else {
-//     return {
-//       props: {
-//         idOfLoanPercentageProp: 0,
-//       },
-//     };
-//   }
-// }
 
 export default System;
