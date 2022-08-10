@@ -91,4 +91,4 @@ const renderLoanHistoryByDate = async (
   return historyModels;
 };
 
-export default renderLoanHistoryByDate;
+export { renderLoanHistoryByDate, getCurrentMorattab };

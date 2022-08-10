@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import renderLoanHistoryByDate from "../../../controllers/loanController";
+import { renderLoanHistoryByDate } from "../../../controllers/loanController";
 import { SolfaModel } from "../../../models/SolfaModel";
 
 // http://localhost:3000/api/loan/getLoanHistory

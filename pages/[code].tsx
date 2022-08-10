@@ -48,23 +48,8 @@ function EmployeeDetails() {
   const [dyana, setDyana] = useState<number | undefined>(undefined);
   const [type, setType] = useState<number | undefined>(undefined);
 
-  const loansOption = [
-    { value: "لا", label: "لا" },
-
-    { value: "نعم", label: "نعم" },
-  ];
   const [birthDate, setBirthDate] = useState(new Date());
   const [assignDate, setAssignDate] = useState(new Date());
-  const [year, setYear] = useState(new Date().getFullYear());
-
-  const religionOptions = [
-    { value: "مسلم", label: "مسلم" },
-    { value: "مسيحي", label: "مسيحي" },
-  ];
-  const genderOptions = [
-    { value: "male", label: "ذكر" },
-    { value: "female", label: "أنثي" },
-  ];
 
   const deleteEmployee = async (e: any) => {
     e.preventDefault();
