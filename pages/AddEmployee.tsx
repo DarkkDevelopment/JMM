@@ -16,15 +16,6 @@ interface FileModel {
 }
 
 function AddEmployee() {
-  const religionOptions = [
-    { value: "مسلم", label: "مسلم" },
-    { value: "مسيحي", label: "مسيحي" },
-  ];
-  const genderOptions = [
-    { value: "male", label: "ذكر" },
-    { value: "female", label: "أنثي" },
-  ];
-
   const [error, setError] = useState("");
 
   // input states
@@ -161,10 +152,11 @@ function AddEmployee() {
       tagneedCertificate,
       contractImage,
     };
+    console.log(employee);
     let error = {
       response: true,
       message: "",
-    }
+    };
     //employeeFormValidator(employee);
     if (!error.response) {
       setError(error.message!);
@@ -268,7 +260,11 @@ function AddEmployee() {
               />
             </div>
             <TextField label="العنوان" value={address} onChange={setAddress} />
-            <TextField label="الحد الاقصي للاجازات في السنة" value={agazaLimit.toString()} onChange={setAgazaLimit} />
+            <TextField
+              label="الحد الاقصي للاجازات في السنة"
+              value={agazaLimit.toString()}
+              onChange={setAgazaLimit}
+            />
           </div>
           <div className="flex flex-row items-center justify-end bg-white rounded-lg ">
             <Dropdown
@@ -411,7 +407,7 @@ function AddEmployee() {
             label="نسبة الضرائب"
             value={draybPercent.toString()}
             onChange={setDraybPercent}
-          /*  condition={(val: number) =>
+            /*  condition={(val: number) =>
              1400 <= val && val <= 9600 ? true : false
            }
            errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
