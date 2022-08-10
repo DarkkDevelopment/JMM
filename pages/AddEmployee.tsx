@@ -322,7 +322,7 @@ function AddEmployee() {
               </div>
         </div>
         
-        <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
+        <div className="flex flex-col p-4 mt-2 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
           <CustomizableTextField
             label="الاسم"
             placeholders={[
