@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
 import LoginForm from "../components/LoginForm";
 import Logo from "../public/images/logo.png";
 
@@ -10,12 +9,12 @@ const Home: NextPage = (props) => {
     <>
       <div className="font-display">
         <Head>
-          <title>ERP_SYSTEM</title>
+          <title>JMM-System</title>
           <meta
             name="description"
             content="this is an erp-system Website fully customizable"
           />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/logo.png" />
         </Head>
       </div>
       <div className="flex flex-col">
