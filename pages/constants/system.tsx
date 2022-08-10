@@ -164,7 +164,7 @@ const System = (props: AppProps) => {
     );
 
     if (loanPercentageResponse !== null) {
-      setIsLoanPercentageNew(false);
+      setIsLoanPercentageNew(true);
     }
 
     if (
@@ -268,10 +268,10 @@ const System = (props: AppProps) => {
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
               onClick={
-                isLoanPercentageNew ? addLoanPercentage : editLoanPercentage
+                isLoanPercentageNew ? editLoanPercentage : addLoanPercentage
               }
             >
-              {isLoanPercentageNew ? "ادخال" : "تعديل"}
+              {isLoanPercentageNew ? "تعديل" : "ادخال"}
             </button>
           </div>
         </div>
