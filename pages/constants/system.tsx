@@ -28,8 +28,10 @@ const System = () => {
         "/api/lookupsData/getDataFromLookups/globalValues"
       );
 
-      if (loanPercentageResponse !== null) {
+      if (loanPercentageResponse.data !== 0) {
         setIsLoanPercentageNew(false);
+      } else {
+        setIsLoanPercentageNew(true);
       }
 
       if (
