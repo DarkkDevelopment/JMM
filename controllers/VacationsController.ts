@@ -7,6 +7,7 @@ import { VacationsModel } from "../models/vacationsModel";
 const getVacationsInWeek = async () => {
   const VacationsInWeek = await prisma.agazaDaysInWeek.findMany({
     select: {
+      id: true,
       DayName: true,
     },
   });

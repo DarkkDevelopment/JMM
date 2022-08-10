@@ -36,13 +36,22 @@ const createEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
- /*  const userPassword = await prisma.personPassword.create({
+  /*  const userPassword = await prisma.personPassword.create({
     data: {
       PersonCode: u.PersonCode,
       PersonSystemPassword: u.PersonSystemPassword,
     },
   });
  */
+
+  const userAgazaLimits = await prisma.personAgazaLimit.create({
+    data: {
+      PersonCode: u.PersonCode,
+      NumberOfAgazaDays: u.NumberOfAgazaDays,
+      Year: new Date().getFullYear(),
+    },
+  });
+
   const userDocuments = await prisma.personDocuments.create({
     data: {
       PersonCode: u.PersonCode,
@@ -81,21 +90,23 @@ const createEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
   if (
     user &&
     userAddress &&
-   // userPassword &&
+    // userPassword &&
     userDocuments &&
     userCurrentMorattab &&
     userMobileNumbers &&
-    userWazefa
+    userWazefa &&
+    userAgazaLimits
   ) {
     res.status(200).json({
       message: "Employee created successfully",
       user,
       userAddress,
-     // userPassword,
+      // userPassword,
       userDocuments,
       userCurrentMorattab,
       userMobileNumbers,
       userWazefa,
+      userAgazaLimits,
     });
   } else {
     res.status(500).json({

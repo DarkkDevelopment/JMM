@@ -4,6 +4,8 @@ import gethafezAndKhasmRatiosEndpoint from "../../../../controllers/getHafezAndK
 import getWorkingHours from "../../../../controllers/getWorkingHours";
 import { getInsurancePercentageRatio } from "../../../../controllers/InsuranceController";
 
+// http://localhost:3000/api/lookupsData/getDataFromLookups/getConstants
+
 const getAllNeededConstants = async (
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,7 +21,7 @@ const getAllNeededConstants = async (
   const { StartTime, EndTime } = getWorkingHoursEndpoint;
 
   const getHafezAndKhasmConstants = await gethafezAndKhasmRatiosEndpoint();
-  const { hafezHourRatio, khasmHourRatio, hafezDayRatio, khasmDayRatio } =
+  const { hafezHourRatio, khasmHourRatio, hafezDayRatio, khasmDayRatio, id } =
     getHafezAndKhasmConstants;
 
   res.status(200).json({
@@ -27,6 +29,7 @@ const getAllNeededConstants = async (
     PersonInsurancePercentage: InsuranceByPersonPercentage,
     startHour: StartTime,
     endHour: EndTime,
+    idOfHafezAndKhasmRatios: id,
     HafezExtraHourRatio: hafezHourRatio,
     KhasmLateHourRatio: khasmHourRatio,
     HafezExtraDayRatio: hafezDayRatio,

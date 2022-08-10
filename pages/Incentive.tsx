@@ -38,16 +38,16 @@ function Incentive() {
       <div className="font-display basis-5/6 mr-10">
         <div className="flex flex-col m-10">
           <div className="flex flex-col   pl-10 mr-10">
-          <div className="flex flex-row   justify-center   space-x-80  ">
+          <div className="flex flex-row   justify-center   space-x-72  ">
             <SearchField setSearchTerm={setSearchTerm} />
 
             <DatePicker
             className="
-            pl-7
-            px-16
+            
+            px-4
             py-2
-            text-right
-            jestify-center
+            text-center
+      
             appearance-none
             shadow-lg
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 

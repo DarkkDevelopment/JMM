@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "node_modules/.bin/prisma generate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",

@@ -35,4 +35,6 @@ export type User = {
   MobileNumber: string;
   // table Person Wazeefa
   PersonWazeefa: number;
+  // table Person Agaza Limits
+  NumberOfAgazaDays: number;
 };

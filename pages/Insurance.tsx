@@ -85,13 +85,14 @@ function Insurance(
   };
 
   return (
-    <div className="flex flex-row bg-gray-100 ">
+    <div className="flex flex-row bg-gray-100 mr-16 ">
       <div className="font-display basis-5/6">
-        <div className="flex flex-col p-10">
+        <div className="flex flex-col px-10  pt-10">
+          
+        <div className="flex flex-row items-center justify-between">
           <SearchField setSearchTerm={setSearchTerm} />
-          <div className="flex flex-row items-center justify-evenly">
             <button
-              className="px-12 py-4 text-2xl font-bold text-center text-white bg-red-400 shadow-lg hover:bg-red-700 rounded-xl"
+              className="px-8 py-2 text-2xl mb-5 font-bold text-center text-white bg-blue-500 shadow-lg hover:bg-blue-900 rounded-xl"
               onClick={handleSearchButton}
             >
               بحث
@@ -170,7 +171,8 @@ function Insurance(
         </div>
         <div className="flex flex-row items-baseline mx-12 my-8">
           <h1 className="mr-5 text-2xl">جنيه مصري</h1>
-          <h1 className="p-4 mr-5 text-2xl bg-white shadow-2xl space-y-7 rounded-xl">
+          
+          <h1 className="p-4 mr-5 text-2xl text-red-600 bg-white shadow-2xl text-bold space-y-7 rounded-xl">
             {totalT2menValue}
           </h1>
           <h1 className="text-2xl">الاجمالي</h1>

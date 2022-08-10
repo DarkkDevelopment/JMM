@@ -13,6 +13,7 @@ const employeeFormValidator = (emp: any): { response: boolean, message?: string 
         PersonTaree5Milad,
         PersonTaree5Ta3yeen,
         PersonThirdName,
+        agazaLimit,
         PersonType,
         PersonAddress,
         ManteqaLookup,
@@ -33,7 +34,9 @@ const employeeFormValidator = (emp: any): { response: boolean, message?: string 
         || !PersonRaqamTa2meeny || !PersonTa2meenValue || !PersonSanawatTa2meen || !salary || !MohafzatLookup || PersonTaree5Milad ||
         !ManteqaLookup || !work || !PersonDyana || !PersonType || !bta2aFace.uploaded || !feesh.uploaded || !bta2aDahr.uploaded ||
         PersonTaree5Ta3yeen || !birthCertificate.uploaded || !tagneedCertificate.uploaded || !contractImage.uploaded
+        || !agazaLimit
     ) {
+        console.log(emp)
         return { response: false, message: 'برجاء ادخال جميع الخانات' };
     }
     console.log(PersonRaqamQawmy)
