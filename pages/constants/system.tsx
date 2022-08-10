@@ -27,7 +27,7 @@ const System = (props: Props) => {
   const [idOfLoanPercentage, setIdOfLoanPercentage] = useState<number>(0);
 
   // todo : this one for loan to work well
-  const [loanPercentage, setLoanPercentage] = useState<number>(0);
+  const [loanPercentage, setLoanPercentage] = useState<string | number>(0);
 
   const [isHafezAndKhasmNew, setIsHafezAndKhasmNew] = useState(false);
   const [isInsuranceNew, setIsInsuranceNew] = useState(false);
@@ -105,11 +105,10 @@ const System = (props: Props) => {
     );
     fetchData();
   };
-  // todo : needed to be implemented
   const addLoanPercentage = async () => {
     await axios.post("/api/lookupsData/insertDataIntoLookups/globalValues", {
       nameOfNewValue: "LoanPercentage",
-      newValue: loanPercentage,
+      newValue: Number.parseFloat(loanPercentage.toString()),
     });
     fetchData();
   };
@@ -274,7 +273,7 @@ const System = (props: Props) => {
                 isLoanPercentageNew ? editLoanPercentage : addLoanPercentage
               }
             >
-              {isLoanPercentageNew ? "تعديل" : "ادخال"}
+              {isLoanPercentageNew ? "ادخال" : "تعديل"}
             </button>
           </div>
         </div>
