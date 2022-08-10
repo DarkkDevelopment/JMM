@@ -15,7 +15,8 @@ interface FileModel {
   fileInfo: File | null;
 }
 
-function AddEmployee() {
+function AddEmployee(props: AppProps) {
+  const OurProps = props;
   const [error, setError] = useState("");
 
   // input states
@@ -304,7 +305,7 @@ function AddEmployee() {
               onChange={setAgazaLimit}
             />
           </div>
-          <div className="flex flex-row items-center justify-end bg-white rounded-lg ">
+          {/* <div className="flex flex-row items-center justify-end bg-white rounded-lg ">
             <Dropdown
               title="الوظيفة"
               options={wazayef}
@@ -320,7 +321,7 @@ function AddEmployee() {
           </div>
           <div className="pt-2 item-right">
             <TextField label="الشارع" value={address} onChange={setAddress} />
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
