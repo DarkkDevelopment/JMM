@@ -4,14 +4,8 @@ import SideBar from "../../components/sideBar";
 import { SystemConstantsRow } from "../../components/SystemConstantsRow";
 import { InferGetServerSidePropsType } from "next";
 
-const System = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
-  const idOfFixedLoanPercentage = props
-    ? props.idOfLoanPercentageProp === 0
-      ? 0
-      : props.idOfLoanPercentageProp
-    : 0;
+const System = () => {
+  const idOfFixedLoanPercentage = 1;
 
   const [hafezExtraDayRatio, setHafezExtraDayRatio] = useState<string | number>(
     0
@@ -33,7 +27,7 @@ const System = (
   >(0);
   const [startHour, setStartHour] = useState<string>("09:00");
   const [endHour, setEndHour] = useState<string>("17:00");
-  const [idOfLoanPercentage, setIdOfLoanPercentage] = useState<number>(0);
+  // const [idOfLoanPercentage, setIdOfLoanPercentage] = useState<number>(0);
 
   // todo : this one for loan to work well
   const [loanPercentage, setLoanPercentage] = useState<string | number>(0);
@@ -42,10 +36,6 @@ const System = (
   const [isInsuranceNew, setIsInsuranceNew] = useState(false);
   const [isTimeNew, setIsTimeNew] = useState(false);
   const [isLoanPercentageNew, setIsLoanPercentageNew] = useState(false);
-
-  useEffect(() => {
-    setIdOfLoanPercentage(idOfFixedLoanPercentage);
-  }, [idOfFixedLoanPercentage]);
 
   const onHafezDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHafezExtraDayRatio(e.target.value);
@@ -127,7 +117,7 @@ const System = (
   };
   const editLoanPercentage = async () => {
     await axios.put("/api/lookupsData/updateDataIntoLookups/globalValues", {
-      idOfValue: idOfLoanPercentage,
+      idOfValue: idOfFixedLoanPercentage,
     });
     fetchData();
   };
@@ -327,27 +317,27 @@ const System = (
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const getIdOfLoanPercentageFromGlobalValues = await fetch(
-    "/api/lookupsData/getDataFromLookups/globalValues"
-  );
+// export async function getServerSideProps(context: any) {
+//   const getIdOfLoanPercentageFromGlobalValues = await fetch(
+//     "/api/lookupsData/getDataFromLookups/globalValues"
+//   );
 
-  const IdOfLoanPercentageValue =
-    await getIdOfLoanPercentageFromGlobalValues.json();
+//   const IdOfLoanPercentageValue =
+//     await getIdOfLoanPercentageFromGlobalValues.json();
 
-  if (IdOfLoanPercentageValue) {
-    return {
-      props: {
-        idOfLoanPercentageProp: IdOfLoanPercentageValue.data.id,
-      },
-    };
-  } else {
-    return {
-      props: {
-        idOfLoanPercentageProp: 0,
-      },
-    };
-  }
-}
+//   if (IdOfLoanPercentageValue) {
+//     return {
+//       props: {
+//         idOfLoanPercentageProp: IdOfLoanPercentageValue.data.id,
+//       },
+//     };
+//   } else {
+//     return {
+//       props: {
+//         idOfLoanPercentageProp: 0,
+//       },
+//     };
+//   }
+// }
 
 export default System;
