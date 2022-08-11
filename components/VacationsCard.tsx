@@ -21,7 +21,9 @@ function VacationsCard(props: Props) {
     props;
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [selected, setSelected] = useState<string | undefined>(agazatConst[0].name);
+  const [selected, setSelected] = useState<string | undefined>(
+    agazatConst[0].name
+  );
 
   const addDays = (date: Date, days: number) => {
     var result = new Date(date);
@@ -35,11 +37,9 @@ function VacationsCard(props: Props) {
     } else {
       if (date.getMonth() > todaysDate.getMonth()) {
         return true;
-      }
-      else if (date.getMonth() < todaysDate.getMonth()) {
-        return false
-      }
-      else {
+      } else if (date.getMonth() < todaysDate.getMonth()) {
+        return false;
+      } else {
         if (date.getDate() >= todaysDate.getDate()) {
           return true;
         }
@@ -52,7 +52,9 @@ function VacationsCard(props: Props) {
       const currentDay = new Date().getDate();
       const currentMonth = new Date().getMonth() + 1;
       const currentYear = new Date().getFullYear();
+
       if (didnotPassed(startDate)) {
+
         let tempDate = new Date(startDate);
         var dateArray = new Array();
         while (tempDate < endDate) {
@@ -106,6 +108,7 @@ function VacationsCard(props: Props) {
     ) {
       return -1;
     }
+
     if (endDate.getMonth() > startDate.getMonth()) {
       let days = 0;
       let endmonth = endDate.getMonth();
@@ -129,6 +132,7 @@ function VacationsCard(props: Props) {
       return endDate.getDate() - startDate.getDate();
     }
 
+
   };
   return (
     <div className="flex flex-row bg-gray-100 ">
@@ -138,18 +142,9 @@ function VacationsCard(props: Props) {
             {name}
           </h3>
 
-          <p>
-            الكود : {code}
-          </p>
-          <p>
-            عدد الاجازات المتاحة : {availableVacations}
-          </p>
 
-
-          {/*   <div className="flex flex-row flex-1 w-3/4 align-baseline justify-between font-display ">
-            <Dropdown options={hwafezReasons} title='الحوافز' onChange={setHafez} value={hafez} />
-            <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
-        </div> */}
+          <p>الكود : {code}</p>
+          <p>عدد الاجازات المتاحة : {availableVacations}</p>
           <div className="grid justify-center grid-cols-2 ">
 
             <div className="mr-24  ">
@@ -197,6 +192,7 @@ function VacationsCard(props: Props) {
                 ) : (
                   <h1 className="text-xl">لا يوجد اجازات سابقة</h1>
                 )}
+
               </div>
             </div>
 
@@ -206,17 +202,12 @@ function VacationsCard(props: Props) {
               </h5>
 
               <div className=" flex flex-row mt-5 ml-28  ">
-                <h6 className="text-xl pr-60   text-black font-display">
+                <h6 className="text-xl pr-60   text-black font-display">الي</h6>
+                <h6 className="text-xl  text-black font-display">من</h6>
 
-                  الي
-
-                </h6>
-                <h6 className="text-xl  text-black font-display">
-
-                  من
-
-                </h6>
               </div>
+            </div>
+
 
               <div className="flex flex-row mt-5 mr-62 ">
 
@@ -247,7 +238,6 @@ function VacationsCard(props: Props) {
                   onChange={(date: Date) => setStartDate(date)}
                 />
 
-
               </div>
 
               {calculateVacationDays() < 0 ? (
@@ -261,8 +251,6 @@ function VacationsCard(props: Props) {
               ) : (
                 calculateVacationDays() + 1 <= availableVacations && (
                   <div className="flex flex-col  items-center  pt-4">
-
-
                     <div className=" mt-2.5   ">
                       <Dropdown
                         title="نوع الاجازة"
@@ -279,8 +267,6 @@ function VacationsCard(props: Props) {
 
 
 
-
-
                     <h1 className="mt-2  text-3xl text-center text-black font-display ">
                       {calculateVacationDays() + 1}
                     </h1>
@@ -290,10 +276,12 @@ function VacationsCard(props: Props) {
                         onClick={sendVacation}
                       >
 
+
                         موافقة
                       </button>
                     </h1>
                   </div>
+
 
                 )
               )}
@@ -302,6 +290,7 @@ function VacationsCard(props: Props) {
         </div>
       </div>
     </div>
+
 
   );
 }
