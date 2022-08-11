@@ -6,7 +6,7 @@ import TextField from "./TextField";
 
 function IncentiveCard(props: any) {
     const { name, totalIncentive, title, hwafezReasons, PersonCode } = props;
-    const [hafez, setHafez] = useState(undefined);
+    const [hafez, setHafez] = useState(hwafezReasons[0].name);
     const [money, setMoney] = useState('');
 
     const sendHafez = async (e: any) => {
