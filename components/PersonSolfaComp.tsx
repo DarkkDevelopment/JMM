@@ -63,7 +63,7 @@ export const PersonSolfaComp = (props: Props) => {
                 <p className="text-lg">{item.IsDoneAndPaid ? "نعم" : "لا"}</p>
                 <p className="text-lg">{item.SolfaValue}</p>
                 <p className="text-lg">
-                  {solfaDate.getFullYear()}-{solfaDate.getMonth()}-
+                  {solfaDate.getFullYear()}-{solfaDate.getMonth() + 1}-
                   {solfaDate.getDate()}
                 </p>
               </div>
