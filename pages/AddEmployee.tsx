@@ -3,8 +3,6 @@ import Dropdown from "../components/DropDownComp";
 import FileCheck from "../components/FileCheck";
 import RadioButtonComp from "../components/RadioButtonComp";
 import TextField from "../components/TextField";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import CustomizableTextField from "../components/CustomizableTextField";
 import axios from "axios";
 import employeeFormValidator from "../services/validators/employeeFormValidator";
@@ -229,11 +227,17 @@ function AddEmployee(props: AppProps) {
           />
           <div className="flex flex-col space-y-10 bg-white ">
             <div className="flex flex-row mr-4 pt-0.5">
-              <DatePicker
+              <input
+                type='date'
+                className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                onChange={(e) => setBirthDate(new Date(e.target.value))}
+                value={birthDate.toISOString().split("T")[0]}
+              />
+              {/* <DatePicker
                 className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
                 selected={birthDate}
                 onChange={(date: Date) => setBirthDate(date)}
-              />
+              /> */}
 
               <div className="flex flex-row items-center ml-32">
                 <h6 className="self-center text-lg text-right text-gray-700">
@@ -243,11 +247,13 @@ function AddEmployee(props: AppProps) {
             </div>
 
             <div className="flex flex-row pt-4 mr-4">
-              <DatePicker
+              <input
+                type='date'
                 className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
-                selected={assignDate}
-                onChange={(date: Date) => setAssignDate(date)}
+                onChange={(e) => setAssignDate(new Date(e.target.value))}
+                value={assignDate.toISOString().split("T")[0]}
               />
+            
 
               <div className="flex flex-row items-center ml-32">
                 <h6 className="self-center text-lg text-right text-gray-700 ">
@@ -305,23 +311,7 @@ function AddEmployee(props: AppProps) {
               onChange={setAgazaLimit}
             />
           </div>
-          {/* <div className="flex flex-row items-center justify-end bg-white rounded-lg ">
-            <Dropdown
-              title="الوظيفة"
-              options={wazayef}
-              value={work}
-              onChange={onWorkChange}
-            />
-            <label className="p-2 text-sm text-right text-gray-700 ">
-              الوظيفة
-            </label>
-            <label className="self-center p-2 text-lg text-right text-gray-700 ">
-              العنوان
-            </label>
-          </div>
-          <div className="pt-2 item-right">
-            <TextField label="الشارع" value={address} onChange={setAddress} />
-          </div> */}
+         
         </div>
 
         <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
@@ -441,10 +431,10 @@ function AddEmployee(props: AppProps) {
             label="نسبة الضرائب"
             value={draybPercent.toString()}
             onChange={setDraybPercent}
-            /*  condition={(val: number) =>
-             1400 <= val && val <= 9600 ? true : false
-           }
-           errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
+          /*  condition={(val: number) =>
+           1400 <= val && val <= 9600 ? true : false
+         }
+         errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
           />
         </div>
       </div>

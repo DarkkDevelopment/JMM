@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import IncentiveCard from "../components/IncentiveCard";
 import SearchField from "../components/searchField";
 import SideBar from "../components/sideBar";
@@ -38,25 +36,28 @@ function Incentive() {
       <div className="font-display basis-5/6 mr-10">
         <div className="flex flex-col m-10">
           <div className="flex flex-col   pl-10 mr-10">
-          <div className="flex flex-row   justify-center   space-x-80  ">
-            <SearchField setSearchTerm={setSearchTerm} />
+            <div className="flex flex-row   justify-center   space-x-80  ">
+              <SearchField setSearchTerm={setSearchTerm} />
+              <input
+                type='date'
+                value={filterDate.toISOString().split('T')[0]}
+                onChange={(e) => {
+                  setFilterDate(new Date(e.target.value));
+                }}
+                className="
+                pl-7
+                m-3
+                px-16
+                py-2
+                text-right
+                jestify-center
+                appearance-none
+                shadow-lg
+                border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
+                "
+              />
 
-            <DatePicker
-            className="
-            pl-7
-            px-16
-            py-2
-            text-right
-            jestify-center
-            appearance-none
-            shadow-lg
-            border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
-            "
-            selected={filterDate}
-            onChange={(date: Date) => setFilterDate(date)}
-          />
-
-          </div>
+            </div>
 
             <div className="flex flex-col justify-center space-y-10">
               {filteredEmployees.map((obj) => (

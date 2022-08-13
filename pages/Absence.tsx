@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import SideBar from "../components/sideBar";
 import Switch from "../components/Switch";
 import { GetAbsenceModel } from "../models/GheyabModels";
@@ -59,21 +58,23 @@ const Absence = () => {
         <div className="flex flex-col p-10">
           <div className="flex flex-row  font-display pr-10">
             <div className="flex flex-row  justify-evenly">
-
-
-              <DatePicker
+              <input
+                type="date"
+                value={filterDate.toISOString().split("T")[0]}
+                onChange={(e) => {
+                  setFilterDate(new Date(e.target.value));
+                }}
                 className="
-            m-3
-            px-4
-            py-2
-            text-right
-            appearance-none
-            shadow-lg
-            border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
-            "
-                selected={filterDate}
-                onChange={(date: Date) => setFilterDate(date)}
+              m-3
+              px-4
+              py-2
+              text-right
+              appearance-none
+              shadow-lg
+              border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
+              "
               />
+
             </div>
           </div>
 

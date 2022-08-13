@@ -1,7 +1,5 @@
 import axios from "../utils/axios";
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { HedorRowComponent } from "../components/HedorRowComponent";
 import SearchField from "../components/searchField";
 import SideBar from "../components/sideBar";
@@ -253,10 +251,13 @@ function Attendance(props: any) {
       <div className="font-display basis-5/6 m-12">
         <div className="flex flex-row    space-x-64 jestify-between">
           <SearchField setSearchTerm={setSearchTerm} />
-
-          <DatePicker
+          <input
+            type="date"
+            value={filterDate.toISOString().split("T")[0]}
+            onChange={(e) => setFilterDate(new Date(e.target.value))}
             className="
             ml-l3
+            mb-4 
             px-16
             py-2
             text-right
@@ -265,20 +266,15 @@ function Attendance(props: any) {
             shadow-lg
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
             "
-            selected={filterDate}
-            onChange={(date: Date) => setFilterDate(date)}
           />
-
-
-
         </div>
-        
+
         <div className="flex flex-col justify-center mr-32 pr-10 pt-10 pl-10 bg-white shadow-xl space-y-7 ">
           <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
             <div >  الحضور</div>
-            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div> 
-           
-          </p> 
+            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div>
+
+          </p>
 
 
           <table

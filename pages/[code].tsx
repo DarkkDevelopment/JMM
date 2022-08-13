@@ -1,7 +1,6 @@
 import React, { ReactPropTypes, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextField from "../components/TextField";
-import DatePicker from "react-datepicker";
 import Dropdown from "../components/DropDownComp";
 import RadioButtonComp from "../components/RadioButtonComp";
 import EmployeeVacation from "../components/EmployeeVacation";
@@ -215,7 +214,7 @@ function EmployeeDetails() {
         </h1>
 
         <div className="grid justify-center grid-cols-2 px-4 mx-16 rounded-lg">
-<div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-l-2xl">
+          <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-l-2xl">
             <TextField
               label="الكود"
               isEditable={true}
@@ -223,23 +222,27 @@ function EmployeeDetails() {
             />
             <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-lg ">
               <div className="flex flex-row items-center justify-between">
-                <DatePicker
-                  className="w-full px-4 py-2 m-3 leading-tight text-right text-black border rounded appearance-none focus:outline-none focus:shadow-outline"
-                  selected={birthDate}
-                  onChange={(date: Date) => setBirthDate(date)}
+                <input
+                  type='date'
+                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                  onChange={(e) => setBirthDate(new Date(e.target.value))}
+                  value={birthDate.toISOString().split("T")[0]}
                   disabled={!editdata}
                 />
+        
                 <h6 className="text-sm text-right text-gray-700">
                   تاريخ الميلاد
                 </h6>
               </div>
               <div className="flex flex-row items-center justify-between">
-                <DatePicker
-                  className="w-full px-4 py-2 m-3 leading-tight text-right text-black border rounded appearance-none focus:outline-none focus:shadow-outline"
-                  selected={assignDate}
-                  onChange={(date: Date) => setAssignDate(date)}
+                <input
+                  type='date'
+                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                  onChange={(e) => setAssignDate(new Date(e.target.value))}
+                  value={assignDate.toISOString().split("T")[0]}
                   disabled={!editdata}
                 />
+            
                 <h6 className="text-sm text-right text-gray-700">
                   تاريخ التعيين
                 </h6>
@@ -358,10 +361,10 @@ function EmployeeDetails() {
               value={draybPercent.toString()}
               isEditable={!editdata}
               onChange={setDraybPercent}
-              /*  condition={(val: number) =>
-               1400 <= val && val <= 9600 ? true : false
-             }
-             errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
+            /*  condition={(val: number) =>
+             1400 <= val && val <= 9600 ? true : false
+           }
+           errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
             />
           </div>
         </div>
