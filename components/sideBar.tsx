@@ -8,9 +8,12 @@ import insuranceLogo from "../public/icons/insurance.png";
 import loanLogo from "../public/icons/loan.png";
 import moneyLogo from "../public/icons/money.png";
 import taxesLogo from "../public/icons/tax.png";
+import incentive from "../public/icons/incentive.png";
+import discounts from "../public/icons/discounts.png";
 import reportLogo from "../public/icons/report.png";
 import attendanceLogo from "../public/icons/user.png";
 import absentLogo from '../public/icons/absent.png';
+import conslogo from '../public/icons/cons.png';
 import { useRouter } from "next/router";
 
 const SideBar = (props: any) => {
@@ -141,7 +144,7 @@ const SideBar = (props: any) => {
             >
               الضرائب
             </h3>
-            <Image src={taxesLogo} alt="employee" width={50} height={50} />
+            <Image src={taxesLogo} alt="employee" width={65} height={75} />
           </div>
           <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
@@ -156,7 +159,7 @@ const SideBar = (props: any) => {
             >
               الحوافز
             </h3>
-            <Image src={taxesLogo} alt="employee" width={50} height={50} />
+            <Image src={incentive} alt="employee" width={60} height={60} />
           </div>
           <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
@@ -171,7 +174,7 @@ const SideBar = (props: any) => {
             >
               الخصومات
             </h3>
-            <Image src={taxesLogo} alt="employee" width={50} height={50} />
+            <Image src={discounts} alt="employee" width={50} height={50} />
           </div>
           <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
@@ -201,7 +204,7 @@ const SideBar = (props: any) => {
             >
               الثوابت
             </h3>
-            <Image src={reportLogo} alt="employee" width={50} height={50} />
+            <Image src={conslogo} alt="employee" width={50} height={50} />
           </div>
         </div>
       </div>
