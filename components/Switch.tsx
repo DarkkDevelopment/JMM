@@ -12,15 +12,17 @@ function Switch(props: any) {
   const leaveToggleClass = "transform translate-x-6 bg-red-300";
 
   return (
-    <div className={`flex flex-row  justify-evenly ${old ? " hidden" : ""}`}>
+    <div className={`flex flex-row  justify-evenly`}>
       <label className="flex items-center justify-center text-center">
         {toggle ? "حاضر" : "غائب"}
       </label>
       <div
         className="flex items-center w-12 h-6 p-1 bg-gray-100 rounded-full shadow-lg cursor-pointer md:w-14 md:h-7"
         onClick={() => {
-          props.toggleSwitch(!toggle);
-          setToggle(!toggle);
+          if (!old) {
+            props.toggleSwitch(!toggle);
+            setToggle(!toggle);
+          }
         }}
       >
         {/* Switch */}

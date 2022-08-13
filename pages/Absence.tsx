@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import SideBar from "../components/sideBar";
+import Switch from "../components/Switch";
 import { GetAbsenceModel } from "../models/GheyabModels";
 import { VacationsModel } from "../models/vacationsModel";
 
@@ -58,7 +59,7 @@ const Absence = () => {
         <div className="flex flex-col p-10">
           <div className="flex flex-row  font-display pr-10">
             <div className="flex flex-row  justify-evenly">
-            
+
 
               <DatePicker
                 className="
@@ -75,19 +76,20 @@ const Absence = () => {
               />
             </div>
           </div>
-      
-                <div className="flex flex-col mr-16 justify-center p-10 bg-white shadow-xl space-y-7 ">
-          <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
-            <div >  الغياب</div>
-            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div> 
-           
-          </p> 
+
+          <div className="flex flex-col mr-16 justify-center p-10 bg-white shadow-xl space-y-7 ">
+            <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
+              <div >  الغياب</div>
+              <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div>
+
+            </p>
             <table
               title="الغياب"
               className="text-center border-collapse table-auto font-display"
             >
               <thead className="text-center text-white bg-blue-900">
                 <tr>
+                  <th className="w-20 p-4 text-center border-b-2 "></th>
                   <th className="w-5 p-4 text-center border-b-2">
                     معامل الغياب
                   </th>
@@ -100,6 +102,13 @@ const Absence = () => {
                 {Absence.map((obj: GetAbsenceModel) => {
                   return (
                     <tr key={obj.PersonCode}>
+                      <td className="p-4 border-b-2"> <Switch
+                        old={true}
+                        type={false}
+                        toggleSwitch={(value: boolean) => {
+
+                        }}
+                      /></td>
                       <td className="p-4 border-b-2">{obj.GheyabDayRatio}</td>
                       <td className="p-4 border-b-2">{obj.PersonCode}</td>
                       <td className="p-4 border-b-2">
@@ -118,11 +127,11 @@ const Absence = () => {
             </table>
           </div>
           <div className="flex flex-col justify-center p-10 mt-5 mr-16  bg-white shadow-xl space-y-7 ">
-          <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
-            <div >   الاجازات</div>
-            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div> 
-           
-   
+            <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
+              <div >   الاجازات</div>
+              <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div>
+
+
             </p>
             <table
               title="الاجازات"
