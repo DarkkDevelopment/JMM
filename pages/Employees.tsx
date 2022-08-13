@@ -6,7 +6,7 @@ import SideBar from "../components/sideBar";
 import { IAllEmployeesModel } from "../interfaces/employees";
 import { numberOfItemsPerPage } from "../utils/constants";
 import { InferGetServerSidePropsType } from "next";
-import getAllEmployees from "../services/employeesServices";
+import { getAllEmployees } from "../services/employeesServices";
 
 
 function Employees(

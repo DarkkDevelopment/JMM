@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ApiResponseModel } from "../models/ApiResponseModel";
 
-const getAllEmployees = async ():Promise<ApiResponseModel> => {
+const getAllEmployees = async (): Promise<ApiResponseModel> => {
   const employees = await axios.get(
     `${process.env.NEXT_PUBLIC_HOST}/api/employee/getAll`
   );
@@ -10,4 +10,4 @@ const getAllEmployees = async ():Promise<ApiResponseModel> => {
     success: true,
   };
 };
-export default getAllEmployees;
+export { getAllEmployees };
