@@ -251,18 +251,17 @@ function Attendance(props: any) {
   return (
     <div className="flex flex-row bg-gray-100 ">
       <div className="font-display basis-5/6 m-12">
-        <div className="flex flex-row    space-x-64 jestify-between">
+      <div className="flex flex-row   justify-center   space-x-72  ">
           <SearchField setSearchTerm={setSearchTerm} />
 
           <DatePicker
             className="
-            ml-l3
-            px-16
+            px-4
             py-2
-            text-right
-            jestify-center
+            text-center
+      
             appearance-none
-            shadow-lg
+            shadow-md
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
             "
             selected={filterDate}

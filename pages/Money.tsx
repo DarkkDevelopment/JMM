@@ -144,12 +144,13 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     <div className="flex flex-row bg-gray-100 ">
       <div className="font-display basis-5/6">
         <div className="flex flex-col p-10 pr-20">
-          <div className="flex flex-row space-x-64">
-            <SearchField setSearchTerm={setSearchTerm} />
-          </div>
-          <div className="flex flex-row items-center justify-evenly">
+          
+          
+          
+          <div className="flex flex-row items-center justify-between">
+          <SearchField setSearchTerm={setSearchTerm} />
             <button
-              className="px-12 py-4 text-2xl font-bold text-center text-white bg-red-400 shadow-lg hover:bg-red-700 rounded-xl"
+              className="px-8 py-2 text-2xl mb-5 font-bold text-center text-white bg-blue-500 shadow-lg hover:bg-blue-900 rounded-xl"
               onClick={handleSearchButton}
             >
               بحث

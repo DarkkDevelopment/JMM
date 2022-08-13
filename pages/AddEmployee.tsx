@@ -7,15 +7,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomizableTextField from "../components/CustomizableTextField";
 import axios from "axios";
-import employeeFormValidator from "../services/validators/employeeFormValidator";
-import { AppProps } from "next/app";
 
 interface FileModel {
   uploaded: boolean;
   fileInfo: File | null;
 }
 
-function AddEmployee(props: AppProps) {
+function AddEmployee(props: any) {
   const OurProps = props;
   const [error, setError] = useState("");
 
@@ -298,33 +296,36 @@ function AddEmployee(props: AppProps) {
                 onChange={onDistrictChange}
               />
             </div>
-            <TextField label="العنوان" value={address} onChange={setAddress} />
-            <TextField
-              label="الحد الاقصي للاجازات في السنة"
-              value={agazaLimit.toString()}
-              onChange={setAgazaLimit}
-            />
+            <div>
+              <TextField
+                label="العنوان"
+                value={address}
+                onChange={setAddress}
+              />
+              <TextField
+                label="الحد الاقصي للاجازات في السنة"
+                value={agazaLimit.toString()}
+                onChange={setAgazaLimit}
+              />
+            </div>
           </div>
-          {/* <div className="flex flex-row items-center justify-end bg-white rounded-lg ">
-            <Dropdown
-              title="الوظيفة"
-              options={wazayef}
-              value={work}
-              onChange={onWorkChange}
-            />
-            <label className="p-2 text-sm text-right text-gray-700 ">
-              الوظيفة
-            </label>
+
+          <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
             <label className="self-center p-2 text-lg text-right text-gray-700 ">
               العنوان
             </label>
           </div>
           <div className="pt-2 item-right">
             <TextField label="الشارع" value={address} onChange={setAddress} />
-          </div> */}
+            <TextField
+              label="عدد ايام الاجازات"
+              value={agazaLimit.toString()}
+              onChange={setAgazaLimit}
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
+        <div className="flex flex-col p-4 mt-2 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
           <CustomizableTextField
             label="الاسم"
             placeholders={[
