@@ -13,12 +13,13 @@ const getPayrolHistory = async (req: NextApiRequest, res: NextApiResponse) => {
     const checkDate = checkForDate(month, year);
     if (checkDate) {
       const newPayrols = await renderNewPayrols();
-      res.status(200).json({
-        status: "success NEW",
-        data: newPayrols,
-      });
+      setTimeout(() => {
+        res.status(200).json({
+          status: "success NEW",
+          data: newPayrols,
+        });
+      }, 100);
     } else {
-      // todo : should here render the old payrols
       const OldPayrols = await renderPastPayrols(month, year);
       res.status(200).json({
         status: "success OLD",

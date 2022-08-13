@@ -9,7 +9,7 @@ const getVacationsByDate = async (
 ) => {
   try {
     const date = req.body.date;
-    const getVacations = await getVacationsAtThatDay(req, res, date);
+    const getVacations = await getVacationsAtThatDay(date);
     res.status(200).json(getVacations);
   } catch (error: any) {
     res.status(500).json({

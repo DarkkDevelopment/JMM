@@ -361,74 +361,61 @@ const renderNewPayrols = async (): Promise<PayrolModel[]> => {
           currentMonth,
           currentYear
         );
-        if (
-          MorattabAndDarayebPercentage ||
-          totalSolafInMonth ||
-          calcTotalKhsomat ||
-          calcTotalHafez ||
-          TotalNumberOfBonusHoursAndTheirValues ||
-          TotalNumberOfLateHoursAndTheirValues ||
-          TotalNumberOfBonusDaysAndTheirValues ||
-          TotalNumberOfGheyabDaysAndTheirValues ||
-          TotalPureKhsomatInMonth ||
-          TotalPureHafezInMonth
-        ) {
-          NewRecords.push({
-            PersonName: {
-              PersonFirstName: employee.PersonFirstName,
-              PersonSecondName: employee.PersonSecondName,
-              PersonThirdName: employee.PersonThirdName,
-              PersonFourthName: employee.PersonFourthName,
-            },
-            PersonCode: employee.PersonCode,
-            PersonMorattabAtThatMonth: MorattabAndDarayebPercentage.morattab,
-            Total3adadSa3atElTa25eerAtThatMonth:
-              TotalNumberOfLateHoursAndTheirValues.totalNumberOfhours,
-            ValueOfKhasmFor3adadSa3atElTa25eerAtThatMonth:
-              TotalNumberOfLateHoursAndTheirValues.totalValue,
-            Total3adadAyamEl5asmAwElGheyabaAtThatMonth:
-              TotalNumberOfGheyabDaysAndTheirValues.totalNumberOfdays,
-            ValueOfKhasmForTotal3adadAyamEl5asmAwElGheyabaAtThatMonth:
-              TotalNumberOfGheyabDaysAndTheirValues.totalValue,
-            TotalValueOfIndividualKhasmAtThatMonth: TotalPureKhsomatInMonth,
-            TotalKhasmSummationValue: calcTotalKhsomat,
-            Total3adadSa3atElExtraAtThatMonth:
-              TotalNumberOfBonusHoursAndTheirValues.totalNumberOfhours,
-            ValueOfHafezForTotal3adadSa3atElExtraAtThatMonth:
-              TotalNumberOfBonusHoursAndTheirValues.totalValue,
-            Total3adadAyamElEdafyAwElHafezAtThatMonth:
-              TotalNumberOfBonusDaysAndTheirValues.totalNumberOfdays,
-            ValueOfHafezForTotal3adadAyamElEdafyAwElHafezAtThatMonth:
-              TotalNumberOfBonusDaysAndTheirValues.totalValue,
-            TotalValueOfIndividualHafezAtThatMonth: TotalPureHafezInMonth,
-            TotalHafezSummationValue: calcTotalHafez,
-            TotalValueOfSolafTakenAtThatMonth: totalSolafInMonth,
-            DrayebPercentageForMorattabAtThatMonth:
-              MorattabAndDarayebPercentage.dareebaPercentage,
-            TotalValueOfDarayebAtThatMonth:
-              MorattabAndDarayebPercentage.dareebaPercentage *
+
+        NewRecords.push({
+          PersonName: {
+            PersonFirstName: employee.PersonFirstName,
+            PersonSecondName: employee.PersonSecondName,
+            PersonThirdName: employee.PersonThirdName,
+            PersonFourthName: employee.PersonFourthName,
+          },
+          PersonCode: employee.PersonCode,
+          PersonMorattabAtThatMonth: MorattabAndDarayebPercentage.morattab,
+          Total3adadSa3atElTa25eerAtThatMonth:
+            TotalNumberOfLateHoursAndTheirValues.totalNumberOfhours,
+          ValueOfKhasmFor3adadSa3atElTa25eerAtThatMonth:
+            TotalNumberOfLateHoursAndTheirValues.totalValue,
+          Total3adadAyamEl5asmAwElGheyabaAtThatMonth:
+            TotalNumberOfGheyabDaysAndTheirValues.totalNumberOfdays,
+          ValueOfKhasmForTotal3adadAyamEl5asmAwElGheyabaAtThatMonth:
+            TotalNumberOfGheyabDaysAndTheirValues.totalValue,
+          TotalValueOfIndividualKhasmAtThatMonth: TotalPureKhsomatInMonth,
+          TotalKhasmSummationValue: calcTotalKhsomat,
+          Total3adadSa3atElExtraAtThatMonth:
+            TotalNumberOfBonusHoursAndTheirValues.totalNumberOfhours,
+          ValueOfHafezForTotal3adadSa3atElExtraAtThatMonth:
+            TotalNumberOfBonusHoursAndTheirValues.totalValue,
+          Total3adadAyamElEdafyAwElHafezAtThatMonth:
+            TotalNumberOfBonusDaysAndTheirValues.totalNumberOfdays,
+          ValueOfHafezForTotal3adadAyamElEdafyAwElHafezAtThatMonth:
+            TotalNumberOfBonusDaysAndTheirValues.totalValue,
+          TotalValueOfIndividualHafezAtThatMonth: TotalPureHafezInMonth,
+          TotalHafezSummationValue: calcTotalHafez,
+          TotalValueOfSolafTakenAtThatMonth: totalSolafInMonth,
+          DrayebPercentageForMorattabAtThatMonth:
+            MorattabAndDarayebPercentage.dareebaPercentage,
+          TotalValueOfDarayebAtThatMonth:
+            MorattabAndDarayebPercentage.dareebaPercentage *
+            MorattabAndDarayebPercentage.morattab,
+          PersonTa2meenValue: employee.PersonTa2meenValue,
+          PersonTa2meenPercentage: Ta2meenPercentagePaidByPerson,
+          TotalValueOfTa2meenAtThatMonth:
+            employee.PersonTa2meenValue * Ta2meenPercentagePaidByPerson,
+          NetSalary:
+            MorattabAndDarayebPercentage.morattab -
+            calcTotalKhsomat +
+            calcTotalHafez -
+            totalSolafInMonth -
+            employee.PersonTa2meenValue * Ta2meenPercentagePaidByPerson -
+            MorattabAndDarayebPercentage.dareebaPercentage *
               MorattabAndDarayebPercentage.morattab,
-            PersonTa2meenValue: employee.PersonTa2meenValue,
-            PersonTa2meenPercentage: Ta2meenPercentagePaidByPerson,
-            TotalValueOfTa2meenAtThatMonth:
-              employee.PersonTa2meenValue * Ta2meenPercentagePaidByPerson,
-            NetSalary:
-              MorattabAndDarayebPercentage.morattab -
-              calcTotalKhsomat +
-              calcTotalHafez -
-              totalSolafInMonth -
-              employee.PersonTa2meenValue * Ta2meenPercentagePaidByPerson -
-              MorattabAndDarayebPercentage.dareebaPercentage *
-                MorattabAndDarayebPercentage.morattab,
-            PersonPayrollDate: new Date(),
-            PayrolMonth: currentMonth,
-            PayrolYear: currentYear,
-          });
-        }
+          PersonPayrollDate: new Date(),
+          PayrolMonth: currentMonth,
+          PayrolYear: currentYear,
+        });
       });
     }
   }
-
   return NewRecords;
 };
 
