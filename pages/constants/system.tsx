@@ -33,12 +33,12 @@ const System = () => {
       } else {
         setIsLoanPercentageNew(true);
       }
-
+      
       if (
-        response.data.HafezExtraDayRatio !== null &&
-        response.data.HafezExtraHourRatio !== null &&
-        response.data.KhasmLateDayRatio !== null &&
-        response.data.KhasmLateHourRatio !== null
+        response.data.HafezExtraDayRatio !== 0 &&
+        response.data.HafezExtraHourRatio !== 0 &&
+        response.data.KhasmLateDayRatio !== 0 &&
+        response.data.KhasmLateHourRatio !== 0
       ) {
         setIsHafezAndKhasmNew(false);
       } else {
@@ -132,6 +132,8 @@ const System = () => {
   };
 
   const editHafezAndKahsm = async () => {
+    console.log(hafezExtraDayRatio)
+    console.log(Number.parseFloat(hafezExtraDayRatio.toString()))
     await axios.post(
       "/api/lookupsData/updateDataIntoLookups/hafezKhasmRatios",
       {
