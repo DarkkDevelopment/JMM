@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 
-// http://localhost:3000/api/getDataFromLookups/mohafazat
+// http://localhost:3000/api/lookupsData/getDataFromLookups/mohafazat
 
 const getMohafazat = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

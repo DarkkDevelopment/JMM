@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  engineType = "binary"
+  provider      = "prisma-client-js"
+  engineType    = "binary"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -13,64 +13,67 @@ model AgazaTypesLookup {
   AgazaTypeID                       Int                                 @id @default(autoincrement())
   AgazaType                         String                              @db.VarChar(50)
   PersonAgazaRequestAndHistoryTable PersonAgazaRequestAndHistoryTable[]
-  deletedAt                         DateTime?                            
+  deletedAt                         DateTime?
 }
 
 model AgazatRasmyaLookup {
-  AgazaRasmyaID   Int      @id @default(autoincrement())
-  AgazaRasmyaName String   @db.VarChar(50)
-  AgazaRasmyaDate DateTime @db.Date
-  deletedAt                         DateTime?
+  AgazaRasmyaID   Int       @id @default(autoincrement())
+  AgazaRasmyaName String    @db.VarChar(50)
+  AgazaRasmyaDate DateTime  @db.Date
+  deletedAt       DateTime?
 }
 
 model DyanaLookup {
-  DyanaID   Int      @id  @default(autoincrement())
-  DyanaName String   @db.VarChar(20)
+  DyanaID   Int       @id @default(autoincrement())
+  DyanaName String    @db.VarChar(20)
   Person    Person[]
-  deletedAt                         DateTime?
+  deletedAt DateTime?
 }
 
 model FixedHafezAndKhasmRatios {
-  id                  Int   @id @default(autoincrement())
+  id                  Int       @id @default(autoincrement())
   FixedKhasmHourRatio Float
   FixedHafezHourRatio Float
   FixedKhasmDayRatio  Float
   FixedHafezDayRatio  Float
-  deletedAt                         DateTime?
+  deletedAt           DateTime?
 }
 
 model KhasmReasons {
   ReasonID           Int                  @id @default(autoincrement())
   ReasonDescription  String               @db.VarChar(50)
   PersonKhasmHistory PersonKhasmHistory[]
-  deletedAt                         DateTime?
+  deletedAt          DateTime?
 }
 
 model HafezReasons {
   ReasonID           Int                  @id @default(autoincrement())
   ReasonDescription  String               @db.VarChar(50)
   PersonHafezHistory PersonHafezHistory[]
-  deletedAt                         DateTime?
+  deletedAt          DateTime?
 }
 
 model ManteqaLookup {
-  ManteqaID     Int             @id @default(autoincrement())
-  ManteqaName   String          @db.VarChar(50)
-  PersonAddress PersonAddress[]
-  deletedAt                         DateTime?
+  ManteqaID         Int             @id @default(autoincrement())
+  Manteqa_MohafzaID Int
+  ManteqaName       String          @db.VarChar(50)
+  PersonAddress     PersonAddress[]
+  deletedAt         DateTime?
+  MohafzatLookup    MohafzatLookup  @relation(fields: [Manteqa_MohafzaID], references: [MohafzaID])
 }
 
 model MohafzatLookup {
   MohafzaID     Int             @id @default(autoincrement())
   MohafzaName   String          @db.VarChar(30)
   PersonAddress PersonAddress[]
-  deletedAt                         DateTime?
+  deletedAt     DateTime?
+  ManteqaLookup ManteqaLookup[]
 }
 
 model NamesLookup {
-  NameID Int    @id @default(autoincrement())
-  Name   String @db.VarChar(25)
-  deletedAt                         DateTime?
+  NameID    Int       @id @default(autoincrement())
+  Name      String    @db.VarChar(25)
+  deletedAt DateTime?
 }
 
 model Person {
@@ -326,10 +329,10 @@ model PersonTa2meenatPaidBySherkaAndByPerson {
 }
 
 model PersonTypesLookup {
-  PersonTypeID Int      @id @default(autoincrement())
-  PersonType   String   @db.VarChar(10)
+  PersonTypeID Int       @id @default(autoincrement())
+  PersonType   String    @db.VarChar(10)
   Person       Person[]
-  deletedAt                         DateTime?
+  deletedAt    DateTime?
 }
 
 model PersonWazeefa {
@@ -340,35 +343,35 @@ model PersonWazeefa {
 }
 
 model Ta2meenatFixedPercentage {
-  id                              Int   @id @default(autoincrement())
+  id                              Int       @id @default(autoincrement())
   Ta2meenatPercentagePaidBySherka Float
   Ta2meenatPercentagePaidByPerson Float
-  deletedAt                         DateTime?
+  deletedAt                       DateTime?
 }
 
 model WazayefTypesLookup {
-  WazeefaID          Int             @id  @default(autoincrement())
+  WazeefaID          Int             @id @default(autoincrement())
   WazeefaName        String          @db.VarChar(50)
   WazeefaDescription String?         @db.VarChar(255)
   PersonWazeefa      PersonWazeefa[]
-  deletedAt                         DateTime?
+  deletedAt          DateTime?
 }
 
 model WorkingHoursLookup {
-  id        Int      @id @default(autoincrement())
-  StartTime DateTime @db.Time(6)
-  EndTime   DateTime @db.Time(6)
-  deletedAt                         DateTime?
+  id        Int       @id @default(autoincrement())
+  StartTime DateTime  @db.Time(6)
+  EndTime   DateTime  @db.Time(6)
+  deletedAt DateTime?
 }
 
 model agazaDaysInWeek {
-  id      Int    @id @default(autoincrement())
-  DayName String @db.VarChar(10)
-  deletedAt                         DateTime?
+  id        Int       @id @default(autoincrement())
+  DayName   String    @db.VarChar(10)
+  deletedAt DateTime?
 }
 
 model FixedGlobalValues {
-  Name  String @db.VarChar(50)      @id
-  Value Float
-  deletedAt                         DateTime?
+  Name      String    @id @db.VarChar(50)
+  Value     Float
+  deletedAt DateTime?
 }
