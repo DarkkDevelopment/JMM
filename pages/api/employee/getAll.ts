@@ -7,6 +7,9 @@ import prisma from "../../../lib/prisma";
 
 const getAllEmployees = async (req: NextApiRequest, res: NextApiResponse) => {
   const employees = await prisma.person.findMany({
+    where: {
+      deletedAt: null,
+    },
     select: {
       PersonCode: true,
       PersonFirstName: true,
