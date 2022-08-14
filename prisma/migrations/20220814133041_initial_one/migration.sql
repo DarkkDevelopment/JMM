@@ -59,6 +59,7 @@ CREATE TABLE "HafezReasons" (
 -- CreateTable
 CREATE TABLE "ManteqaLookup" (
     "ManteqaID" SERIAL NOT NULL,
+    "Manteqa_MohafzaID" INTEGER NOT NULL,
     "ManteqaName" VARCHAR(50) NOT NULL,
     "deletedAt" TIMESTAMP(3),
 
@@ -395,13 +396,15 @@ CREATE TABLE "agazaDaysInWeek" (
 
 -- CreateTable
 CREATE TABLE "FixedGlobalValues" (
-    "id" SERIAL NOT NULL,
-    "Value" DOUBLE PRECISION NOT NULL,
     "Name" VARCHAR(50) NOT NULL,
+    "Value" DOUBLE PRECISION NOT NULL,
     "deletedAt" TIMESTAMP(3),
 
-    CONSTRAINT "FixedGlobalValues_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "FixedGlobalValues_pkey" PRIMARY KEY ("Name")
 );
+
+-- AddForeignKey
+ALTER TABLE "ManteqaLookup" ADD CONSTRAINT "ManteqaLookup_Manteqa_MohafzaID_fkey" FOREIGN KEY ("Manteqa_MohafzaID") REFERENCES "MohafzatLookup"("MohafzaID") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Person" ADD CONSTRAINT "Person_PersonDyanaId_fkey" FOREIGN KEY ("PersonDyanaId") REFERENCES "DyanaLookup"("DyanaID") ON DELETE RESTRICT ON UPDATE CASCADE;
