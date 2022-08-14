@@ -34,7 +34,9 @@ export interface IEmployeeProfileModel {
         },
         MohafzatLookup: {
             MohafzaName: string
-        }
+        },
+        PersonMohafzaID: number,
+        PersonManteqaID:number
     },
     employeeDocuments: {
         Beta2aWesh?: string,
@@ -54,6 +56,7 @@ export interface IEmployeeProfileModel {
     employeeWazeefa: {
         PersonWazeefa: {
             WazeefaName: string
-        }
+        },
+        PersonWazeefaId: number,
     }
 }
