@@ -6,6 +6,7 @@ import SideBar from "../components/sideBar";
 import { IAllEmployeesModel } from "../interfaces/employees";
 import { numberOfItemsPerPage } from "../utils/constants";
 import { InferGetServerSidePropsType } from "next";
+import { getAllEmployees } from "../services/employeesServices";
 
 
 function Employees(
@@ -13,7 +14,7 @@ function Employees(
 ) {
 
   const router = useRouter();
-  const employees = props.allEmployees;
+  const employees: IAllEmployeesModel[] = props.data;
   const [filteredEmployees, setFilteredEmployees] = useState(employees);
   const [searchterm, setSearchTerm] = useState("");
   const [pageNumber, setPageNumber] = useState(0);
@@ -26,7 +27,7 @@ function Employees(
   for (var i = 1; i <= pageCount; i++) {
     links.push(i);
   }
-  useEffect(() => {
+  /* useEffect(() => {
     if (searchterm == "") {
       setFilteredEmployees(employees);
     } else {
@@ -46,10 +47,10 @@ function Employees(
       );
       setFilteredEmployees(filteredEmployeesCopy);
     }
-  }, [employees, filteredEmployees, searchterm]);
+  }, [employees, filteredEmployees, searchterm]); */
 
   return (
- 
+
 
     <div className="flex flex-row bg-gray-100">
       <div className="bg-gray-100 font-display basis-5/6">
@@ -194,14 +195,10 @@ function Employees(
 }
 
 export async function getServerSideProps(context: any) {
-  const getAllEmployees = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/employee/getAll`
-  );
-  const allEmployees = await getAllEmployees.json();
+  let response = await getAllEmployees();
+
   return {
-    props: {
-      allEmployees,
-    },
+    props: response,
   };
 }
 

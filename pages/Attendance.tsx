@@ -1,7 +1,5 @@
 import axios from "../utils/axios";
 import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { HedorRowComponent } from "../components/HedorRowComponent";
 import SearchField from "../components/searchField";
 import SideBar from "../components/sideBar";
@@ -12,7 +10,7 @@ import { HawafezModel } from "../models/hawafezModel";
 import { KhasmModel } from "../models/khasmModel";
 import { sendAbsenceModel } from "../models/GheyabModels";
 
-function Attendance(props: any) {
+function Attendance(props : any) {
   const [old, setOld] = useState(false);
   const [Attendance, setAttendance] = useState<IAttendanceModel[]>([]);
   const [searchterm, setSearchTerm] = useState("");
@@ -65,7 +63,10 @@ function Attendance(props: any) {
     setAttendance(newAttendance);
   };
 
-  const calcualateWorkingHours = (heddorTime: string, enserafTime: string): number => {
+  const calcualateWorkingHours = (
+    heddorTime: string,
+    enserafTime: string
+  ): number => {
     const fromSplitted = heddorTime.split(":");
     const hedorHour = parseInt(fromSplitted[0]);
     const hedorMinute = parseInt(fromSplitted[1]);
@@ -79,7 +80,7 @@ function Attendance(props: any) {
     const totalWorkingHours = totalHours + totalMinutes / 60;
 
     return totalWorkingHours;
-  }
+  };
 
   const calculateAdditionalHours = (
     constHours: number,
@@ -147,8 +148,6 @@ function Attendance(props: any) {
     fetchData();
   }, [filterDate]);
 
-
-
   const createNewAttendanceService = async (
     HedoorModelsToBeFilled: HedoorModel[],
     HawafezModelsToBeFilled: HawafezModel[],
@@ -176,8 +175,12 @@ function Attendance(props: any) {
   const sendAttendanceHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const sendAttendanceRequest = Attendance.map((attendance: any) => {
-      attendance.EnserafTime = new Date(`2022-12-12T${attendance.EnserafTime}:00`);
-      attendance.HodoorTime = new Date(`2022-12-12T${attendance.HodoorTime}:00`);
+      attendance.EnserafTime = new Date(
+        `2022-12-12T${attendance.EnserafTime}:00`
+      );
+      attendance.HodoorTime = new Date(
+        `2022-12-12T${attendance.HodoorTime}:00`
+      );
       return attendance;
     });
 
@@ -231,7 +234,12 @@ function Attendance(props: any) {
         });
       }
     });
-    createNewAttendanceService(HedoorModelsToBeFilled, HawafezModelsToBeFilled, KhasmModelsToBeFilled, GheyabModelsToBeFilled);
+    createNewAttendanceService(
+      HedoorModelsToBeFilled,
+      HawafezModelsToBeFilled,
+      KhasmModelsToBeFilled,
+      GheyabModelsToBeFilled
+    );
   };
 
   useEffect(() => {
@@ -250,13 +258,15 @@ function Attendance(props: any) {
 
   return (
     <div className="flex flex-row bg-gray-100 ">
-      <div className="font-display basis-5/6 m-12">
-      <div className="flex flex-row   justify-center   space-x-72  ">
+      <div className="m-12 font-display basis-5/6">
+        <div className="flex flex-row justify-center space-x-72 ">
           <SearchField setSearchTerm={setSearchTerm} />
-
-          <DatePicker
+          <input
+            type="date"
+            value={filterDate.toISOString().split("T")[0]}
+            onChange={(e) => setFilterDate(new Date(e.target.value))}
             className="
-            px-4
+
             py-2
             text-center
       
@@ -264,21 +274,14 @@ function Attendance(props: any) {
             shadow-md
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
             "
-            selected={filterDate}
-            onChange={(date: Date) => setFilterDate(date)}
           />
-
-
-
         </div>
-        
-        <div className="flex flex-col justify-center mr-32 pr-10 pt-10 pl-10 bg-white shadow-xl space-y-7 ">
-          <p className=" flex flex-row text-3xl space-x-10 text-center justify-center text-black font-display">
-            <div >  الحضور</div>
-            <div >  &quot;{filterDate.toLocaleDateString()}&quot; </div> 
-           
-          </p> 
 
+        <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
+          <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
+            <div> الحضور</div>
+            <div> &quot;{filterDate.toLocaleDateString()}&quot; </div>
+          </p>
 
           <table
             title="الحضور"
@@ -290,9 +293,7 @@ function Attendance(props: any) {
                 <th className="w-5 p-4 text-center border-b-2">
                   معامل الاضافة
                 </th>
-                <th className="w-5 p-4 text-center border-b-2">
-                  معامل الغياب
-                </th>
+                <th className="w-5 p-4 text-center border-b-2">معامل الغياب</th>
                 <th className="w-5 p-4 text-center border-b-2">
                   عدد ساعات الغياب
                 </th>
@@ -344,7 +345,6 @@ function Attendance(props: any) {
               })}
             </tbody>
           </table>
-
         </div>
         <button
           disabled={old}

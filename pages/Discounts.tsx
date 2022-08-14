@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import axios from "../utils/axios";
 import React, { ReactPropTypes, useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import DiscountCard from "../components/DiscountCard";
 import SearchField from "../components/searchField";
 import SideBar from "../components/sideBar";
@@ -72,43 +71,44 @@ function Discounts(props: ReactPropTypes) {
         <div className="flex flex-col m-10 ">
           <div className="flex flex-row   justify-center   space-x-80  ">
             <SearchField setSearchTerm={setSearchTerm} />
-            <DatePicker
+            <input
+              type='date'
+              value={filterDate.toISOString().split('T')[0]}
+              onChange={(e) => setFilterDate(new Date(e.target.value))}
               className="
             m-3
             px-4
             pr-24
             py-3
-            text-right
+            text-center
             appearance-none
             shadow-lg
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
             "
-              selected={filterDate}
-              onChange={(date: Date) => setFilterDate(date)}
             />
-            </div>
-            <div className="flex flex-col justify-center space-y-10">
-              {filteredEmployees.map((emp) => {
-                return (
-                  <DiscountCard
-                    key={emp.PersonCode}
-                    PersonCode={emp.PersonCode}
-                    name={
-                      emp.PersonName.PersonFirstName +
-                      " " +
-                      emp.PersonName.PersonSecondName +
-                      " " +
-                      emp.PersonName.PersonThirdName +
-                      " " +
-                      emp.PersonName.PersonFourthName
-                    }
-                    totalKhasminThatMonth={emp.totalKhasminThatMonth}
-                    title="خصم"
-                    discountReasons={discountsReasons}
-                  />
-                );
-              })}
-            
+          </div>
+          <div className="flex flex-col justify-center space-y-10">
+            {filteredEmployees.map((emp) => {
+              return (
+                <DiscountCard
+                  key={emp.PersonCode}
+                  PersonCode={emp.PersonCode}
+                  name={
+                    emp.PersonName.PersonFirstName +
+                    " " +
+                    emp.PersonName.PersonSecondName +
+                    " " +
+                    emp.PersonName.PersonThirdName +
+                    " " +
+                    emp.PersonName.PersonFourthName
+                  }
+                  totalKhasminThatMonth={emp.totalKhasminThatMonth}
+                  title="خصم"
+                  discountReasons={discountsReasons}
+                />
+              );
+            })}
+
           </div>
         </div>
       </div>

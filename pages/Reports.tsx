@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Dropdown from "../components/DropDownComp";
 import RadioButtonComp from "../components/RadioButtonComp";
 import SideBar from "../components/sideBar";
-import DatePicker from "react-datepicker";
 
 function Reports() {
   const [filterDate, setFilterDate] = useState(new Date());
@@ -20,19 +19,7 @@ function Reports() {
       <div className="flex justify-center m-10 font-display basis-5/6">
         <div className="flex flex-col">
           <div className="flex flex-row items-center justify-center mb-5 ">
-            <DatePicker
-              className="
-            m-3
-            px-4
-            py-2
-            text-right
-            appearance-none
-            shadow-lg
-            border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
-            "
-              selected={filterDate}
-              onChange={(date: Date) => setFilterDate(date)}
-            />
+          
           </div>
           <div>
             <div className="flex flex-row items-center justify-center">

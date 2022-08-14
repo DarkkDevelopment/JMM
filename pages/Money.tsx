@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import SearchField from "../components/searchField";
-import DatePicker from "react-datepicker";
 import SideBar from "../components/sideBar";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import axios from "../utils/axios";
 import { PayrolModel } from "../models/payrolModel";
 import { NoDataComponent } from "../components/NoDataComponent";
 import { numberOfItemsPerPage } from "../utils/constants";
-import "react-datepicker/dist/react-datepicker.css";
 import { InsuranceModel, sendInsuranceModel } from "../models/insuranceModel";
 import { sendTaxesModel, TaxesModel } from "../models/taxesModel";
 import { InferGetServerSidePropsType } from "next";

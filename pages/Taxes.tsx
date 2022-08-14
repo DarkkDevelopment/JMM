@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchField from "../components/searchField";
 import SideBar from "../components/sideBar";
-import "react-datepicker/dist/react-datepicker.css";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import DatePicker from "react-datepicker";
 import { TaxesModel } from "../models/taxesModel";
 import { numberOfItemsPerPage } from "../utils/constants";
 import MonthSeed from "../utils/MonthsSeed";
