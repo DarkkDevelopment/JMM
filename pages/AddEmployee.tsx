@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Dropdown from "../components/DropDownComp";
+
 import FileCheck from "../components/FileCheck";
 import RadioButtonComp from "../components/RadioButtonComp";
 import TextField from "../components/TextField";
 import CustomizableTextField from "../components/CustomizableTextField";
 import axios from "axios";
 import { sendEmployee } from "../services/employeesServices";
+import { getManateqByMohafzaIdService, getMohafzatService } from "../services/constantsService";
+import Dropdown from "../components/DropDown";
 
 interface FileModel {
   uploaded: boolean;
@@ -40,7 +42,7 @@ function AddEmployee() {
   const [draybPercent, setDraybPercent] = useState<"" | number>("");
   const [agazaLimit, setAgazaLimit] = useState("");
 
-  const [govVal, onGovChange] = useState(undefined);
+  const [govVal, onGovChange] = useState<number | undefined>(undefined);
   const [district, onDistrictChange] = useState(undefined);
   const [work, onWorkChange] = useState(undefined);
 
@@ -77,12 +79,9 @@ function AddEmployee() {
   });
 
   const fetchData = async () => {
-    const govRes = await axios.get(
-      "/api/lookupsData/getDataFromLookups/mohafazat"
-    );
-    const manteqRes = await axios.get(
-      "api/lookupsData/getDataFromLookups/manateq"
-    );
+    const govRes = await getMohafzatService();
+
+    const manteqRes = await getManateqByMohafzaIdService(govRes.data[0].id || 0);
     const workRes = await axios.get(
       "/api/lookupsData/getDataFromLookups/wazayef"
     );
@@ -92,12 +91,8 @@ function AddEmployee() {
     const typeRes = await axios.get(
       "/api/lookupsData/getDataFromLookups/personTypes"
     );
-    let govData = govRes.data.map((item: any) => {
-      return { id: item.MohafzaID, name: item.MohafzaName };
-    });
-    let manteqData = manteqRes.data.map((item: any) => {
-      return { id: item.ManteqaID, name: item.ManteqaName };
-    });
+
+
     let workData = workRes.data.map((item: any) => {
       return { id: item.WazeefaID, name: item.WazeefaName };
     });
@@ -107,25 +102,33 @@ function AddEmployee() {
     let typeData = typeRes.data.map((item: any) => {
       return { value: item.PersonTypeID, label: item.PersonType };
     });
-    setGovs(govData);
-    setManateq(manteqData);
+    setGovs(govRes.data);
+    setManateq(manteqRes.data);
     setWazayef(workData);
     setReligion(dyanaData);
     setTypes(typeData);
 
-    onGovChange(govData[0].name);
-    onDistrictChange(manteqData[0].name);
-    onWorkChange(workData[0].name);
+    onGovChange(govRes.data[0].id || undefined);
+    onDistrictChange(manteqRes.data[0].id || undefined);
+    onWorkChange(workData[0].id || 0);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  const handleGovChange = async (val: number) => {
+    const res = await getManateqByMohafzaIdService(val);
+    onGovChange(val);
+    setManateq(res.data);
+    if (res.data.length > 0)
+      onDistrictChange(res.data[0].id);
+  }
+
   const handleSave = async (e: any) => {
     e.preventDefault();
 
-    const wazefaId = wazayef.find(
+    /* const wazefaId = wazayef.find(
       (item: { name: string; id: number }) => item.name === work
     )!.id;
     const mohafzaId = govs.find(
@@ -133,7 +136,7 @@ function AddEmployee() {
     )!.id;
     const manteqaId = manateq.find(
       (item: { name: string; id: number }) => item.name === district
-    )!.id;
+    )!.id; */
 
     let emp = {
       PersonCode: Number.parseInt(code),
@@ -147,8 +150,8 @@ function AddEmployee() {
       PersonTaree5Milad: birthDate,
       PersonTaree5Ta3yeen: assignDate,
       PersonSanawatTa2meen: Number.parseInt(insuranceYears),
-      PersonManteqaID: manteqaId,
-      PersonMohafzaID: mohafzaId,
+      PersonManteqaID: district,
+      PersonMohafzaID: govVal,
       PersonDyana: dyana,
       PersonType: type,
       PersonTa2meenValue: Number.parseInt(insuranceVal),
@@ -161,7 +164,7 @@ function AddEmployee() {
       PersonContract: contractImage.fileInfo?.name,
       CurrentMorattab: Number.parseInt(salary),
       MobileNumber: mobileNo,
-      PersonWazeefa: wazefaId,
+      PersonWazeefa: work,
       NumberOfAgazaDays: Number.parseInt(agazaLimit),
     };
     const response = await sendEmployee(emp);
@@ -253,7 +256,7 @@ function AddEmployee() {
               <Dropdown
                 title="المحافظة"
                 options={govs}
-                onChange={onGovChange}
+                onChange={handleGovChange}
                 value={govVal}
               />
 
@@ -296,136 +299,137 @@ function AddEmployee() {
 >>>>>>> 3b45d821ecc2003be38072870039daac8c3e2539
         </div> */}
 
-          <div className="flex flex-col p-4 mt-2 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
-            <CustomizableTextField
-              label="الاسم"
-              placeholders={[
-                "الاسم الرابع",
-                "الاسم الثالث",
-                "الاسم الثاني",
-                "الاسم الاول",
-              ]}
-              values={[fourthN, thirdN, secondN, firstN]}
-              onChange={[setFourthN, setThirdN, setSecondN, setFirstN]}
-            />
-            <TextField
-              label="رقم المحمول"
-              value={mobileNo}
-              condition={(val: string) => {
-                if (val == "") return true;
-                if (!Number.parseInt(val)) return false;
-                if (val.length != 11) return false;
-                if (Number.parseInt(val) < 0) return false;
 
-                return true;
-              }}
-              errorMsg="رقم المحمول يجب أن يكون 11 رقم "
-              onChange={setMobileN}
-            />
-            <TextField
-              label="الرقم القومي"
-              value={nationlNo}
-              onChange={setNationalNo}
-              condition={(val: string) => {
-                if (val == "") return true;
-                if (!Number.parseInt(val)) return false;
-
-                if (val.length != 14) return false;
-
-                if (Number.parseInt(val) < 0) return false;
-                return true;
-              }}
-              errorMsg="الرقم القومي يجب أن يكون 14 رقم "
-            />
-            <TextField
-              label="رقم التليفون الأرضي"
-              value={landlineNo}
-              onChange={setLandlineNo}
-              condition={(val: string) => {
-                if (val == "") return true;
-                if (!Number.parseInt(val)) return false;
-
-                if (val.length < 10 || val.length > 11) return false;
-
-                if (Number.parseInt(val) < 0) return false;
-
-                return true;
-              }}
-              errorMsg="رقم التيليفون يجب ان يكون من 10 او 11 رقم"
-            />
-            <TextField
-              label="الرقم التأميني"
-              value={insuranceNo}
-              onChange={setInsuranceNo}
-              condition={(val: string) => {
-                if (val == "") return true;
-                if (!Number.parseInt(val)) return false;
-                if (val.length != 9) return false;
-                if (Number.parseInt(val) < 0) return false;
-                if (Number.parseInt(val) < 0) return false;
-
-                return true;
-              }}
-              errorMsg="الرقم التأميني يجب ان يكون 9 ارقام "
-            />
-            <TextField
-              label="قيمة التأمين"
-              defaultValue={"1400"}
-              condition={(val: string) => {
-                if (val == "") return true;
-                let number = Number.parseInt(val);
-                if (!number) return false;
-                if (1400 <= number && number <= 9600) return true;
-                return false;
-              }}
-              errorMsg="برجاء ادخال رقم بين 1400 ل 9600"
-              value={insuranceVal}
-              onChange={setInsuranceVal}
-            />
-            <TextField
-              label="عدد سنوات التأمين"
-              value={insuranceYears}
-              onChange={setInsuranceYear}
-              condition={(val: string) => {
-                if (val == "") return true;
-                let number = Number.parseInt(val);
-                if (!number) return false;
-                if (Number.parseInt(val) < 0) return false;
-                return true;
-              }}
-              errorMsg={"برجاء ادخال رقم"}
-            />
-
-            <TextField
-              label="المرتب"
-              value={salary}
-              onChange={setSalary}
-              condition={(val: string) => {
-                if (val == "") return true;
-                let number = Number.parseInt(val);
-                if (!number) return false;
-                if (Number.parseInt(val) < 0) return false;
-                return true;
-              }}
-              errorMsg={"برجاء ادخال رقم"}
-            />
-            <TextField
-              label="نسبة الضرائب"
-              value={draybPercent.toString()}
-              onChange={setDraybPercent}
-              /*  condition={(val: number) =>
-           1400 <= val && val <= 9600 ? true : false
-         }
-         errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
-            />
-          </div>
         </div>
-        <div className="flex flex-col justify-center mt-10 text-center ">
-          <h1 className="justify-center mb-5 text-3xl text-center text-black font-display">
-            ملفات الموظف
-          </h1>
+        <div className="flex flex-col p-4 mt-2 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">
+          <CustomizableTextField
+            label="الاسم"
+            placeholders={[
+              "الاسم الرابع",
+              "الاسم الثالث",
+              "الاسم الثاني",
+              "الاسم الاول",
+            ]}
+            values={[fourthN, thirdN, secondN, firstN]}
+            onChange={[setFourthN, setThirdN, setSecondN, setFirstN]}
+          />
+          <TextField
+            label="رقم المحمول"
+            value={mobileNo}
+            condition={(val: string) => {
+              if (val == "") return true;
+              if (!Number.parseInt(val)) return false;
+              if (val.length != 11) return false;
+              if (Number.parseInt(val) < 0) return false;
+
+              return true;
+            }}
+            errorMsg="رقم المحمول يجب أن يكون 11 رقم "
+            onChange={setMobileN}
+          />
+          <TextField
+            label="الرقم القومي"
+            value={nationlNo}
+            onChange={setNationalNo}
+            condition={(val: string) => {
+              if (val == "") return true;
+              if (!Number.parseInt(val)) return false;
+
+              if (val.length != 14) return false;
+
+              if (Number.parseInt(val) < 0) return false;
+              return true;
+            }}
+            errorMsg="الرقم القومي يجب أن يكون 14 رقم "
+          />
+          <TextField
+            label="رقم التليفون الأرضي"
+            value={landlineNo}
+            onChange={setLandlineNo}
+            condition={(val: string) => {
+              if (val == "") return true;
+              if (!Number.parseInt(val)) return false;
+
+              if (val.length < 10 || val.length > 11) return false;
+
+              if (Number.parseInt(val) < 0) return false;
+
+              return true;
+            }}
+            errorMsg="رقم التيليفون يجب ان يكون من 10 او 11 رقم"
+          />
+          <TextField
+            label="الرقم التأميني"
+            value={insuranceNo}
+            onChange={setInsuranceNo}
+            condition={(val: string) => {
+              if (val == "") return true;
+              if (!Number.parseInt(val)) return false;
+              if (val.length != 9) return false;
+              if (Number.parseInt(val) < 0) return false;
+              if (Number.parseInt(val) < 0) return false;
+
+              return true;
+            }}
+            errorMsg="الرقم التأميني يجب ان يكون 9 ارقام "
+          />
+          <TextField
+            label="قيمة التأمين"
+            defaultValue={"1400"}
+            condition={(val: string) => {
+              if (val == "") return true;
+              let number = Number.parseInt(val);
+              if (!number) return false;
+              if (1400 <= number && number <= 9600) return true;
+              return false;
+            }}
+            errorMsg="برجاء ادخال رقم بين 1400 ل 9600"
+            value={insuranceVal}
+            onChange={setInsuranceVal}
+          />
+          <TextField
+            label="عدد سنوات التأمين"
+            value={insuranceYears}
+            onChange={setInsuranceYear}
+            condition={(val: string) => {
+              if (val == "") return true;
+              let number = Number.parseInt(val);
+              if (!number) return false;
+              if (Number.parseInt(val) < 0) return false;
+              return true;
+            }}
+            errorMsg={"برجاء ادخال رقم"}
+          />
+
+          <TextField
+            label="المرتب"
+            value={salary}
+            onChange={setSalary}
+            condition={(val: string) => {
+              if (val == "") return true;
+              let number = Number.parseInt(val);
+              if (!number) return false;
+              if (Number.parseInt(val) < 0) return false;
+              return true;
+            }}
+            errorMsg={"برجاء ادخال رقم"}
+          />
+          <TextField
+            label="نسبة الضرائب"
+            value={draybPercent.toString()}
+            onChange={setDraybPercent}
+          /*  condition={(val: number) =>
+       1400 <= val && val <= 9600 ? true : false
+     }
+     errorMsg="برجاء ادخال رقم بين 1400 ل 9600" */
+          />
         </div>
         <div className="flex flex-col p-10 mt-5 ml-20 mr-20 space-y-10 text-right bg-white justify-space-between rounded-2xl">
+          <div className="flex flex-col justify-center mt-10 text-center ">
+            <h1 className="justify-center mb-5 text-3xl text-center text-black font-display">
+              ملفات الموظف
+            </h1>
+          </div>
           <div className="grid self-center justify-center grid-cols-2 grid-rows-6">
             <div className="flex flex-row self-center justify-between p-5 bg-white ">
               <FileCheck isUploaded={bta2aFace.uploaded} />

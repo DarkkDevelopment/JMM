@@ -1,7 +1,7 @@
 import React, { ReactPropTypes, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextField from "../components/TextField";
-import Dropdown from "../components/DropDownComp";
+
 import RadioButtonComp from "../components/RadioButtonComp";
 import EmployeeVacation from "../components/EmployeeVacation";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
@@ -11,6 +11,8 @@ import { IEmployeeProfileModel } from "../interfaces/employees";
 import { EmployeesVacations } from "../components/EmployeesVacations";
 import { PersonMorattabComp } from "../components/PersonMorattabComp";
 import { PersonSolfaComp } from "../components/PersonSolfaComp";
+import Dropdown from "../components/DropDown";
+import { getManateqByMohafzaIdService, getMohafzatService } from "../services/constantsService";
 
 function EmployeeDetails() {
   const router = useRouter();
@@ -40,9 +42,9 @@ function EmployeeDetails() {
   const [religion, setReligion] = useState([]);
   const [types, setTypes] = useState([]);
 
-  const [govVal, onGovChange] = useState<string | undefined>(undefined);
-  const [district, onDistrictChange] = useState<string | undefined>(undefined);
-  const [work, onWorkChange] = useState<string | undefined>(undefined);
+  const [govVal, onGovChange] = useState<any | undefined>(undefined);
+  const [district, onDistrictChange] = useState<any | undefined>(undefined);
+  const [work, onWorkChange] = useState<any | undefined>(undefined);
 
   const [dyana, setDyana] = useState<number | undefined>(undefined);
   const [type, setType] = useState<number | undefined>(undefined);
@@ -57,12 +59,9 @@ function EmployeeDetails() {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const govRes = await axios.get(
-        "/api/lookupsData/getDataFromLookups/mohafazat"
-      );
-      const manteqRes = await axios.get(
-        "api/lookupsData/getDataFromLookups/manateq"
-      );
+      const govRes = await getMohafzatService();
+
+      const manteqRes = await getManateqByMohafzaIdService(govRes.data[0].id || 0);
       const workRes = await axios.get(
         "/api/lookupsData/getDataFromLookups/wazayef"
       );
@@ -72,12 +71,7 @@ function EmployeeDetails() {
       const typeRes = await axios.get(
         "/api/lookupsData/getDataFromLookups/personTypes"
       );
-      let govData = govRes.data.map((item: any) => {
-        return { id: item.MohafzaID, name: item.MohafzaName };
-      });
-      let manteqData = manteqRes.data.map((item: any) => {
-        return { id: item.ManteqaID, name: item.ManteqaName };
-      });
+
       let workData = workRes.data.map((item: any) => {
         return { id: item.WazeefaID, name: item.WazeefaName };
       });
@@ -87,8 +81,9 @@ function EmployeeDetails() {
       let typeData = typeRes.data.map((item: any) => {
         return { value: item.PersonTypeID, label: item.PersonType };
       });
-      setGovs(govData);
-      setManateq(manteqData);
+
+      setGovs(govRes.data);
+      setManateq(manteqRes.data);
       setWazayef(workData);
       setReligion(dyanaData);
       setTypes(typeData);
@@ -119,8 +114,9 @@ function EmployeeDetails() {
         PersonTa2meenValue,
         PersonTelephoneArdy,
       } = employeeGeneralInfo;
-      const { ManteqaLookup, MohafzatLookup, PersonAddress } = employeeAddress;
-      const { PersonWazeefa } = employeeWazeefa;
+      const { PersonManteqaID, PersonMohafzaID, PersonAddress } = employeeAddress;
+      const { PersonWazeefaId } = employeeWazeefa;
+      console.log(employeeAddress)
       const { MobileNumber } = employeeMobile;
       const { CurrentMorattab, PersonMorattabDareebaPercentage } =
         employeeMoratab;
@@ -137,11 +133,11 @@ function EmployeeDetails() {
       setInsuranceVal(PersonTa2meenValue);
       setLandlineNo(PersonTelephoneArdy!);
       setAddress(PersonAddress);
-      onGovChange(MohafzatLookup.MohafzaName);
-      onDistrictChange(ManteqaLookup.ManteqaName);
+      onGovChange(PersonMohafzaID);
+      onDistrictChange(PersonManteqaID);
       setMobileN(MobileNumber);
       setSalary(CurrentMorattab);
-      onWorkChange(PersonWazeefa.WazeefaName);
+      onWorkChange(PersonWazeefaId);
       setDyana(PersonDyanaId);
       setType(PersonTypeId);
       setDraybPercent(PersonMorattabDareebaPercentage);
@@ -150,15 +146,15 @@ function EmployeeDetails() {
   }, [code]);
   const saveEmployee = async (e: any) => {
     e.preventDefault();
-    const wazefaId = wazayef.find(
-      (item: { name: string; id: number }) => item.name === work
-    )!.id;
-    const mohafzaId = govs.find(
-      (item: { name: string; id: number }) => item.name === govVal
-    )!.id;
-    const manteqaId = manateq.find(
-      (item: { name: string; id: number }) => item.name === district
-    )!.id;
+    /*  const wazefaId = wazayef.find(
+       (item: { name: string; id: number }) => item.name === work
+     )!.id;
+     const mohafzaId = govs.find(
+       (item: { name: string; id: number }) => item.name === govVal
+     )!.id;
+     const manteqaId = manateq.find(
+       (item: { name: string; id: number }) => item.name === district
+     )!.id; */
     let response = await axios.post("/api/employee/update", {
       PersonCode: Number.parseInt(code!.toString()),
       PersonFirstName: firstN,
@@ -171,8 +167,8 @@ function EmployeeDetails() {
       PersonTaree5Milad: birthDate,
       PersonTaree5Ta3yeen: assignDate,
       PersonSanawatTa2meen: insuranceYears,
-      PersonManteqaID: manteqaId,
-      PersonMohafzaID: mohafzaId,
+      PersonManteqaID: district,
+      PersonMohafzaID: govVal,
       PersonDyana: dyana,
       PersonType: type,
       PersonTa2meenValue: insuranceVal,
@@ -185,10 +181,19 @@ function EmployeeDetails() {
       PersonContract: contractImage.fileInfo?.name, */
       CurrentMorattab: salary,
       MobileNumber: mobileNo,
-      PersonWazeefa: wazefaId,
+      PersonWazeefa: work,
       PersonMorattabDareebaPercentage: draybPercent,
     });
   };
+
+  const handleGovChange = async (val: number) => {
+    const res = await getManateqByMohafzaIdService(val);
+    onGovChange(val);
+    setManateq(res.data);
+    if (res.data.length > 0)
+      onDistrictChange(res.data[0].id);
+  }
+
   return (
     <>
       <div className="bg-gray-100">
@@ -229,7 +234,7 @@ function EmployeeDetails() {
                   value={birthDate.toISOString().split("T")[0]}
                   disabled={!editdata}
                 />
-        
+
                 <h6 className="text-sm text-right text-gray-700">
                   تاريخ الميلاد
                 </h6>
@@ -242,7 +247,7 @@ function EmployeeDetails() {
                   value={assignDate.toISOString().split("T")[0]}
                   disabled={!editdata}
                 />
-            
+
                 <h6 className="text-sm text-right text-gray-700">
                   تاريخ التعيين
                 </h6>
@@ -254,7 +259,7 @@ function EmployeeDetails() {
                   title="المحافظة"
                   options={govs}
                   value={govVal}
-                  onChange={onGovChange}
+                  onChange={handleGovChange}
                   isDisabled={!editdata}
                 />
                 <Dropdown
