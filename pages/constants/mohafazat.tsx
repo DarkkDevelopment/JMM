@@ -1,30 +1,23 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { InferGetServerSidePropsType } from "next";
+import React, { useState } from "react";
 import { ConstantsComponent } from "../../components/ConstantsComponent";
 import SideBar from "../../components/sideBar";
+import { getMohafzatService } from "../../services/constantsService";
 
-const Mohafazat = (props: any) => {
+const Mohafazat = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [mohafzatArr, setMohafazat] = useState<{ id: number; name: string }[]>(
-    []
+    props.data
   );
-  const fetchData = async () => {
-    const response = await axios.get(
-      "/api/lookupsData/getDataFromLookups/mohafazat"
-    );
-    const agazat = response.data.map(
-      (item: { MohafzaID: number; MohafzaName: string }) => {
-        return { id: item.MohafzaID, name: item.MohafzaName };
-      }
-    );
-    setMohafazat(agazat);
-  };
 
   const addValue = async (value: string) => {
     const response = await axios.post(
       "/api/lookupsData/insertDataIntoLookups/mohafzat",
       { manteqaName: value }
     );
-    fetchData();
+    let newData = [...mohafzatArr];
+    newData.push({ id: response.data.MohafzaID, name: value });
+    setMohafazat(newData);
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
@@ -41,7 +34,8 @@ const Mohafazat = (props: any) => {
     await axios.post(`/api/lookupsData/deleteDataIntoLookups/mohafzat`, {
       manteqaId: id,
     });
-    fetchData();
+    let newData = mohafzatArr.filter((item) => item.id !== id);
+    setMohafazat(newData);
   };
 
   const editItem = async (id: number, name: string) => {
@@ -49,12 +43,20 @@ const Mohafazat = (props: any) => {
       manteqaId: id,
       manteqaName: name,
     });
-    fetchData();
+
+    let newData = mohafzatArr.map((item) => {
+      if (item.id === id) {
+        return { ...item, name: name };
+      }
+      return item;
+    });
+    setMohafazat(newData);
+    //fetchData();
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     fetchData();
-  }, []);
+  }, []); */
   return (
     <div>
       <div className="m-12 font-display basis-5/6 mr-80">
@@ -72,4 +74,12 @@ const Mohafazat = (props: any) => {
   );
 };
 
+
+export async function getServerSideProps(context: any) {
+  let response = await getMohafzatService();
+
+  return {
+    props: response,
+  };
+}
 export default Mohafazat;
