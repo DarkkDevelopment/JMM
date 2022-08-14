@@ -2,8 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../lib/prisma";
 import { VacationsModel } from "../models/vacationsModel";
 
-// in agaza rasmeya aw lw yom gom3a aw lw already registered el yom dah
-
 const getVacationsInWeek = async () => {
   const VacationsInWeek = await prisma.agazaDaysInWeek.findMany({
     select: {
@@ -63,7 +61,6 @@ const getAgazatRasmeya = async () => {
   return AgazatRasmeya;
 };
 
-// todo : not working
 const convertDateToString = (date: Date) => {
   const newDate = new Date(date).toLocaleDateString("en-US", {
     weekday: "long",
@@ -92,11 +89,7 @@ const checkForVacation = async (personCode: number, AgazaDate: Date) => {
   }
 };
 
-const getVacationsAtThatDay = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  date: Date
-) => {
+const getVacationsAtThatDay = async (date: Date) => {
   const vacationsModels: VacationsModel[] = [];
   const vacations = await prisma.personAgazaRequestAndHistoryTable.findMany({
     where: {

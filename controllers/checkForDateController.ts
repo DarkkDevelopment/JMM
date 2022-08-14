@@ -1,4 +1,4 @@
-const checkForDate = async (month: number, year: number) => {
+const checkForDate = (month: number, year: number) => {
   const newDate = new Date();
   const currentMonth = newDate.getMonth() + 1;
   const currentYear = newDate.getFullYear();

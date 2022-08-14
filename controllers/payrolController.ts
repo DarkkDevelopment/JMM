@@ -8,8 +8,6 @@ const currentMonth = new Date().getMonth() + 1;
 const currentYear = new Date().getFullYear();
 
 const calcTotalKhasmValue = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
   code: number,
   month: number,
   year: number
@@ -26,14 +24,15 @@ const calcTotalKhasmValue = async (
   });
   let totalKhsomatInMonth = 0;
   total.forEach((khasm) => {
-    // @ts-ignore
-    totalKhsomatInMonth += khasm?.KhasmLateValue;
+    if (khasm.KhasmLateValue) {
+      totalKhsomatInMonth += khasm.KhasmLateValue;
+    } else {
+      totalKhsomatInMonth += 0;
+    }
   });
   return totalKhsomatInMonth;
 };
 const calcTotalHafezValue = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
   code: number,
   month: number,
   year: number
@@ -50,8 +49,11 @@ const calcTotalHafezValue = async (
   });
   let totalKhsomatInMonth = 0;
   total.forEach((khasm) => {
-    // @ts-ignore
-    totalKhsomatInMonth += khasm?.HafezTotalValue;
+    if (khasm.HafezTotalValue) {
+      totalKhsomatInMonth += khasm?.HafezTotalValue;
+    } else {
+      totalKhsomatInMonth += 0;
+    }
   });
   return totalKhsomatInMonth;
 };
@@ -117,17 +119,18 @@ const getTotalNumberOfBonusHoursAndValueInThatMonth = async (
   let totalNumberOfhours = 0;
   let totalValue = 0;
   TotalNumberOfBonusHoursInMonthAndValue.forEach(async (bonus) => {
-    // @ts-ignore
-    totalNumberOfhours += bonus?.NumberOfBonusHours;
-    // @ts-ignore
-    totalValue +=
-      // @ts-ignore
-      (bonus?.NumberOfBonusHours *
-        // @ts-ignore
-        bonus?.HafezBonusHourRatio *
-        getMorattabByCode!.CurrentMorattab *
-        30) /
-      (await getWorkingHours()).NumberOfWorkingHours;
+    if (bonus.HafezBonusHourRatio && bonus.NumberOfBonusHours) {
+      totalNumberOfhours += bonus?.NumberOfBonusHours;
+      totalValue +=
+        (bonus?.NumberOfBonusHours *
+          bonus?.HafezBonusHourRatio *
+          getMorattabByCode!.CurrentMorattab *
+          30) /
+        (await getWorkingHours()).NumberOfWorkingHours;
+    } else {
+      totalNumberOfhours += 0;
+      totalValue += 0;
+    }
   });
   return { totalNumberOfhours, totalValue };
 };
@@ -151,16 +154,15 @@ const getTotalNumberOfLateHoursAndValueInThatMonth = async (
   let totalNumberOfhours = 0;
   let totalValue = 0;
   totalNumberOfLateHoursInMonthAndValue.forEach(async (bonus) => {
-    // @ts-ignore
-    totalNumberOfhours += bonus?.NumberOfLateHours;
-    // @ts-ignore
-    totalValue +=
-      // @ts-ignore
-      (bonus?.NumberOfLateHours *
-        // @ts-ignore
-        bonus?.KhasmLateHourRatio *
-        30) /
-      (await getWorkingHours()).NumberOfWorkingHours;
+    if (bonus.KhasmLateHourRatio && bonus.NumberOfLateHours) {
+      totalNumberOfhours += bonus?.NumberOfLateHours;
+      totalValue +=
+        (bonus?.NumberOfLateHours * bonus?.KhasmLateHourRatio * 30) /
+        (await getWorkingHours()).NumberOfWorkingHours;
+    } else {
+      totalNumberOfhours += 0;
+      totalValue += 0;
+    }
   });
   return { totalNumberOfhours, totalValue };
 };
@@ -194,19 +196,19 @@ const getTotalNumberOfBonusDaysAndValueInThatMonth = async (
   let totalNumberOfdays = 0;
   let totalValue = 0;
   TotalNumberOfBonusDaysInMonthAndValue.forEach(async (bonus) => {
-    // @ts-ignore
-    totalNumberOfdays += bonus?.NumberOfBonusDays;
-    // @ts-ignore
-    totalValue +=
-      // @ts-ignore
-      bonus?.NumberOfBonusDays *
-      // @ts-ignore
-      bonus?.HafezBonusDayRatio *
-      getMorattabByCode!.CurrentMorattab *
-      30;
+    if (bonus.HafezBonusDayRatio && bonus.NumberOfBonusDays) {
+      totalNumberOfdays += bonus?.NumberOfBonusDays;
+      totalValue +=
+        (bonus?.NumberOfBonusDays * bonus?.HafezBonusDayRatio * 30) /
+        (await getWorkingHours()).NumberOfWorkingHours;
+    } else {
+      totalNumberOfdays += 0;
+      totalValue += 0;
+    }
   });
   return { totalNumberOfdays, totalValue };
 };
+
 const getTotalNumberOfGheyabDaysAndValueInThatMonth = async (
   code: number,
   month: number,
@@ -227,15 +229,13 @@ const getTotalNumberOfGheyabDaysAndValueInThatMonth = async (
   let totalNumberOfdays = 0;
   let totalValue = 0;
   totalNumberOfGheyabDaysInMonthAndValue.forEach(async (bonus) => {
-    // @ts-ignore
-    totalNumberOfdays += bonus?.NumberOfGhyabDays;
-    // @ts-ignore
-    totalValue +=
-      // @ts-ignore
-      bonus?.NumberOfGhyabDays *
-      // @ts-ignore
-      bonus?.KhasmGhyabDayRatio *
-      30;
+    if (bonus.KhasmGhyabDayRatio && bonus.NumberOfGhyabDays) {
+      totalNumberOfdays += bonus?.NumberOfGhyabDays;
+      totalValue += bonus?.NumberOfGhyabDays * bonus?.KhasmGhyabDayRatio * 30;
+    } else {
+      totalNumberOfdays += 0;
+      totalValue += 0;
+    }
   });
   return { totalNumberOfdays, totalValue };
 };
@@ -256,8 +256,11 @@ const getTotalPureKhsomatInMonth = async (
   });
   let total = 0;
   totalPureKhsomatInMonth.forEach((khsomat) => {
-    // @ts-ignore
-    total += khsomat?.PureKhasmValue;
+    if (khsomat.PureKhasmValue) {
+      total += khsomat?.PureKhasmValue;
+    } else {
+      total += 0;
+    }
   });
   return total;
 };
@@ -278,137 +281,141 @@ const getTotalPureHafezInMonth = async (
   });
   let total = 0;
   totalPureHafezInMonth.forEach((hafez) => {
-    // @ts-ignore
-    total += hafez?.PureHafezValue;
+    if (hafez.PureHafezValue) {
+      total += hafez?.PureHafezValue;
+    } else {
+      total += 0;
+    }
   });
   return total;
 };
 
-const renderNewPayrols = async (req: NextApiRequest, res: NextApiResponse) => {
+const renderNewPayrols = async (): Promise<PayrolModel[]> => {
   const NewRecords: PayrolModel[] = [];
-  const Ta2meenPercentagePaidByPerson = getTa2meenPercentage();
-  const getEmployess = await prisma.person.findMany({
-    where: {
-      deletedAt: null,
-    },
-    select: {
-      PersonCode: true,
-      PersonFirstName: true,
-      PersonSecondName: true,
-      PersonThirdName: true,
-      PersonFourthName: true,
-      PersonTa2meenValue: true,
-    },
-  });
-  getEmployess.forEach(async (employee) => {
-    const MorattabAndDarayebPercentage = await getMorattabAndDarebaPercentage(
-      employee.PersonCode
-    );
-    const totalSolafInMonth = await getTotalSolafInMonth(
-      employee.PersonCode,
-      currentMonth,
-      currentYear
-    );
-    const calcTotalKhsomat = await calcTotalKhasmValue(
-      req,
-      res,
-      employee.PersonCode,
-      currentMonth,
-      currentYear
-    );
-    const calcTotalHafez = await calcTotalHafezValue(
-      req,
-      res,
-      employee.PersonCode,
-      currentMonth,
-      currentYear
-    );
-    const TotalNumberOfBonusHoursAndTheirValues =
-      await getTotalNumberOfBonusHoursAndValueInThatMonth(
-        employee.PersonCode,
-        currentMonth,
-        currentYear
-      );
-    const TotalNumberOfLateHoursAndTheirValues =
-      await getTotalNumberOfLateHoursAndValueInThatMonth(
-        employee.PersonCode,
-        currentMonth,
-        currentYear
-      );
-    const TotalNumberOfBonusDaysAndTheirValues =
-      await getTotalNumberOfBonusDaysAndValueInThatMonth(
-        employee.PersonCode,
-        currentMonth,
-        currentYear
-      );
-    const TotalNumberOfGheyabDaysAndTheirValues =
-      await getTotalNumberOfGheyabDaysAndValueInThatMonth(
-        employee.PersonCode,
-        currentMonth,
-        currentYear
-      );
-    const TotalPureKhsomatInMonth = await getTotalPureKhsomatInMonth(
-      employee.PersonCode,
-      currentMonth,
-      currentYear
-    );
-    const TotalPureHafezInMonth = await getTotalPureHafezInMonth(
-      employee.PersonCode,
-      currentMonth,
-      currentYear
-    );
-    NewRecords.push({
-      PersonName: {
-        PersonFirstName: employee.PersonFirstName,
-        PersonSecondName: employee.PersonSecondName,
-        PersonThirdName: employee.PersonThirdName,
-        PersonFourthName: employee.PersonFourthName,
+  const Ta2meenPercentagePaidByPerson = await getTa2meenPercentage();
+
+  if (Ta2meenPercentagePaidByPerson) {
+    const getEmployess = await prisma.person.findMany({
+      where: {
+        deletedAt: null,
       },
-      PersonCode: employee.PersonCode,
-      PersonMorattabAtThatMonth: MorattabAndDarayebPercentage.morattab,
-      Total3adadSa3atElTa25eerAtThatMonth:
-        TotalNumberOfLateHoursAndTheirValues.totalNumberOfhours,
-      ValueOfKhasmFor3adadSa3atElTa25eerAtThatMonth:
-        TotalNumberOfLateHoursAndTheirValues.totalValue,
-      Total3adadAyamEl5asmAwElGheyabaAtThatMonth:
-        TotalNumberOfGheyabDaysAndTheirValues.totalNumberOfdays,
-      ValueOfKhasmForTotal3adadAyamEl5asmAwElGheyabaAtThatMonth:
-        TotalNumberOfGheyabDaysAndTheirValues.totalValue,
-      TotalValueOfIndividualKhasmAtThatMonth: TotalPureKhsomatInMonth,
-      TotalKhasmSummationValue: calcTotalKhsomat,
-      Total3adadSa3atElExtraAtThatMonth:
-        TotalNumberOfBonusHoursAndTheirValues.totalNumberOfhours,
-      ValueOfHafezForTotal3adadSa3atElExtraAtThatMonth:
-        TotalNumberOfBonusHoursAndTheirValues.totalValue,
-      Total3adadAyamElEdafyAwElHafezAtThatMonth:
-        TotalNumberOfBonusDaysAndTheirValues.totalNumberOfdays,
-      ValueOfHafezForTotal3adadAyamElEdafyAwElHafezAtThatMonth:
-        TotalNumberOfBonusDaysAndTheirValues.totalValue,
-      TotalValueOfIndividualHafezAtThatMonth: TotalPureHafezInMonth,
-      TotalHafezSummationValue: calcTotalHafez,
-      TotalValueOfSolafTakenAtThatMonth: totalSolafInMonth,
-      DrayebPercentageForMorattabAtThatMonth:
-        MorattabAndDarayebPercentage.dareebaPercentage,
-      TotalValueOfDarayebAtThatMonth:
-        MorattabAndDarayebPercentage.dareebaPercentage *
-        MorattabAndDarayebPercentage.morattab,
-      PersonTa2meenValue: employee.PersonTa2meenValue,
-      PersonTa2meenPercentage: await Ta2meenPercentagePaidByPerson,
-      TotalValueOfTa2meenAtThatMonth:
-        employee.PersonTa2meenValue * (await Ta2meenPercentagePaidByPerson),
-      NetSalary:
-        MorattabAndDarayebPercentage.morattab -
-        calcTotalKhsomat +
-        calcTotalHafez -
-        totalSolafInMonth -
-        employee.PersonTa2meenValue * (await Ta2meenPercentagePaidByPerson) -
-        MorattabAndDarayebPercentage.dareebaPercentage *
-          MorattabAndDarayebPercentage.morattab,
-      PersonPayrollDate: new Date(),
-      PayrolMonth: currentMonth,
-      PayrolYear: currentYear,
+      select: {
+        PersonCode: true,
+        PersonFirstName: true,
+        PersonSecondName: true,
+        PersonThirdName: true,
+        PersonFourthName: true,
+        PersonTa2meenValue: true,
+      },
     });
-  });
+    if (getEmployess.length > 0) {
+      getEmployess.forEach(async (employee) => {
+        const MorattabAndDarayebPercentage =
+          await getMorattabAndDarebaPercentage(employee.PersonCode);
+        const totalSolafInMonth = await getTotalSolafInMonth(
+          employee.PersonCode,
+          currentMonth,
+          currentYear
+        );
+        const calcTotalKhsomat = await calcTotalKhasmValue(
+          employee.PersonCode,
+          currentMonth,
+          currentYear
+        );
+        const calcTotalHafez = await calcTotalHafezValue(
+          employee.PersonCode,
+          currentMonth,
+          currentYear
+        );
+        const TotalNumberOfBonusHoursAndTheirValues =
+          await getTotalNumberOfBonusHoursAndValueInThatMonth(
+            employee.PersonCode,
+            currentMonth,
+            currentYear
+          );
+        const TotalNumberOfLateHoursAndTheirValues =
+          await getTotalNumberOfLateHoursAndValueInThatMonth(
+            employee.PersonCode,
+            currentMonth,
+            currentYear
+          );
+        const TotalNumberOfBonusDaysAndTheirValues =
+          await getTotalNumberOfBonusDaysAndValueInThatMonth(
+            employee.PersonCode,
+            currentMonth,
+            currentYear
+          );
+        const TotalNumberOfGheyabDaysAndTheirValues =
+          await getTotalNumberOfGheyabDaysAndValueInThatMonth(
+            employee.PersonCode,
+            currentMonth,
+            currentYear
+          );
+        const TotalPureKhsomatInMonth = await getTotalPureKhsomatInMonth(
+          employee.PersonCode,
+          currentMonth,
+          currentYear
+        );
+        const TotalPureHafezInMonth = await getTotalPureHafezInMonth(
+          employee.PersonCode,
+          currentMonth,
+          currentYear
+        );
+
+        NewRecords.push({
+          PersonName: {
+            PersonFirstName: employee.PersonFirstName,
+            PersonSecondName: employee.PersonSecondName,
+            PersonThirdName: employee.PersonThirdName,
+            PersonFourthName: employee.PersonFourthName,
+          },
+          PersonCode: employee.PersonCode,
+          PersonMorattabAtThatMonth: MorattabAndDarayebPercentage.morattab,
+          Total3adadSa3atElTa25eerAtThatMonth:
+            TotalNumberOfLateHoursAndTheirValues.totalNumberOfhours,
+          ValueOfKhasmFor3adadSa3atElTa25eerAtThatMonth:
+            TotalNumberOfLateHoursAndTheirValues.totalValue,
+          Total3adadAyamEl5asmAwElGheyabaAtThatMonth:
+            TotalNumberOfGheyabDaysAndTheirValues.totalNumberOfdays,
+          ValueOfKhasmForTotal3adadAyamEl5asmAwElGheyabaAtThatMonth:
+            TotalNumberOfGheyabDaysAndTheirValues.totalValue,
+          TotalValueOfIndividualKhasmAtThatMonth: TotalPureKhsomatInMonth,
+          TotalKhasmSummationValue: calcTotalKhsomat,
+          Total3adadSa3atElExtraAtThatMonth:
+            TotalNumberOfBonusHoursAndTheirValues.totalNumberOfhours,
+          ValueOfHafezForTotal3adadSa3atElExtraAtThatMonth:
+            TotalNumberOfBonusHoursAndTheirValues.totalValue,
+          Total3adadAyamElEdafyAwElHafezAtThatMonth:
+            TotalNumberOfBonusDaysAndTheirValues.totalNumberOfdays,
+          ValueOfHafezForTotal3adadAyamElEdafyAwElHafezAtThatMonth:
+            TotalNumberOfBonusDaysAndTheirValues.totalValue,
+          TotalValueOfIndividualHafezAtThatMonth: TotalPureHafezInMonth,
+          TotalHafezSummationValue: calcTotalHafez,
+          TotalValueOfSolafTakenAtThatMonth: totalSolafInMonth,
+          DrayebPercentageForMorattabAtThatMonth:
+            MorattabAndDarayebPercentage.dareebaPercentage,
+          TotalValueOfDarayebAtThatMonth:
+            MorattabAndDarayebPercentage.dareebaPercentage *
+            MorattabAndDarayebPercentage.morattab,
+          PersonTa2meenValue: employee.PersonTa2meenValue,
+          PersonTa2meenPercentage: Ta2meenPercentagePaidByPerson,
+          TotalValueOfTa2meenAtThatMonth:
+            employee.PersonTa2meenValue * Ta2meenPercentagePaidByPerson,
+          NetSalary:
+            MorattabAndDarayebPercentage.morattab -
+            calcTotalKhsomat +
+            calcTotalHafez -
+            totalSolafInMonth -
+            employee.PersonTa2meenValue * Ta2meenPercentagePaidByPerson -
+            MorattabAndDarayebPercentage.dareebaPercentage *
+              MorattabAndDarayebPercentage.morattab,
+          PersonPayrollDate: new Date(),
+          PayrolMonth: currentMonth,
+          PayrolYear: currentYear,
+        });
+      });
+    }
+  }
   return NewRecords;
 };
 
@@ -427,12 +434,7 @@ const getPayrolHistoryRecords = async (
   return getPayrolByMonthAndYear;
 };
 
-const renderPastPayrols = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  month: number,
-  year: number
-) => {
+const renderPastPayrols = async (month: number, year: number) => {
   const PastRecords: PayrolModel[] = [];
 
   const getEmployess = await prisma.person.findMany({
