@@ -5,8 +5,8 @@ import RadioButtonComp from "../components/RadioButtonComp";
 import TextField from "../components/TextField";
 import CustomizableTextField from "../components/CustomizableTextField";
 import axios from "axios";
-import employeeFormValidator from "../services/validators/employeeFormValidator";
 import { AppProps } from "next/app";
+import { sendEmployee } from "../services/employeesServices";
 
 interface FileModel {
   uploaded: boolean;
@@ -126,44 +126,7 @@ function AddEmployee(props: AppProps) {
 
   const handleSave = async (e: any) => {
     e.preventDefault();
-    setError("");
-    let employee = {
-      PersonCode: code,
-      PersonDyana: dyana,
-      PersonFirstName: firstN,
-      PersonFourthName: fourthN,
-      PersonRaqamQawmy: nationlNo,
-      PersonRaqamTa2meeny: insuranceNo,
-      PersonSanawatTa2meen: insuranceYears,
-      PersonSecondName: secondN,
-      PersonTa2meenValue: insuranceVal,
-      PersonTaree5Milad: birthDate,
-      PersonTaree5Ta3yeen: assignDate,
-      PersonThirdName: thirdN,
-      PersonType: type,
-      PersonAddress: address,
-      ManteqaLookup: district,
-      MohafzatLookup: govVal,
-      agazaLimit,
-      work,
-      salary,
-      mobileNo,
-      bta2aFace,
-      feesh,
-      bta2aDahr,
-      birthCertificate,
-      tagneedCertificate,
-      contractImage,
-    };
-    console.log(employee);
-    let error = {
-      response: true,
-      message: "",
-    };
-    //employeeFormValidator(employee);
-    if (!error.response) {
-      setError(error.message!);
-    } else {
+    
       const wazefaId = wazayef.find(
         (item: { name: string; id: number }) => item.name === work
       )!.id;
@@ -174,7 +137,7 @@ function AddEmployee(props: AppProps) {
         (item: { name: string; id: number }) => item.name === district
       )!.id;
 
-      let response = await axios.post("/api/employee/create", {
+      let emp = {
         PersonCode: Number.parseInt(code),
         PersonFirstName: firstN,
         PersonSecondName: secondN,
@@ -202,11 +165,12 @@ function AddEmployee(props: AppProps) {
         MobileNumber: mobileNo,
         PersonWazeefa: wazefaId,
         NumberOfAgazaDays: Number.parseInt(agazaLimit),
-      });
-      console.log(response);
-      if (response.status == 200) alert(response.data.message);
-      else setError(response.data.message);
-    }
+      }
+      const response = await sendEmployee(emp);
+
+      if (response.success) alert("تمت الاضافة بنجاح");
+      else setError(response.message!);
+    
   };
 
   return (
@@ -253,7 +217,7 @@ function AddEmployee(props: AppProps) {
                 onChange={(e) => setAssignDate(new Date(e.target.value))}
                 value={assignDate.toISOString().split("T")[0]}
               />
-            
+
 
               <div className="flex flex-row items-center ml-32">
                 <h6 className="self-center text-lg text-right text-gray-700 ">
@@ -311,7 +275,7 @@ function AddEmployee(props: AppProps) {
               onChange={setAgazaLimit}
             />
           </div>
-         
+
         </div>
 
         <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white justify-space-between rounded-r-2xl">

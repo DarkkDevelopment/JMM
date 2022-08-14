@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ApiResponseModel } from "../models/ApiResponseModel";
+import employeeFormValidator from "./validators/employeeFormValidator";
 
 const getAllEmployees = async (): Promise<ApiResponseModel> => {
   const employees = await axios.get(
@@ -10,4 +11,37 @@ const getAllEmployees = async (): Promise<ApiResponseModel> => {
     success: true,
   };
 };
-export { getAllEmployees };
+
+
+const sendEmployee = async (employee: any): Promise<ApiResponseModel> => {
+  try {
+    console.log(employee);
+    const valid = employeeFormValidator(employee);
+    if (!valid.response)
+      return {
+        data: null,
+        success: false,
+        message: valid.message
+      }
+    const response = await axios.post('/api/employee/create', employee);
+
+    if (response.status === 200)
+      return {
+        data: '',
+        success: true,
+      }
+    else
+      return {
+        data: '',
+        success: false,
+        message: 'حدث خطأ ما'
+      }
+  } catch (e) {
+    return {
+      data: e,
+      success: false,
+      message: 'حدث خطأ ما'
+    };
+  }
+}
+export { getAllEmployees, sendEmployee };
