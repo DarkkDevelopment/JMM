@@ -23,6 +23,7 @@ function IncentiveCard(props: any) {
             HafezReasonID: hafezId,
         });
         console.log(response.data);
+        window.location.reload();
     }
 
     return (
