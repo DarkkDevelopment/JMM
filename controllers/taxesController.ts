@@ -34,6 +34,9 @@ const renderNewRecords = async (req: NextApiRequest, res: NextApiResponse) => {
       PersonRaqamQawmy: true,
       PersonRaqamTa2meeny: true,
     },
+    orderBy: {
+      PersonCode: "asc",
+    },
   });
   getEmpkoyeesInfo.forEach(async (employee) => {
     const morattabAndPercentage = await getMorattabAndDarebaPercentage(
@@ -79,6 +82,9 @@ const renderPastRecords = async (
       PersonFourthName: true,
       PersonRaqamQawmy: true,
       PersonRaqamTa2meeny: true,
+    },
+    orderBy: {
+      PersonCode: "asc",
     },
   });
   getEmployeesInfo.forEach(async (employee) => {

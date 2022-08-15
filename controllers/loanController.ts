@@ -91,4 +91,26 @@ const renderLoanHistoryByDate = async (
   return historyModels;
 };
 
-export { renderLoanHistoryByDate, getCurrentMorattab };
+const checkIfEmployeeTokeLoanInSameMonthBefore = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  code: number,
+  date: Date
+) => {
+  const loanHistory = await getSolfaHistory(req, res, code, true, false);
+  loanHistory.forEach((loan) => {
+    if (
+      loan.SolfaMonthToBeApplied === date.getMonth() + 1 &&
+      loan.SolfaYearToBeApplied === date.getFullYear()
+    ) {
+      return true;
+    }
+  });
+  return false;
+};
+
+export {
+  renderLoanHistoryByDate,
+  getCurrentMorattab,
+  checkIfEmployeeTokeLoanInSameMonthBefore,
+};

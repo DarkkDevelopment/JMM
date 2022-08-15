@@ -27,6 +27,9 @@ const getAllEmployees = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       },
     },
+    orderBy: {
+      PersonCode: "asc",
+    },
   });
   if (employees) {
     return res.status(200).send(employees);
