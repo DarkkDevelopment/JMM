@@ -8,14 +8,27 @@ function LoansCard(props: any) {
   const [value, setValue] = useState('');
   const sendSolfa = async (e: any) => {
     e.preventDefault();
+    let solfaValue = Number.parseInt(value)
+    if (solfaValue > limit) {
+      alert("المبلغ المدخل اكبر من الحد الاقصى المسموح به")
+      return
+    }
+    if (solfaValue < 0) {
+      alert("المبلغ المدخل اقل من الصفر")
+      return
+    }
     const response = await axios.post('/api/loan/createLoan', {
       PersonCode: code,
-      SolfaValue: Number.parseInt(value),
+      SolfaValue: solfaValue,
       SolfaRequestDate: new Date(),
       SolfaMonthToBeApplied: new Date().getMonth() + 1,
       SolfaYearToBeApplied: new Date().getFullYear(),
     })
-    alert(response.data);
+    console.log(response.data);
+    if (response.data.status === "success") {
+      alert('تمت العملية بنجاح');
+      window.location.reload();
+    }
   }
   return (
     <div className="flex flex-col justify-center p-10 space-y-10 bg-white rounded-3xl shadow-lg font-display">
