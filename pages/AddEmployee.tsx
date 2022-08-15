@@ -346,17 +346,6 @@ function AddEmployee() {
             label="رقم التليفون الأرضي"
             value={landlineNo}
             onChange={setLandlineNo}
-            condition={(val: string) => {
-              if (val == "") return true;
-              if (!Number.parseInt(val)) return false;
-
-              if (val.length < 10 || val.length > 11) return false;
-
-              if (Number.parseInt(val) < 0) return false;
-
-              return true;
-            }}
-            errorMsg="رقم التيليفون يجب ان يكون من 10 او 11 رقم"
           />
           <TextField
             label="الرقم التأميني"

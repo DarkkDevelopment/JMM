@@ -21,21 +21,14 @@ const employeeFormValidator = (emp: any): { response: boolean, message?: string 
             PersonWazeefa,
             CurrentMorattab,
             MobileNumber,
-            Beta2aWesh,
-            Feesh,
-            Beta2aDahr,
-            ShehadetMilad,
-            ShehadetGeish,
-            PersonContract,
+
             NumberOfAgazaDays,
         } = emp;
 
         if (
             !PersonCode || !PersonAddress || !PersonFirstName || !PersonSecondName || !PersonThirdName || !PersonFourthName || !MobileNumber || !PersonRaqamQawmy
             || !PersonRaqamTa2meeny || !PersonTa2meenValue || !PersonSanawatTa2meen || !CurrentMorattab || !PersonMohafzaID || !PersonTaree5Milad ||
-            !PersonManteqaID || !PersonWazeefa || !PersonDyana || !PersonType || !Beta2aWesh || !Feesh || !Beta2aDahr ||
-            !PersonTaree5Ta3yeen || !ShehadetMilad || !ShehadetGeish || !PersonContract
-            || !NumberOfAgazaDays
+            !PersonManteqaID || !PersonWazeefa || !PersonDyana || !PersonType || !PersonTaree5Ta3yeen || !NumberOfAgazaDays
         ) {
             return { response: false, message: 'برجاء ادخال جميع الخانات' };
         }
