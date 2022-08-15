@@ -33,6 +33,7 @@ function DiscountCard(props: any) {
       PersonKhasmId: PersonCode,
       KhasmReasonID: discountId,
     });
+    window.location.reload();
     console.log(response.data);
   };
 
