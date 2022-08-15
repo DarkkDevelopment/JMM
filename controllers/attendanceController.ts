@@ -65,6 +65,9 @@ const renderNewAttendance = async (date: Date) => {
       PersonThirdName: true,
       PersonFourthName: true,
     },
+    orderBy: {
+      PersonCode: "asc",
+    },
   });
   const { workingHours, totalWorkingHours } =
     await getWorkingHoursAndTotalNumberOfWorkingHours();
@@ -121,6 +124,9 @@ const renderOldAttendance = async (date: Date) => {
           PersonFourthName: true,
         },
       },
+    },
+    orderBy: {
+      PersonCode: "asc",
     },
   });
   // this will return all data needed in the model

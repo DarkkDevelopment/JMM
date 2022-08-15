@@ -111,6 +111,9 @@ const getVacationsAtThatDay = async (date: Date) => {
         },
       },
     },
+    orderBy: {
+      PersonCode: "asc",
+    },
   });
   for (const vacation of vacations) {
     vacationsModels.push({
