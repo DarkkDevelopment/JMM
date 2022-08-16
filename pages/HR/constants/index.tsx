@@ -12,7 +12,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/manateq");
+            router.push("/HR/constants/manateq");
           }}
         >
           المناطق
@@ -20,7 +20,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/mohafazat");
+            router.push("/HR/constants/mohafazat");
           }}
         >
           المحافظات
@@ -28,7 +28,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/agazat");
+            router.push("/HR/constants/agazat");
           }}
         >
           الاجازات
@@ -37,7 +37,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/hwafezReasons");
+            router.push("/HR/constants/hwafezReasons");
           }}
         >
           اسباب الحوافز
@@ -46,7 +46,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/khasmReasons");
+            router.push("/HR/constants/khasmReasons");
           }}
         >
           اسباب الخصومات
@@ -56,7 +56,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/dyana");
+            router.push("/HR/constants/dyana");
           }}
         >
           الديانات
@@ -64,7 +64,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/wazefa");
+            router.push("/HR/constants/wazefa");
           }}
         >
           الوظائف
@@ -72,7 +72,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/types");
+            router.push("/HR/constants/types");
           }}
         >
           الجنس
@@ -80,7 +80,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/weeklyvacation");
+            router.push("/HR/constants/weeklyvacation");
           }}
         >
           الاجازات الاسبوعية
@@ -88,7 +88,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/officialagaza");
+            router.push("/HR/constants/officialagaza");
           }}
         >
           الاجازات الرسمية
@@ -98,7 +98,7 @@ const Home = (props) => {
         <button
           className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={() => {
-            router.push("/constants/system");
+            router.push("/HR/constants/system");
           }}
         >
           الثوابت

@@ -25,7 +25,7 @@ function LoansCard(props: any) {
       alert("لا يمكن طلب سلفة لهذا الشهر")
       return
     }
-    const response = await axios.post('/api/loan/createLoan', {
+    const response = await axios.post('/api/HR_Endpoints//loan/createLoan', {
       PersonCode: code,
       SolfaValue: solfaValue,
       SolfaRequestDate: new Date(),

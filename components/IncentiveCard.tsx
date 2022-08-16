@@ -13,7 +13,7 @@ function IncentiveCard(props: any) {
         e.preventDefault();
         let today = new Date();
         let hafezId = hwafezReasons.find((x: any) => x.name === hafez).id;
-        let response = await axios.post('/api/hawafez/create?type=pureHafez', {
+        let response = await axios.post('/api/HR_Endpoints//hawafez/create?type=pureHafez', {
             PureHafezValue: Number.parseFloat(money),
             DayOfHafez: today.getDate(),
             MonthOfHafez: today.getMonth() + 1,
