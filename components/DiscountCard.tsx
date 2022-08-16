@@ -24,7 +24,7 @@ function DiscountCard(props: any) {
       KhasmReasonID: discountId,
     });
 
-    let response = await axios.post("/api/khasm/create?type=pureKhasm", {
+    let response = await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
       PureKhasmValue: Number.parseFloat(money),
       DayOfKhasm: today.getDate(),
       MonthOfKhasm: today.getMonth() + 1,

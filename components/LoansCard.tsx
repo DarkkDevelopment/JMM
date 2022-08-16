@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
 
 function LoansCard(props: any) {
   const { name, limit, code, LastSolfaDate, remainingAmount } = props;
@@ -17,17 +17,27 @@ function LoansCard(props: any) {
       alert("المبلغ المدخل اقل من الصفر")
       return
     }
-    const response = await axios.post('/api/loan/createLoan', {
+    if (solfaValue === 0) {
+      alert("المبلغ المدخل يجب ان يكون اكبر من الصفر")
+      return
+    }
+    if (new Date(LastSolfaaDate).getMonth() === new Date().getMonth() && new Date(LastSolfaaDate).getFullYear() === new Date().getFullYear()) {
+      alert("لا يمكن طلب سلفة لهذا الشهر")
+      return
+    }
+    const response = await axios.post('/api/HR_Endpoints//loan/createLoan', {
       PersonCode: code,
       SolfaValue: solfaValue,
       SolfaRequestDate: new Date(),
       SolfaMonthToBeApplied: new Date().getMonth() + 1,
       SolfaYearToBeApplied: new Date().getFullYear(),
     })
-    console.log(response.data);
-    if (response.data.status === "success") {
+
+    if (response.status == 200) {
       alert('تمت العملية بنجاح');
       window.location.reload();
+    } else {
+      alert('حدث خطأ حاول مرة اخرى');
     }
   }
   return (
