@@ -19,6 +19,8 @@ const System = () => {
   //   props.InsurancePercentage.companyInsurancePercentage;
   // const ourLoanPercentage = props.loanPercentage.loanPercentage;
 
+  const reloadPage = () => window.location.reload();
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
@@ -33,7 +35,7 @@ const System = () => {
       } else {
         setIsLoanPercentageNew(true);
       }
-      
+
       if (
         response.data.HafezExtraDayRatio !== 0 &&
         response.data.HafezExtraHourRatio !== 0 &&
@@ -132,8 +134,6 @@ const System = () => {
   };
 
   const editHafezAndKahsm = async () => {
-    console.log(hafezExtraDayRatio)
-    console.log(Number.parseFloat(hafezExtraDayRatio.toString()))
     await axios.post(
       "/api/lookupsData/updateDataIntoLookups/hafezKhasmRatios",
       {
@@ -144,6 +144,7 @@ const System = () => {
         idOfHafezKhasmRatios: 1,
       }
     );
+    reloadPage();
   };
 
   const addHafezAndKahsm = async () => {
@@ -156,6 +157,7 @@ const System = () => {
         khasmHourRatio: Number.parseFloat(khasmLateHourRatio.toString()),
       }
     );
+    reloadPage();
   };
 
   const editInsurance = async () => {
@@ -171,17 +173,20 @@ const System = () => {
         idOfInsurance: 1,
       }
     );
+    reloadPage();
   };
   const addLoanPercentage = async () => {
     await axios.post("/api/lookupsData/insertDataIntoLookups/globalValues", {
       nameOfNewValue: "LoanPercentage",
       newValue: Number.parseFloat(loanPercentage.toString()),
     });
+    reloadPage();
   };
   const editLoanPercentage = async () => {
     await axios.post("/api/lookupsData/updateDataIntoLookups/globalValues", {
       newValue: Number.parseFloat(loanPercentage.toString()),
     });
+    reloadPage();
   };
 
   const addInsurance = async () => {
@@ -196,25 +201,33 @@ const System = () => {
         ),
       }
     );
+    reloadPage();
   };
 
   const editTime = async () => {
-    let newEndHour = new Date(`2022-12-12T${endHour}:00`);
-    let newStartHour = new Date(`2022-12-12T${startHour}:00`);
+    let startHourArr = startHour.split(":"); 
+    let endHourArr = endHour.split(":");
+    let utcStartHour = new Date().setUTCHours(Number(startHourArr[0]), Number(startHourArr[1]));
+    let utcEndHour = new Date().setUTCHours(Number(endHourArr[0]), Number(endHourArr[1]));
+    let newStartHour = new Date(utcStartHour);
+    let newEndHour = new Date(utcEndHour);
+    console.log(newEndHour);
     await axios.post("/api/lookupsData/updateDataIntoLookups/workingHours", {
       startTime: newStartHour,
       endTime: newEndHour,
       workingHoursId: 1,
     });
+    reloadPage();
   };
 
   const addTime = async () => {
-    let newEndHour = new Date(`2022-12-12T${endHour}:00`);
-    let newStartHour = new Date(`2022-12-12T${startHour}:00`);
+    let newEndHour = new Date(`2022-12-12T${endHour}:00`).setUTCHours(15);
+    let newStartHour = new Date(`2022-12-12T${startHour}:00`).setUTCHours(15);
     await axios.post("/api/lookupsData/insertDataIntoLookups/workingHours", {
       startTime: newStartHour,
       endTime: newEndHour,
     });
+    reloadPage();
   };
 
   return (

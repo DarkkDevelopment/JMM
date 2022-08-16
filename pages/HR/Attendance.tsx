@@ -176,12 +176,12 @@ function Attendance(props) {
   const sendAttendanceHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const sendAttendanceRequest = Attendance.map((attendance: any) => {
-      attendance.EnserafTime = new Date(
-        `2022-12-12T${attendance.EnserafTime}:00`
-      );
-      attendance.HodoorTime = new Date(
-        `2022-12-12T${attendance.HodoorTime}:00`
-      );
+      let startHourArr = attendance.HodoorTime.split(":"); 
+      let endHourArr = attendance.EnserafTime.split(":");
+      let utcStartHour = new Date().setUTCHours(Number(startHourArr[0]), Number(startHourArr[1]));
+      let utcEndHour = new Date().setUTCHours(Number(endHourArr[0]), Number(endHourArr[1]));
+      attendance.EnserafTime = new Date(utcEndHour);
+      attendance.HodoorTime =  new Date(utcStartHour);
       return attendance;
     });
 
@@ -241,6 +241,7 @@ function Attendance(props) {
       KhasmModelsToBeFilled,
       GheyabModelsToBeFilled
     );
+    window.location.reload();
   };
 
   useEffect(() => {
