@@ -31,6 +31,10 @@ const Manateq = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     }
 
     const addValue = async (value: string) => {
+        if (value === "") {
+            alert("الرجاء ادخال البيانات")
+            return;
+        }
         const response = await axios.post('/api/lookupsData/insertDataIntoLookups/manteqa', { manteqaName: value, mohafzaId: matchedGov });
         if (matchedGov === selectedGov)
             setManateq([...manateq, { id: response.data, name: value, mohafzaId: matchedGov }]);
@@ -65,6 +69,10 @@ const Manateq = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
     }
 
     const editItem = async (id: number, name: string, mohafzaId: number) => {
+        if (name === '') {
+            alert('الرجاء ادخال البيانات بشكل صحيح');
+            return
+        }
         await axios.post(`/api/lookupsData/updateDataIntoLookups/updateManteqaMohafzaId`, {
             manteqaId: id,
             manteqaNewName: name,

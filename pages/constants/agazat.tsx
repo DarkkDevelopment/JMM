@@ -18,6 +18,10 @@ const Agazat = () => {
   };
 
   const addValue = async (value: string) => {
+    if (value === "") {
+      alert("الرجاء ادخال البيانات")
+      return;
+    }
     const response = await axios.post(
       "/api/lookupsData/insertDataIntoLookups/agazaTypes",
       { nameOfNewAgaza: value }
@@ -43,6 +47,10 @@ const Agazat = () => {
   };
 
   const editItem = async (id: number, name: string) => {
+    if (name === "") {
+      alert("الرجاء ادخال البيانات")
+      return;
+    }
     await axios.post(`/api/lookupsData/updateDataIntoLookups/agazaTypes`, {
       idOfNewAgaza: id,
       nameOfNewAgaza: name,

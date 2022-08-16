@@ -11,6 +11,10 @@ const Mohafazat = (props: InferGetServerSidePropsType<typeof getServerSideProps>
   );
 
   const addValue = async (value: string) => {
+    if (value === "") {
+      alert("الرجاء ادخال البيانات")
+      return;
+    }
     const response = await axios.post(
       "/api/lookupsData/insertDataIntoLookups/mohafzat",
       { manteqaName: value }
@@ -39,6 +43,10 @@ const Mohafazat = (props: InferGetServerSidePropsType<typeof getServerSideProps>
   };
 
   const editItem = async (id: number, name: string) => {
+    if (name === "") {
+      alert("الرجاء ادخال البيانات بشكل صحيح")
+      return;
+    }
     await axios.post(`/api/lookupsData/updateDataIntoLookups/mohafzat`, {
       manteqaId: id,
       manteqaName: name,

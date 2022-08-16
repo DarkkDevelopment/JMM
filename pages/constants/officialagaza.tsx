@@ -19,8 +19,10 @@ const OfficialAgaza = () => {
     };
 
     const addValue = async (value: string, date: Date) => {
-        console.log(date)
-        console.log(value)
+        if (value === "") {
+            alert("الرجاء ادخال البيانات")
+            return;
+        }
         const response = await axios.post(
             "/api/lookupsData/insertDataIntoLookups/agazatRasmeya",
             {
@@ -61,6 +63,10 @@ const OfficialAgaza = () => {
     };
 
     const editItem = async (id: number, name: string, date: Date) => {
+        if (name === "") {
+            alert("الرجاء ادخال البيانات بشكل صحيح")
+            return;
+        }
         await axios.post(`/api/lookupsData/updateDataIntoLookups/agazatRasmeya`, {
             idOfNewAgaza: id,
             nameOfNewAgaza: name,
