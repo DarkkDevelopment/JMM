@@ -12,8 +12,8 @@ import incentive from "../public/icons/incentive.png";
 import discounts from "../public/icons/discounts.png";
 import reportLogo from "../public/icons/report.png";
 import attendanceLogo from "../public/icons/user.png";
-import absentLogo from '../public/icons/absent.png';
-import conslogo from '../public/icons/cons.png';
+import absentLogo from "../public/icons/absent.png";
+import conslogo from "../public/icons/cons.png";
 import { useRouter } from "next/router";
 
 const SideBar = (props: any) => {
@@ -26,180 +26,192 @@ const SideBar = (props: any) => {
         <div className="flex flex-col p-10 space-y-7 ">
           <Image src={logo} alt="logo" width={200} height={200} />
           <hr className="border-b-2 border-gray-400 border-solid" />
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "employees"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "employees"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Employees");
+                router.push("/HR/Employees");
               }}
             >
               الموظفين
             </h3>
             <Image src={employeeLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-              ${pageName === "vacations"
+              ${
+                pageName === "vacations"
                   ? "text-red-600 text-2xl"
                   : "text-blue-900 text-2xl"
-                }`}
+              }`}
               onClick={() => {
-                router.push("/Vacations");
+                router.push("/HR/Vacations");
               }}
             >
               الاجازات
             </h3>
             <Image src={vacationLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "money"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "money"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Money");
+                router.push("/HR/Money");
               }}
             >
               المرتبات
             </h3>
             <Image src={moneyLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "insurance"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "insurance"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Insurance");
+                router.push("/HR/Insurance");
               }}
             >
               التأمينات
             </h3>
             <Image src={insuranceLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "attendance"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "attendance"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Attendance");
+                router.push("/HR/Attendance");
               }}
             >
               حضور
             </h3>
             <Image src={attendanceLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "absence"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "absence"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Absence");
+                router.push("/HR/Absence");
               }}
             >
               غياب
             </h3>
             <Image src={absentLogo} alt="absence logo" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "loan"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "loan"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Loan");
+                router.push("/HR/Loan");
               }}
             >
               السلفة
             </h3>
             <Image src={loanLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "taxes"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "taxes"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Taxes");
+                router.push("/HR/Taxes");
               }}
             >
               الضرائب
             </h3>
             <Image src={taxesLogo} alt="employee" width={65} height={75} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "incentive"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "incentive"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Incentive");
+                router.push("/HR/Incentive");
               }}
             >
               الحوافز
             </h3>
             <Image src={incentive} alt="employee" width={60} height={60} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "discounts"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "discounts"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Discounts");
+                router.push("/HR/Discounts");
               }}
             >
               الخصومات
             </h3>
             <Image src={discounts} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "reports"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "reports"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/Reports");
+                router.push("/HR/Reports");
               }}
             >
               التقارير
             </h3>
             <Image src={reportLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center space-x-4 justify-between">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${pageName === "const"
-                  ? "text-red-600 text-2xl"
-                  : "text-blue-900 text-2xl"
-                }`}
+            ${
+              pageName === "const"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
               onClick={() => {
-                router.push("/constants");
+                router.push("/HR/constants");
               }}
             >
               الثوابت

@@ -20,7 +20,7 @@ function LoginForm() {
         />
         <button
           onClick={() => {
-            router.push("/Employees");
+            router.push("/HR/Employees");
           }}
           className="w-32 p-3 mt-4 text-white transition-all duration-200 ease-in-out bg-blue-900 rounded-lg hover:bg-blue-500"
         >
