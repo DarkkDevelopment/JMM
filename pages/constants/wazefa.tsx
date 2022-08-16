@@ -19,6 +19,10 @@ const Wazayf = () => {
     };
 
     const addValue = async (value: string) => {
+        if (value === "") {
+            alert("الرجاء ادخال البيانات")
+            return;
+        }
         const response = await axios.post(
             "/api/lookupsData/insertDataIntoLookups/wazayefLookup",
             {
@@ -47,6 +51,10 @@ const Wazayf = () => {
     };
 
     const editItem = async (id: number, name: string) => {
+        if (name === "") {
+            alert("الرجاء ادخال البيانات بشكل صحيح")
+            return;
+        }
         await axios.post(`/api/lookupsData/updateDataIntoLookups/wazayefLookup`, {
             wazeefaId: id,
             wazeefaName: name,

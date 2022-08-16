@@ -69,24 +69,7 @@ function Discounts(props: ReactPropTypes) {
     <div className="flex flex-row bg-gray-100 ">
       <div className="font-display basis-5/6 ">
         <div className="flex flex-col m-10 ">
-          <div className="flex flex-row   justify-center   space-x-80  ">
-            <SearchField setSearchTerm={setSearchTerm} />
-            <input
-              type='date'
-              value={filterDate.toISOString().split('T')[0]}
-              onChange={(e) => setFilterDate(new Date(e.target.value))}
-              className="
-            m-3
-            px-4
-            pr-24
-            py-3
-            text-center
-            appearance-none
-            shadow-lg
-            border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
-            "
-            />
-          </div>
+          
           <div className="flex flex-col justify-center space-y-10">
             {filteredEmployees.map((emp) => {
               return (
