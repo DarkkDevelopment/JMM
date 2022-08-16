@@ -73,7 +73,7 @@ function VacationsCard(props: Props) {
           console.log(agazaId);
           await axios({
             method: "post",
-            url: "/api/vacations/createNewVacation",
+            url: "/api/HR_Endpoints//vacations/createNewVacation",
             data: {
               PersonCode: code,
               AgazaTypeId: agazaId,
@@ -92,7 +92,7 @@ function VacationsCard(props: Props) {
   };
 
   const deleteVacation = async (id: number) => {
-    await axios.post("/api/vacations/deleteVacation", {
+    await axios.post("/api/HR_Endpoints//vacations/deleteVacation", {
       id,
     });
     reload();
