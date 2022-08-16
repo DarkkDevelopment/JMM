@@ -46,46 +46,46 @@ function VacationsCard(props: Props) {
   };
   const sendVacation = async () => {
     if (selected) {
-      const currentDay = new Date().getDate();
+      /* const currentDay = new Date().getDate();
       const currentMonth = new Date().getMonth() + 1;
       const currentYear = new Date().getFullYear();
+ */
+      //      if (didnotPassed(startDate)) {
 
-      if (didnotPassed(startDate)) {
-
-        let tempDate = new Date(startDate);
-        var dateArray = new Array();
-        while (tempDate < endDate) {
-          let addedDate = new Date(tempDate);
-          dateArray.push(addedDate);
-          tempDate = addDays(tempDate, 1);
-        }
-        if (endDate.getDate() !== startDate.getDate()) {
-          dateArray.push(endDate);
-        } else {
-          dateArray.push(endDate);
-        }
-
-        let agazaId = agazatConst.find((obj: any) => selected === obj.name).id;
-        console.log(dateArray);
-        dateArray.map(async (date) => {
-          console.log(new Date(date));
-          console.log(code);
-          console.log(agazaId);
-          await axios({
-            method: "post",
-            url: "/api/HR_Endpoints//vacations/createNewVacation",
-            data: {
-              PersonCode: code,
-              AgazaTypeId: agazaId,
-              AgazaDate: date,
-            },
-          });
-        });
-        reload();
-        // window.location.reload();
-      } else {
-        alert("برجاء اختيار تاريخ صحيح");
+      let tempDate = new Date(startDate);
+      var dateArray = new Array();
+      while (tempDate < endDate) {
+        let addedDate = new Date(tempDate);
+        dateArray.push(addedDate);
+        tempDate = addDays(tempDate, 1);
       }
+      if (endDate.getDate() !== startDate.getDate()) {
+        dateArray.push(endDate);
+      } else {
+        dateArray.push(endDate);
+      }
+
+      let agazaId = agazatConst.find((obj: any) => selected === obj.name).id;
+      console.log(dateArray);
+      dateArray.map(async (date) => {
+        console.log(new Date(date));
+        console.log(code);
+        console.log(agazaId);
+        await axios({
+          method: "post",
+          url: "/api/HR_Endpoints//vacations/createNewVacation",
+          data: {
+            PersonCode: code,
+            AgazaTypeId: agazaId,
+            AgazaDate: date,
+          },
+        });
+      });
+      reload();
+      // window.location.reload();
+      /*  } else {
+         alert("برجاء اختيار تاريخ صحيح");
+       } */
     } else {
       alert("برجاء اختيار نوع الاجازة");
     }
@@ -164,18 +164,16 @@ function VacationsCard(props: Props) {
                       {history.map((hist) => {
                         return (
                           <tr key={hist.id}>
-                            {didnotPassed(new Date(hist.AgazaDate)) ? (
-                              <button
-                                className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
-                                onClick={() => {
-                                  deleteVacation(hist.id);
-                                }}
-                              >
-                                x
-                              </button>
-                            ) : (
-                              <h1></h1>
-                            )}
+
+                            <button
+                              className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                              onClick={() => {
+                                deleteVacation(hist.id);
+                              }}
+                            >
+                              x
+                            </button>
+
 
                             <td>{hist.AgazaType.AgazaType}</td>
                             <td>{hist.AgazaDate.toString().slice(0, 10)}</td>
