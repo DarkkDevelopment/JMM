@@ -52,7 +52,7 @@ export const HedorRowComponent = (props: Props) => {
       <td className="p-4 border-b-2">
         <input
           disabled={old}
-          className="w-full p-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
+          className="w-full py-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
           type="text"
           value={hafezHourRatio}
           onChange={(e) => onHafezChange(PersonCode, e.target.value)}
@@ -61,7 +61,7 @@ export const HedorRowComponent = (props: Props) => {
       <td className="p-4 border-b-2">
         <input
           disabled={old}
-          className="w-full p-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
+          className="w-full py-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
           type="text"
           value={KhasmHourRatio}
           onChange={(e) => {
