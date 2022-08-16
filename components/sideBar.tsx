@@ -138,7 +138,7 @@ const SideBar = (props: any) => {
             </h3>
             <Image src={loanLogo} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center justify-between space-x-4">
+          {/* <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
@@ -153,8 +153,8 @@ const SideBar = (props: any) => {
               الضرائب
             </h3>
             <Image src={taxesLogo} alt="employee" width={65} height={75} />
-          </div>
-          <div className="flex flex-row items-center justify-between space-x-4">
+          </div> */}
+          <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
@@ -186,7 +186,7 @@ const SideBar = (props: any) => {
             </h3>
             <Image src={discounts} alt="employee" width={50} height={50} />
           </div>
-          <div className="flex flex-row items-center justify-between space-x-4">
+          {/* <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
@@ -201,8 +201,8 @@ const SideBar = (props: any) => {
               التقارير
             </h3>
             <Image src={reportLogo} alt="employee" width={50} height={50} />
-          </div>
-          <div className="flex flex-row items-center justify-between space-x-4">
+          </div> */}
+          <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${

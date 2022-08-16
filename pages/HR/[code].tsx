@@ -206,7 +206,7 @@ function EmployeeDetails(props) {
             حذف الموظف
           </button>
         </div>
-        <h1 className="p-10 text-3xl text-center text-black font-display">
+        <h1 className="p-5 text-3xl text-center text-black font-display">
           بيانات شخصية
         </h1>
 
@@ -246,21 +246,27 @@ function EmployeeDetails(props) {
               </div>
             </div>
             <div className="flex flex-col justify-around bg-white rounded-lg ">
-              <div className="flex flex-row justify-end ">
-                <Dropdown
+              <div className="flex flex-row justify-end">
+                <div className = "mr-5">
+                  <Dropdown
                   title="المحافظة"
                   options={govs}
                   value={govVal}
                   onChange={handleGovChange}
                   isDisabled={!editdata}
                 />
-                <Dropdown
+                </div>
+                <div>
+                  <Dropdown
                   title="المنطقة"
                   options={manateq}
                   value={district}
                   isDisabled={!editdata}
                   onChange={onDistrictChange}
                 />
+                </div>
+                
+                
               </div>
               <TextField
                 label="العنوان"

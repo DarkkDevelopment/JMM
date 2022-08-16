@@ -182,7 +182,7 @@ function AddEmployee() {
         بيانات شخصية
       </h1>
       <div className="grid justify-center grid-cols-2 px-4 mx-16 rounded-lg">
-        <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-l-2xl">
+        <div className="flex flex-col p-4 mt-2 space-y-10 text-right bg-white rounded-l-2xl">
           <TextField
             label="الكود"
             value={code}
@@ -392,9 +392,9 @@ function AddEmployee() {
             onChange={setDraybPercent}
           />
         </div>
-        <div className="flex flex-col p-10 mt-5 ml-20 mr-20 space-y-10 text-right bg-white justify-space-between rounded-2xl">
+        <div className="flex flex-col mt-5 space-y-10 text-right bg-white justify-space-between rounded-2xl col-start-1 col-end-3 mx-auto px-5">
           <div className="flex flex-col justify-center mt-10 text-center ">
-            <h1 className="justify-center mb-5 text-3xl text-center text-black font-display">
+            <h1 className="justify-center  text-3xl text-center text-black font-display">
               ملفات الموظف
             </h1>
           </div>
@@ -404,7 +404,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500"
+                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -421,7 +421,7 @@ function AddEmployee() {
                 />
               </div>
             </div>
-            <label className="self-center mr-20 text-right text-gray-700 text-md">
+            <label className="self-center mr-10 text-right text-gray-700 text-md">
               وجه البطاقة
             </label>
 
@@ -430,7 +430,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500"
+                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -447,7 +447,7 @@ function AddEmployee() {
                 />
               </div>
             </div>
-            <label className="self-center mr-20 text-right text-gray-700 text-md">
+            <label className="self-center mr-10 text-right text-gray-700 text-md">
               ظهر البطاقة
             </label>
             <div className="flex flex-row self-center justify-between p-5 bg-white ">
@@ -455,7 +455,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500"
+                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -472,7 +472,7 @@ function AddEmployee() {
                 />
               </div>
             </div>
-            <label className="self-center mr-20 text-right text-gray-700 text-md">
+            <label className="self-center mr-10 text-right text-gray-700 text-md">
               فيش جنائي
             </label>
             <div className="flex flex-row self-center justify-between p-5 bg-white ">
@@ -480,7 +480,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500"
+                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -497,7 +497,7 @@ function AddEmployee() {
                 />
               </div>
             </div>
-            <label className="self-center mr-20 text-right text-gray-700 text-md">
+            <label className="self-center mr-10 text-right text-gray-700 text-md">
               شهادة الميلاد
             </label>
             <div className="flex flex-row self-center justify-between p-5 bg-white ">
@@ -505,7 +505,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500"
+                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -522,7 +522,7 @@ function AddEmployee() {
                 />
               </div>
             </div>
-            <label className="self-center mr-20 text-right text-gray-700 text-md ">
+            <label className="self-center mr-10 text-right text-gray-700 text-md ">
               شهادة التجنيد
             </label>
             <div className="flex flex-row self-center justify-between p-5 bg-white ">
@@ -530,7 +530,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500"
+                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -547,7 +547,7 @@ function AddEmployee() {
                 />
               </div>
             </div>
-            <label className="self-center mr-20 text-right text-gray-700 text-md">
+            <label className="self-center mr-10 text-right text-gray-700 text-md">
               صورة العقد
             </label>
             <div className="flex items-center justify-center p-5 mt-10 text-center">
@@ -555,7 +555,7 @@ function AddEmployee() {
                 <h1 className="text-3xl text-red-600 ">{error}</h1>
               ) : null}
             </div>
-            <div className="flex items-center justify-center w-32 p-5 mt-10 mb-10 text-center ">
+            <div className="flex items-center justify-center w-32 p-5 text-center ">
               <button
                 className="px-4 py-2 font-bold text-white bg-blue-500 rounded shadow-lg hover:bg-blue-700"
                 onClick={handleSave}
