@@ -11,6 +11,7 @@ const getLoanHistory = async (req: NextApiRequest, res: NextApiResponse) => {
       PersonCode: personCode,
       IsApproved: true,
       SolfaYearToBeApplied: filteredYear,
+      deletedAt: null,
     },
     orderBy: {
       SolfaRequestDate: "desc",

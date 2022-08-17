@@ -145,6 +145,7 @@ const calculateTotalKhsomatinMonth = async (year: number) => {
       where: {
         PersonKhasmId: employee.PersonCode,
         YearOfKhasm: year,
+        deletedAt: null,
       },
       select: {
         id: true,
