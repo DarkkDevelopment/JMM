@@ -1,33 +1,27 @@
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import IncentiveCard from "../../components/IncentiveCard";
-import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
-import { IHafez } from "../../interfaces/Hafez";
+import { HawafezModelHistory } from "../../models/hawafezModel";
+import { getHwafezService } from "../../services/Hr/hwafezService";
+import axios from "../../utils/axios";
 // @ts-ignore
 function Incentive(props) {
+
   const [filterDate, setFilterDate] = useState(new Date());
   const [searchterm, setSearchTerm] = useState("");
-  const [filteredEmployeesBackup, setFilteredEmployeesBackup] = useState([]);
-  const [filteredEmployees, setFilteredEmployees] = useState<IHafez[]>([]);
-  const [hwafezReasons, setHwafezReasons] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState<HawafezModelHistory[]>(props.data);
+  const [hwafezReasons, setHwafezReasons] = useState(props.reasons);
+
+  const deleteHafez = async (id: number) => {
+    await axios.post(`/api/HR_Endpoints/hawafez/delete`, {
+      id
+    });
+    window.location.reload();
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      let response = await axios.post("/api/HR_Endpoints/hawafez/get", {
-        month: filterDate.getMonth() + 1,
-        year: filterDate.getFullYear(),
-      });
-      let hwafezRes = await axios.get(
-        "/api/lookupsData/getDataFromLookups/getHawafezReasons"
-      );
-      let hwafezReasons = hwafezRes.data.map((x: any) => {
-        return { id: x.ReasonID, name: x.ReasonDescription };
-      });
-      setHwafezReasons(hwafezReasons);
-      setFilteredEmployees(response.data);
-    };
-    fetchData();
+
   }, [filterDate]);
 
   return (
@@ -52,6 +46,10 @@ function Incentive(props) {
                   totalIncentive={obj.totalHawafezinThatMonth}
                   title="حافز"
                   hwafezReasons={hwafezReasons}
+                  history={obj.HafezHistory}
+                  lastMonthClosed={obj.lastMonthClosed}
+                  lastYearClosed={obj.lastYearClosed}
+                  deleteHafez={deleteHafez}
                 />
               ))}
             </div>
@@ -61,6 +59,23 @@ function Incentive(props) {
       <SideBar pageName="incentive" />
     </div>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  let response = await getHwafezService(new Date().getFullYear());
+  let hwafezRes = await axios.get(
+    "/api/lookupsData/getDataFromLookups/getHawafezReasons"
+  );
+  let hwafezReasons = hwafezRes.data.map((x: any) => {
+    return { id: x.ReasonID, name: x.ReasonDescription };
+  });
+  return {
+    props: {
+      data: response.data,
+      reasons: hwafezReasons,
+      //data: response.data,
+    },
+  }
 }
 
 export default Incentive;
