@@ -95,6 +95,7 @@ const System = () => {
   const [companyInsurancePercentage, setCompanyInsurancePercentage] = useState<
     string | number
   >(0);
+
   const [startHour, setStartHour] = useState<string>("09:00");
   const [endHour, setEndHour] = useState<string>("17:00");
 
@@ -231,14 +232,16 @@ const System = () => {
   };
 
   return (
-    <div>
-      <div className="m-12 font-display basis-5/6 mr-80">
-        <div>
-          <SystemConstantsRow
-            title="نسبة معامل الاضافة اليومية"
-            value={hafezExtraDayRatio}
-            onChange={onHafezDayChange}
-          />
+    <div className="flex flex-row bg-gray-100">
+      <div className="grid grid-cols-2 grid-rows-2font-display basis-5/6 ml-12 mt-6 mr-80">
+        <div className = "mx-2 my-2 rounded-3xl p-5 bg-white shadow-lg">
+            <SystemConstantsRow
+              title="نسبة معامل الاضافة اليومية"
+              value={hafezExtraDayRatio}
+              onChange={onHafezDayChange}
+            />
+          
+          
           <SystemConstantsRow
             title="نسبة معامل الساعة الاضافية"
             value={hafezExtraHourRatio}
@@ -265,7 +268,7 @@ const System = () => {
             </button>
           </div>
         </div>
-        <div>
+        <div className="flex flex-col mx-2 my-2 rounded-3xl p-5 bg-white shadow-lg">
           <SystemConstantsRow
             title="نسبة التأمين الشخصي"
             value={personInsurancePercentage}
@@ -276,7 +279,7 @@ const System = () => {
             value={companyInsurancePercentage}
             onChange={onCompanyInsuranceChange}
           />
-          <div className="flex self-center justify-center">
+          <div className="flex flex-col flex-1 self-center justify-end">
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
               onClick={isInsuranceNew ? addInsurance : editInsurance}
@@ -285,13 +288,25 @@ const System = () => {
             </button>
           </div>
         </div>
-        <div>
+        <div className="flex flex-col flex-1 mx-2 my-2 rounded-3xl p-5 bg-white shadow-lg">
           <SystemConstantsRow
             title="نسبة السلفة"
             value={loanPercentage}
             onChange={onPersonLoanPercentageChange}
           />
-          <div className="flex self-center justify-center">
+          {/* to be changed */}
+          <SystemConstantsRow
+            title="نسبة العلوات"
+            value={loanPercentage}
+            onChange={onPersonLoanPercentageChange}
+          />
+          {/* to be changed */}
+          <SystemConstantsRow
+            title="نسبة البدلات"
+            value={loanPercentage}
+            onChange={onPersonLoanPercentageChange}
+          />
+          <div className="flex flex-col flex-1 self-center justify-end">
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
               onClick={
@@ -302,8 +317,8 @@ const System = () => {
             </button>
           </div>
         </div>
-        <div>
-          <div className="flex flex-row items-baseline m-4 justify-evenly">
+        <div className = "flex flex-col mx-2 my-2 rounded-3xl p-5 bg-white shadow-lg">
+          <div className="flex flex-row items-baseline m-4 justify-between">
             <input
               className="px-4 py-3 text-center border border-gray-300 rounded-lg w-fit focus:outline-blue-500"
               type="time"
@@ -313,7 +328,7 @@ const System = () => {
             />
             <h1>مواعيد بدا العمل</h1>
           </div>
-          <div className="flex flex-row items-baseline m-4 justify-evenly">
+          <div className="flex flex-row items-baseline m-4 justify-between">
             <input
               className="px-4 py-3 text-center border border-gray-300 rounded-lg w-fit focus:outline-blue-500"
               type="time"
@@ -324,7 +339,7 @@ const System = () => {
             <h1>مواعيد انتهاء العمل</h1>
           </div>
 
-          <div className="flex self-center justify-center">
+          <div className="flex flex-col flex-1 self-center justify-end">
             <button
               className="m-3 px-4 py-2 text-center shadow appearance-none border rounded-lg w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline hover:bg-blue-500 bg-blue-900"
               onClick={isTimeNew ? addTime : editTime}
