@@ -6,13 +6,8 @@ import prisma from "../../../../lib/prisma";
 
 const getHafezHistory = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { month, year } = req.body;
-    const hafezHistory = await calculateTotalHawafezinMonth(
-      req,
-      res,
-      month,
-      year
-    );
+    const { year } = req.body;
+    const hafezHistory = await calculateTotalHawafezinMonth(year);
     res.status(200).json(hafezHistory);
   } catch (e: any) {
     res.status(500).json({ error: e.message });

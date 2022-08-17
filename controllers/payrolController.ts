@@ -522,4 +522,20 @@ const checkIfPayrolExists = async (date: Date): Promise<boolean> => {
   }
 };
 
-export { renderNewPayrols, renderPastPayrols, checkIfPayrolExists };
+const getLastMonthAndYearClosed = async () => {
+  const getLastMonthAndYear = await prisma.personPayrollHistory.findMany({
+    select: {
+      PayrollMonth: true,
+      PayrollYear: true,
+    },
+  });
+  const lastMonthAndYear = getLastMonthAndYear[getLastMonthAndYear.length - 1];
+  return lastMonthAndYear;
+};
+
+export {
+  renderNewPayrols,
+  renderPastPayrols,
+  checkIfPayrolExists,
+  getLastMonthAndYearClosed,
+};

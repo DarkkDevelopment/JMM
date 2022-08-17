@@ -7,12 +7,7 @@ import prisma from "../../../../lib/prisma";
 const getKhasm = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { month, year } = req.body;
-    const KhasmHistory = await calculateTotalKhsomatinMonth(
-      req,
-      res,
-      month,
-      year
-    );
+    const KhasmHistory = await calculateTotalKhsomatinMonth(year);
     res.status(200).json(KhasmHistory);
   } catch (e: any) {
     res.status(500).json({ error: e.message });

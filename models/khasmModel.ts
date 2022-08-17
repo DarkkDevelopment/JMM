@@ -22,4 +22,15 @@ export type KhasmModelHistory = {
   };
   PersonCode: number;
   totalKhasminThatMonth: number;
+  khasmHistory: khasmHistoryForPerson[];
+  lastMonthClosed: number;
+  lastYearClosed: number;
+};
+
+export type khasmHistoryForPerson = {
+  khasmId: number;
+  khasmValue: number;
+  DayOfHafez: number;
+  MonthOfHafez: number;
+  YearOfHafez: number;
 };

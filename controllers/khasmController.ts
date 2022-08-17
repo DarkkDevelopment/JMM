@@ -1,7 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../lib/prisma";
-import { KhasmModel, KhasmModelHistory } from "../models/khasmModel";
+import {
+  khasmHistoryForPerson,
+  KhasmModel,
+  KhasmModelHistory,
+} from "../models/khasmModel";
 import getWorkingHours from "./getWorkingHours";
+import {
+  checkIfPayrolExists,
+  getLastMonthAndYearClosed,
+} from "./payrolController";
 import { getMorattabAndDarebaPercentage } from "./taxesController";
 
 const getKhasmReasons = async () => {
@@ -118,12 +126,7 @@ const createKhasmGheyabDays = async (
   }
 };
 
-const calculateTotalKhsomatinMonth = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  month: number,
-  year: number
-) => {
+const calculateTotalKhsomatinMonth = async (year: number) => {
   const response: KhasmModelHistory[] = [];
   const getEmployees = await prisma.person.findMany({
     where: {
@@ -141,10 +144,10 @@ const calculateTotalKhsomatinMonth = async (
     const getKhasm = await prisma.personKhasmHistory.findMany({
       where: {
         PersonKhasmId: employee.PersonCode,
-        MonthOfKhasm: month,
         YearOfKhasm: year,
       },
       select: {
+        id: true,
         PersonKhasmId: true,
         PureKhasmValue: true,
         NumberOfLateHours: true,
@@ -152,13 +155,30 @@ const calculateTotalKhsomatinMonth = async (
         NumberOfGhyabDays: true,
         KhasmGhyabDayRatio: true,
         KhasmLateValue: true,
+        DayOfKhasm: true,
+        MonthOfKhasm: true,
+        YearOfKhasm: true,
       },
     });
+
+    const history: khasmHistoryForPerson[] = getKhasm.map((khasm) => {
+      return {
+        khasmId: khasm.id,
+        khasmValue: Number(khasm.PureKhasmValue),
+        DayOfHafez: Number(khasm.DayOfKhasm),
+        MonthOfHafez: Number(khasm.MonthOfKhasm),
+        YearOfHafez: Number(khasm.YearOfKhasm),
+      };
+    });
+
     const totalKhsomatInMonth = getKhasm.reduce(
       // @ts-ignore
       (acc, curr) => acc + curr.KhasmLateValue,
       0
     );
+
+    const lastMonthAndYearClosed = await getLastMonthAndYearClosed();
+
     response.push({
       PersonCode: employee.PersonCode,
       PersonName: {
@@ -168,9 +188,21 @@ const calculateTotalKhsomatinMonth = async (
         PersonFourthName: employee.PersonFourthName,
       },
       totalKhasminThatMonth: totalKhsomatInMonth,
+      khasmHistory: history,
+      lastMonthClosed: lastMonthAndYearClosed.PayrollMonth,
+      lastYearClosed: lastMonthAndYearClosed.PayrollYear,
     });
   }
   return response;
+};
+
+const deletePureKhasm = async (id: number) => {
+  const deleteKhasm = await prisma.personKhasmHistory.delete({
+    where: {
+      id: id,
+    },
+  });
+  return deleteKhasm;
 };
 
 export {
@@ -180,4 +212,5 @@ export {
   createKhasmGheyabDays,
   calculateTotalKhsomatinMonth,
   getKhasmReasons,
+  deletePureKhasm,
 };

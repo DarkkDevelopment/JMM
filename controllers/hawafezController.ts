@@ -1,7 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../lib/prisma";
-import { HawafezModel, HawafezModelHistory } from "../models/hawafezModel";
+import {
+  hawafezHistoryForPerson,
+  HawafezModel,
+  HawafezModelHistory,
+} from "../models/hawafezModel";
 import getWorkingHours from "./getWorkingHours";
+import {
+  checkIfPayrolExists,
+  getLastMonthAndYearClosed,
+} from "./payrolController";
 import { getMorattabAndDarebaPercentage } from "./taxesController";
 
 const getHawafezResons = async () => {
@@ -122,12 +130,7 @@ const createHafezExtraDays = async (model: HawafezModel) => {
   }
 };
 
-const calculateTotalHawafezinMonth = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-  month: number,
-  year: number
-) => {
+const calculateTotalHawafezinMonth = async (year: number) => {
   const response: HawafezModelHistory[] = [];
   const getEmployees = await prisma.person.findMany({
     where: {
@@ -145,10 +148,10 @@ const calculateTotalHawafezinMonth = async (
     const getHafez = await prisma.personHafezHistory.findMany({
       where: {
         PersonHafezId: employee.PersonCode,
-        MonthOfHafez: month,
         YearOfHafez: year,
       },
       select: {
+        id: true,
         PersonHafezId: true,
         PureHafezValue: true,
         NumberOfBonusHours: true,
@@ -156,8 +159,24 @@ const calculateTotalHawafezinMonth = async (
         HafezBonusHourRatio: true,
         HafezBonusDayRatio: true,
         HafezTotalValue: true,
+        DayOfHafez: true,
+        MonthOfHafez: true,
+        YearOfHafez: true,
       },
     });
+
+    const history: hawafezHistoryForPerson[] = getHafez.map((h) => {
+      return {
+        hafezId: h.id,
+        HafezValue: Number(h.PureHafezValue),
+        DayOfHafez: Number(h.DayOfHafez),
+        MonthOfHafez: Number(h.MonthOfHafez),
+        YearOfHafez: Number(h.YearOfHafez),
+      };
+    });
+
+    const lastMonthAndYearClosed = await getLastMonthAndYearClosed();
+
     const totalHawafezinMonth = getHafez.reduce(
       // @ts-ignore
       (acc, curr) => acc + curr.HafezTotalValue,
@@ -172,9 +191,21 @@ const calculateTotalHawafezinMonth = async (
         PersonFourthName: employee.PersonFourthName,
       },
       totalHawafezinThatMonth: totalHawafezinMonth,
+      HafezHistory: history,
+      lastMonthClosed: lastMonthAndYearClosed.PayrollMonth,
+      lastYearClosed: lastMonthAndYearClosed.PayrollYear,
     });
   }
   return response;
+};
+
+const deletePureHafez = async (id: number) => {
+  const deleteHafez = await prisma.personHafezHistory.delete({
+    where: {
+      id: id,
+    },
+  });
+  return deleteHafez;
 };
 
 export {
@@ -184,4 +215,5 @@ export {
   createHafezMove,
   calculateTotalHawafezinMonth,
   getHawafezResons,
+  deletePureHafez,
 };
