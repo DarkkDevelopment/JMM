@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../lib/prisma";
 import { PayrolModel } from "../models/payrolModel";
+import getBadalatPercentage from "../pages/api/lookupsData/getDataFromLookups/badalatPercentage";
+import getElawatPercentage from "../pages/api/lookupsData/getDataFromLookups/elawatPercentage";
 import getWorkingHours from "./getWorkingHours";
 import { getMorattabAndDarebaPercentage } from "./taxesController";
 
@@ -290,7 +292,40 @@ const getTotalPureHafezInMonth = async (
   return total;
 };
 
-const renderNewPayrols = async (): Promise<PayrolModel[]> => {
+const getElawatPercentageController = async () => {
+  try {
+    const ElawatPercentage = await prisma.fixedGlobalValues.findUnique({
+      where: {
+        Name: "ElawatPercentage",
+      },
+    });
+    return ElawatPercentage?.Value;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const getBadalatPercentageController = async () => {
+  try {
+    const badalatPercentage = await prisma.fixedGlobalValues.findUnique({
+      where: {
+        Name: "BadalatPercentage",
+      },
+    });
+    return badalatPercentage?.Value;
+  } catch (error: any) {
+    return error;
+  }
+};
+
+const renderNewPayrols = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<PayrolModel[]> => {
+  const getElawat = await getElawatPercentageController();
+  const elawat = await getBadalatPercentageController();
+  // todo : get elawat and badalat percentages
+  // todo : then we will multiply them with the rest of current morattab - fixed ta2menat percentage
   const NewRecords: PayrolModel[] = [];
   const Ta2meenPercentagePaidByPerson = await getTa2meenPercentage();
 
@@ -412,6 +447,8 @@ const renderNewPayrols = async (): Promise<PayrolModel[]> => {
           PersonPayrollDate: new Date(),
           PayrolMonth: currentMonth,
           PayrolYear: currentYear,
+          elawatValue: getElawat * employee.PersonTa2meenValue,
+          badalatValue: elawat * employee.PersonTa2meenValue,
         });
       });
     }
@@ -501,6 +538,8 @@ const renderPastPayrols = async (month: number, year: number) => {
         PersonPayrollDate: PayrolHistory.PersonPayrollDate,
         PayrolMonth: PayrolHistory.PayrollMonth,
         PayrolYear: PayrolHistory.PayrollYear,
+        elawatValue: PayrolHistory.elawatValue,
+        badalatValue: PayrolHistory.badalatValue,
       });
     }
   });

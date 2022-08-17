@@ -25,6 +25,8 @@ export type PayrolModel = {
   PersonTa2meenValue: number;
   PersonTa2meenPercentage: number;
   TotalValueOfTa2meenAtThatMonth: number;
+  elawatValue: number;
+  badalatValue: number;
   NetSalary: number;
   PersonPayrollDate: Date;
   PayrolMonth: number;

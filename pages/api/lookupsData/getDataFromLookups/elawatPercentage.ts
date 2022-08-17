@@ -13,7 +13,7 @@ const getElawatPercentage = async (
         Name: "ElawatPercentage",
       },
     });
-    res.status(200).json(ElawatPercentage);
+    res.status(200).json(ElawatPercentage?.Value);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

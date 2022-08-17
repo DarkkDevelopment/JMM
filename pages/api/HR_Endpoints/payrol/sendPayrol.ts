@@ -5,6 +5,8 @@ import prisma from "../../../../lib/prisma";
 import { sendInsuranceModel } from "../../../../models/insuranceModel";
 import { PayrolModel } from "../../../../models/payrolModel";
 import { sendTaxesModel } from "../../../../models/taxesModel";
+import getBadalatPercentage from "../../lookupsData/getDataFromLookups/badalatPercentage";
+import getElawatPercentage from "../../lookupsData/getDataFromLookups/elawatPercentage";
 
 // button for closing the payrol should fire this request to create new record in table payrol history
 
@@ -19,6 +21,7 @@ const sendPayrol = async (req: NextApiRequest, res: NextApiResponse) => {
     const year = req.body.year;
     await sendInsuranceForMonth(month, year, Insurance);
     await sendTaxesForMonth(month, year, Taxes);
+
     payrol.forEach(async (payrol) => {
       await prisma.personPayrollHistory.create({
         data: {
@@ -59,6 +62,8 @@ const sendPayrol = async (req: NextApiRequest, res: NextApiResponse) => {
           PersonPayrollDate: payrol.PersonPayrollDate,
           PayrollMonth: payrol.PayrolMonth,
           PayrollYear: payrol.PayrolYear,
+          elawatValue: payrol.elawatValue,
+          badalatValue: payrol.badalatValue,
         },
       });
     });
