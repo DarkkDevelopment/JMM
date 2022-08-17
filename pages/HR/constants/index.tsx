@@ -8,7 +8,7 @@ import SideBar from "../../../components/sideBar";
 const Home = (props) => {
   const router = useRouter();
   return (
-    <div>
+    <div className="">
       <div className="flex flex-col p-10 mx-10 bg-white shadow-xl space-y-7 rounded-3xl w-3/4">
         <h1 className="text-center text-xl self-center font-bold m-10 items-center justify-center">
           ثوابت النظام
