@@ -93,10 +93,10 @@ const renderLoanHistoryByYear = async (
         PersonCode: employee.PersonCode,
         SolfaLimitAtThatMonth: CurrentMorattab * loanPercentage,
         history,
-        lastMonthClosed: lastMonthAndYearClosed.PayrollMonth
+        lastMonthClosed: lastMonthAndYearClosed
           ? lastMonthAndYearClosed.PayrollMonth
           : null,
-        lastYearClosed: lastMonthAndYearClosed.PayrollYear
+        lastYearClosed: lastMonthAndYearClosed
           ? lastMonthAndYearClosed.PayrollYear
           : null,
       });

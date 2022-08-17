@@ -192,10 +192,10 @@ const calculateTotalHawafezinMonth = async (year: number) => {
       },
       totalHawafezinThatMonth: totalHawafezinMonth,
       HafezHistory: history,
-      lastMonthClosed: lastMonthAndYearClosed.PayrollMonth
+      lastMonthClosed: lastMonthAndYearClosed
         ? lastMonthAndYearClosed.PayrollMonth
         : null,
-      lastYearClosed: lastMonthAndYearClosed.PayrollYear
+      lastYearClosed: lastMonthAndYearClosed
         ? lastMonthAndYearClosed.PayrollYear
         : null,
     });
