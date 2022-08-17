@@ -13,7 +13,7 @@ const Dropdown = (props: Props) => {
   return (
     <div className="">
       <select
-        className="relative flex jutify-center w-fit items-centerbg-white bg-blue-900 text-white rounded focus:outline-none focus:ring ring-gray-200border shadow group p-2"
+        className="relative flex justify-center w-fit items-center bg-blue-900 text-white rounded focus:outline-none focus:ring ring-gray-200border shadow group p-3"
         value={value}
         disabled={isDisabled}
         onChange={(e) => onChange!(Number(e.target.value))}
@@ -22,7 +22,7 @@ const Dropdown = (props: Props) => {
         {options &&
           options!.map((option, index) => {
             return (
-              <option key={index} value={option.id}>{option.name}</option>
+              <option className = "" key={index} value={option.id}>{option.name}</option>
             );
           })}
       </select>
