@@ -1,20 +1,21 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../lib/prisma";
-import { SolfaModel } from "../models/SolfaModel";
+import { solfaHistoryForPerson, SolfaModel } from "../models/SolfaModel";
 import getLoanPercentage from "./getLoanPercentage";
+import { getLastMonthAndYearClosed } from "./payrolController";
 
 const getSolfaHistory = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
   code: number,
   isApproved: boolean,
-  isDoneAndPaid: boolean
+  isDoneAndPaid: boolean,
+  year: number
 ) => {
   const solfaHistory = await prisma.personSolfaPerMonth.findMany({
     where: {
       PersonCode: code,
       IsApproved: isApproved,
       IsDoneAndPaid: isDoneAndPaid,
+      SolfaYearToBeApplied: year,
     },
     orderBy: {
       SolfaRequestDate: "desc",
@@ -40,9 +41,10 @@ const getCurrentMorattab = async (
   return currentMorattab?.CurrentMorattab;
 };
 
-const renderLoanHistoryByDate = async (
+const renderLoanHistoryByYear = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
+  year: number
 ) => {
   const loanPercentage = await getLoanPercentage(req, res);
   const historyModels: SolfaModel[] = [];
@@ -60,17 +62,26 @@ const renderLoanHistoryByDate = async (
   });
   employees.forEach(async (employee) => {
     const solfaHistory = await getSolfaHistory(
-      req,
-      res,
       employee.PersonCode,
       true,
-      false
+      false,
+      year
     );
     const CurrentMorattab = await getCurrentMorattab(
       req,
       res,
       employee.PersonCode
     );
+    const lastMonthAndYearClosed = await getLastMonthAndYearClosed();
+
+    const history: solfaHistoryForPerson[] = solfaHistory.map((loan) => {
+      return {
+        solfaId: loan.id,
+        solfaValue: loan.SolfaValue,
+        solfaRequestDate: loan.SolfaRequestDate,
+      };
+    });
+
     if (solfaHistory != null && CurrentMorattab != null) {
       historyModels.push({
         PersonName: {
@@ -81,10 +92,13 @@ const renderLoanHistoryByDate = async (
         },
         PersonCode: employee.PersonCode,
         SolfaLimitAtThatMonth: CurrentMorattab * loanPercentage,
-        LastSolfaValue: solfaHistory[0]?.SolfaValue,
-        LastSolfaRequestDate: solfaHistory[0]?.SolfaRequestDate,
-        LastSolfaMonthToBeApplied: solfaHistory[0]?.SolfaMonthToBeApplied,
-        LastSolfaYearToBeApplied: solfaHistory[0]?.SolfaYearToBeApplied,
+        history,
+        lastMonthClosed: lastMonthAndYearClosed.PayrollMonth
+          ? lastMonthAndYearClosed.PayrollMonth
+          : null,
+        lastYearClosed: lastMonthAndYearClosed.PayrollYear
+          ? lastMonthAndYearClosed.PayrollYear
+          : null,
       });
     }
   });
@@ -97,7 +111,12 @@ const checkIfEmployeeTokeLoanInSameMonthBefore = async (
   code: number,
   date: Date
 ) => {
-  const loanHistory = await getSolfaHistory(req, res, code, true, false);
+  const loanHistory = await getSolfaHistory(
+    code,
+    true,
+    false,
+    date.getFullYear()
+  );
   loanHistory.forEach((loan) => {
     if (
       loan.SolfaMonthToBeApplied === date.getMonth() + 1 &&
@@ -109,8 +128,18 @@ const checkIfEmployeeTokeLoanInSameMonthBefore = async (
   return false;
 };
 
+const deleteLoan = async (id: number) => {
+  const deletedLoan = await prisma.personSolfaPerMonth.delete({
+    where: {
+      id,
+    },
+  });
+  return deletedLoan;
+};
+
 export {
-  renderLoanHistoryByDate,
+  renderLoanHistoryByYear,
   getCurrentMorattab,
   checkIfEmployeeTokeLoanInSameMonthBefore,
+  deleteLoan,
 };

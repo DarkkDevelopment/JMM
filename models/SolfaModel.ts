@@ -7,8 +7,13 @@ export type SolfaModel = {
   };
   PersonCode: number;
   SolfaLimitAtThatMonth: number;
-  LastSolfaValue: number;
-  LastSolfaRequestDate: Date;
-  LastSolfaMonthToBeApplied: number;
-  LastSolfaYearToBeApplied: number;
+  history: solfaHistoryForPerson[];
+  lastMonthClosed: number | null;
+  lastYearClosed: number | null;
+};
+
+export type solfaHistoryForPerson = {
+  solfaId: number;
+  solfaValue: number;
+  solfaRequestDate: Date;
 };

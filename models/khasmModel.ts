@@ -23,8 +23,8 @@ export type KhasmModelHistory = {
   PersonCode: number;
   totalKhasminThatMonth: number;
   khasmHistory: khasmHistoryForPerson[];
-  lastMonthClosed: number;
-  lastYearClosed: number;
+  lastMonthClosed: number | null;
+  lastYearClosed: number | null;
 };
 
 export type khasmHistoryForPerson = {

@@ -22,8 +22,8 @@ export type HawafezModelHistory = {
   PersonCode: number;
   totalHawafezinThatMonth: number;
   HafezHistory: hawafezHistoryForPerson[];
-  lastMonthClosed: number;
-  lastYearClosed: number;
+  lastMonthClosed: number | null;
+  lastYearClosed: number | null;
 };
 
 export type hawafezHistoryForPerson = {

@@ -189,8 +189,12 @@ const calculateTotalKhsomatinMonth = async (year: number) => {
       },
       totalKhasminThatMonth: totalKhsomatInMonth,
       khasmHistory: history,
-      lastMonthClosed: lastMonthAndYearClosed.PayrollMonth,
-      lastYearClosed: lastMonthAndYearClosed.PayrollYear,
+      lastMonthClosed: lastMonthAndYearClosed.PayrollMonth
+        ? lastMonthAndYearClosed.PayrollMonth
+        : null,
+      lastYearClosed: lastMonthAndYearClosed.PayrollYear
+        ? lastMonthAndYearClosed.PayrollYear
+        : null,
     });
   }
   return response;
