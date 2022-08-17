@@ -281,6 +281,8 @@ model PersonPayrollHistory {
   PersonTa2meenValue                                             Int
   PersonTa2meenPercentage                                        Float
   TotalValueOfTa2meenatAtThatMonth                               Float
+  elawatValue                                                    Float
+  badalatValue                                                   Float
   NetSalary                                                      Float
   PersonPayrollDate                                              DateTime @db.Date
   PayrollMonth                                                   Int

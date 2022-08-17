@@ -396,7 +396,7 @@ const renderNewPayrols = async (): Promise<PayrolModel[]> => {
             MorattabAndDarayebPercentage.dareebaPercentage,
           TotalValueOfDarayebAtThatMonth:
             MorattabAndDarayebPercentage.dareebaPercentage *
-            MorattabAndDarayebPercentage.morattab,
+            employee.PersonTa2meenValue,
           PersonTa2meenValue: employee.PersonTa2meenValue,
           PersonTa2meenPercentage: Ta2meenPercentagePaidByPerson,
           TotalValueOfTa2meenAtThatMonth:
