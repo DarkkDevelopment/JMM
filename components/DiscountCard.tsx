@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { khasmHistoryForPerson } from "../models/khasmModel";
 import Dropdown from "./DropDownComp";
 import TextField from "./TextField";
 
 function DiscountCard(props: any) {
-  const { name, totalKhasminThatMonth, title, discountReasons, PersonCode } =
+  const { name, totalKhasminThatMonth, title, discountReasons, PersonCode, history, lastMonthClosed, lastYearClosed, deleteHafez } =
     props;
   const [discount, setDiscount] = useState(discountReasons[0].name);
   const [money, setMoney] = useState("");
@@ -48,7 +49,7 @@ function DiscountCard(props: any) {
       </p>
 
       <div className="flex flex-row justify-between flex-1 w-3/4 align-baseline font-display ">
-       
+
       </div>
 
 
@@ -58,30 +59,74 @@ function DiscountCard(props: any) {
 
 
 
-        <div className="flex flex-row align-baseline justify-between font-display space-x-64 ">
-            <div className=" mt-7 ">
-            <Dropdown
-          options={discountReasons}
-          title="اسباب الخصم"
-          onChange={setDiscount}
-          value={discount}
-        />
-       
-            </div>
-            
-                
-                <div className="ml- ">
-                <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
-            </div>
-            </div>
+      <div className="flex flex-row align-baseline justify-between font-display space-x-64 ">
+        <div className=" mt-7 ">
+          <Dropdown
+            options={discountReasons}
+            title="اسباب الخصم"
+            onChange={setDiscount}
+            value={discount}
+          />
+
+        </div>
 
 
+        <div className="ml- ">
+          <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
+        </div>
+      </div>
       <button
         onClick={sendHafez}
         className="m-3 px-4 py-2 text-center shadow appearance-none border rounded w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900 "
       >
         تم
       </button>
+
+      <table
+        className="text-right border-collapse table-auto font-display w-[20vw]"
+      >
+        <thead className="text-right text-black border-2 border-t-0 border-l-0 border-r-0 border-b-black">
+          <tr>
+            <th></th>
+            <th>القيمة</th>
+            <th>التاريخ</th>
+          </tr>
+        </thead>
+        <tbody className="text-right ">
+          {history.map((hist: khasmHistoryForPerson) => {
+            return (
+              <tr key={hist.khasmId}>
+
+                {
+                  lastYearClosed != null || lastMonthClosed != null ?
+                    lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear() ?
+                      (
+                        <>
+                          <button
+                            className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                            onClick={() => {
+                              deleteHafez(hist.khasmId);
+                              //   deleteVacation(hist.id);
+                            }}
+                          >
+                            x
+                          </button>
+                        </>
+                      ) : (<td></td>) : (
+                      <td>
+
+                      </td>
+                    )
+                }
+
+
+                <td>{hist.khasmValue}</td>
+                <td>{`${hist.YearOfHafez}-${hist.MonthOfHafez}-${hist.DayOfHafez}`}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }

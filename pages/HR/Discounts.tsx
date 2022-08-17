@@ -4,14 +4,14 @@ import React, { ReactPropTypes, useEffect, useState } from "react";
 import DiscountCard from "../../components/DiscountCard";
 import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
-import { IKhasm } from "../../interfaces/khasm";
+import { KhasmModelHistory } from "../../models/khasmModel";
 
 // @ts-ignore
 function Discounts(props) {
   const [filterDate, setFilterDate] = useState(new Date());
   const [searchterm, setSearchTerm] = useState("");
   const [filteredEmployeesBackup, setFilteredEmployeesBackup] = useState([]);
-  const [filteredEmployees, setFilteredEmployees] = useState<IKhasm[]>([]);
+  const [filteredEmployees, setFilteredEmployees] = useState<KhasmModelHistory[]>([]);
   const [discountsReasons, setDiscountReasons] = useState([]);
 
   useEffect(() => {
@@ -43,6 +43,13 @@ function Discounts(props) {
       setFilteredEmployees(filteredEmployeesBackup);
     }
   }, [filterDate, filteredEmployeesBackup, searchterm]);
+
+  const deleteHafez = async (id: number) => {
+    await axios.post(`/api/HR_Endpoints/khasm/delete`, {
+      id
+    });
+    window.location.reload();
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,6 +95,10 @@ function Discounts(props) {
                   totalKhasminThatMonth={emp.totalKhasminThatMonth}
                   title="خصم"
                   discountReasons={discountsReasons}
+                  history={emp.khasmHistory}
+                  lastMonthClosed={emp.lastMonthClosed}
+                  lastYearClosed={emp.lastYearClosed}
+                  deleteHafez={deleteHafez}
                 />
               );
             })}
