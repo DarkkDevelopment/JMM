@@ -8,12 +8,104 @@ import SideBar from "../../../components/sideBar";
 const Home = (props) => {
   const router = useRouter();
   return (
-    <div className="">
-      <div className="flex flex-col p-10 mx-10 bg-white shadow-xl space-y-7 rounded-3xl w-3/4">
-        <h1 className="text-center text-xl self-center font-bold m-10 items-center justify-center">
+    <div className="flex flex-row bg-gray-100">
+      <div className="flex flex-col  p-5 mx-10 my-10 mt-36 bg-white shadow-xl space-y-7 rounded-3xl w-3/4 text-center text-xl  font-bold items-center justify-center">
+        <h1 className="text-center text-3xl self-center font-bold items-center justify-center rounded-xl p-3 ">
           ثوابت النظام
         </h1>
-        <table className="text-center border-collapse table-auto font-display">
+        <div className="grid grid-cols-4 grid-rows-3 gap-8">
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/mohafazat");
+            }}
+            >المحافظات</button> 
+          </div>
+          
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/manateq");
+            }}
+            >المناطق</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/agazat");
+            }}
+            >أسباب الاجازات</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/hwafezReasons");
+            }}
+            >أسباب الحوافز</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/khasmReasons");
+            }}
+            >أسباب الخصومات</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/dyana");
+            }}
+            >الديانات</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button  className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/wazefa");
+            }}
+            >الوظائف</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/types");
+            }}
+            >الجنس</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/weeklyvacation");
+            }}
+            >الاجازات الاسبوعية</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/officialagaza");
+            }}
+            >الاجازات الرسمية</button> 
+          </div>
+
+          <div className="m-auto bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            <button className="text-white"
+            onClick={() => {
+              router.push("/HR/constants/system");
+            }}
+            >الثوابت العامة</button> 
+          </div>
+
+        </div>
+
+
+        {/* <table className="text-center border-collapse table- font-display">
           <thead className="text-center text-white bg-blue-900">
             <tr >
               <th className="p-4">
@@ -23,15 +115,15 @@ const Home = (props) => {
               </th>
               <th className="p-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الإسم
+                  ثوابت النظام
                 </span>
               </th>
             </tr>
           </thead>
-          <tbody className="p-10">
+          <tbody className="">
 
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center"
                   onClick={() => {
                     router.push("/HR/constants/mohafazat");
@@ -40,14 +132,14 @@ const Home = (props) => {
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer" />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   المحافظات
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center"
                   onClick={() => {
                     router.push("/HR/constants/manateq");
@@ -55,7 +147,7 @@ const Home = (props) => {
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer" />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center"
 
                 >
@@ -63,8 +155,8 @@ const Home = (props) => {
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -72,14 +164,14 @@ const Home = (props) => {
                     }} />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   اسباب الاجازات
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -87,14 +179,14 @@ const Home = (props) => {
                     }} />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   اسباب الحوافز
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-right text-xl self-end font-bold m-10 justify-end">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -102,14 +194,14 @@ const Home = (props) => {
                     }} />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   اسباب الخصومات
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-right text-xl self-end font-bold m-10 justify-end">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -118,14 +210,14 @@ const Home = (props) => {
                   />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   الديانات
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-right text-xl self-end font-bold m-10 justify-end">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -133,14 +225,14 @@ const Home = (props) => {
                     }} />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   الوظائف
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-right text-xl self-end font-bold m-10 justify-end">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -149,14 +241,14 @@ const Home = (props) => {
                   />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   الجنس
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-right text-xl self-end font-bold m-10 justify-end">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -164,14 +256,14 @@ const Home = (props) => {
                     }} />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   الاجازات الاسبوعية
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-right text-xl self-end font-bold m-10 justify-end">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -179,14 +271,14 @@ const Home = (props) => {
                     }} />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   الاجازات الرسمية
                 </span>
               </td>
             </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
+            <tr className="px-4 ">
+              <td className="px-4">
                 <span className="text-right text-xl self-end font-bold m-10 justify-end">
                   <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
                     onClick={() => {
@@ -194,14 +286,14 @@ const Home = (props) => {
                     }} />
                 </span>
               </td>
-              <td className="p-4">
+              <td className="px-4">
                 <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
                   الثوابت العامة
                 </span>
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> */}
 
       </div>
       <SideBar pageName="const" />
