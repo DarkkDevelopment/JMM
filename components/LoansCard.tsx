@@ -13,36 +13,48 @@ function LoansCard(props: any) {
     deleteSolfa,
   } = props;
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(0);
   const sendSolfa = async (e: any) => {
     e.preventDefault();
-    let solfaValue = Number.parseInt(value);
-    if (solfaValue > limit) {
+    if (value > limit) {
       alert("المبلغ المدخل اكبر من الحد الاقصى المسموح به");
       return;
     }
-    if (solfaValue < 0) {
+    if (value < 0) {
       alert("المبلغ المدخل اقل من الصفر");
       return;
     }
-    if (solfaValue === 0) {
+    if (value === 0) {
       alert("المبلغ المدخل يجب ان يكون اكبر من الصفر");
       return;
     }
     // todo i will put here the checking function first
-    const response = await axios.post("/api/HR_Endpoints/loan/createLoan", {
-      PersonCode: code,
-      SolfaValue: solfaValue,
-      SolfaRequestDate: new Date(),
-      SolfaMonthToBeApplied: new Date().getMonth() + 1,
-      SolfaYearToBeApplied: new Date().getFullYear(),
+    const checkForLastLoans = await axios({
+      method: "post",
+      url: "/api/HR_Endpoints/loan/check",
+      data: {
+        code: code,
+        date: new Date(),
+      },
     });
 
-    if (response.status == 200) {
-      alert("تمت العملية بنجاح");
-      window.location.reload();
+    if (checkForLastLoans.status !== 200) {
+      const response = await axios.post("/api/HR_Endpoints/loan/createLoan", {
+        PersonCode: code,
+        SolfaValue: value,
+        SolfaRequestDate: new Date(),
+        SolfaMonthToBeApplied: new Date().getMonth() + 1,
+        SolfaYearToBeApplied: new Date().getFullYear(),
+      });
+
+      if (response.status == 200) {
+        alert("تمت العملية بنجاح");
+        window.location.reload();
+      } else {
+        alert("حدث خطأ حاول مرة اخرى");
+      }
     } else {
-      alert("حدث خطأ حاول مرة اخرى");
+      alert("لا يمكنك ادخال سلفة لهذا الشهر");
     }
   };
   return (
@@ -116,7 +128,7 @@ function LoansCard(props: any) {
             type="text"
             placeholder="ادخل المبلغ"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setValue(Number(e.target.value))}
           />
         </div>
       </div>
