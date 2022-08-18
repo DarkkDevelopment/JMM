@@ -33,8 +33,10 @@ const System = (props) => {
       const loanPercentageResponse = await axios.get(
         "/api/lookupsData/getDataFromLookups/globalValues"
       );
-
-      if (loanPercentageResponse.data !== 0) {
+      const elawaPercentageResponse = await axios.get('/api/lookupsData/getDataFromLookups/elawatPercentage');
+      const badalatPercentageResponse = await axios.get('/api/lookupsData/getDataFromLookups/badalatPercentage');
+      console.log(elawaPercentageResponse.data, badalatPercentageResponse.data);
+      if (loanPercentageResponse.data !== 0 || elawaPercentageResponse.data !== null || badalatPercentageResponse.data !== null) {
         setIsLoanPercentageNew(false);
       } else {
         setIsLoanPercentageNew(true);
@@ -77,6 +79,8 @@ const System = (props) => {
       setKhasmLateHourRatio(response.data.KhasmLateHourRatio);
       setPersonInsurancePercentage(response.data.PersonInsurancePercentage);
       setCompanyInsurancePercentage(response.data.SherkaInsurancePercentage);
+      setBadalatPercentage(badalatPercentageResponse.data == null? 0 : badalatPercentageResponse.data);
+      setElawaPercentage(elawaPercentageResponse.data == null? 0 : elawaPercentageResponse.data);
     };
     fetchData();
   }, []);
@@ -216,22 +220,47 @@ const System = (props) => {
     await axios.post("/api/lookupsData/insertDataIntoLookups/globalValues", {
       nameOfNewValue: "LoanPercentage",
       newValue: Number.parseFloat(loanPercentage.toString()),
-    }).then(() => {
-      setIsLoanPercentageNew(false);
-      Alert.Success('تم اضافة البيانات بنجاح');
     }).catch((err) => {
       Alert.Error('حدث خطأ اثناء اضافة البيانات');
     });
+
+    await axios.post("/api/lookupsData/insertDataIntoLookups/badalatPercentage", {
+      value: Number.parseFloat(badalatPercentage.toString()),
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء اضافة البيانات');
+    })
+
+    await axios.post("/api/lookupsData/insertDataIntoLookups/elawatPercentage", {
+      value: Number.parseFloat(elawaPercentage.toString()),
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء اضافة البيانات');
+    })
+    //setIsLoanPercentageNew(false);
+    Alert.Success('تم اضافة البيانات بنجاح');
+
     //reloadPage();
   };
   const editLoanPercentage = async () => {
+
     await axios.post("/api/lookupsData/updateDataIntoLookups/globalValues", {
       newValue: Number.parseFloat(loanPercentage.toString()),
-    }).then(() => {
-      Alert.Success('تم تعديل البيانات بنجاح');
     }).catch((err) => {
       Alert.Error('حدث خطأ اثناء تعديل البيانات');
     });
+
+    await axios.post("/api/lookupsData/updateDataIntoLookups/badalatPercentage", {
+      value: Number.parseFloat(badalatPercentage.toString()),
+    }).catch((err) => {
+      Alert.Error('حدث خطأ اثناء تعديل البيانات');
+    });
+
+    await axios.post("/api/lookupsData/updateDataIntoLookups/elawatPercentage", {
+      value: Number.parseFloat(elawaPercentage.toString()),
+    }).catch((err) => {
+      Alert.Error('حدث خطأ اثناء تعديل البيانات');
+    })
+
+    Alert.Success('تم تعديل البيانات بنجاح');
     // reloadPage();
   };
 
