@@ -198,20 +198,15 @@ function AddEmployee() {
             }
             errorMsg="كود الموظف يجب أن يكون رقم"
           />
-          <div className="flex flex-col space-y-10 bg-white ">
-            <div className="flex flex-row mr-4 pt-0.5">
+          <div className="lex flex-col mt-3 space-y-10 text-right bg-white rounded-lg ">
+            <div className="flex pl-40 p-4 flex-row items-center justify-between">
               <input
                 type="date"
-                className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                className="w-1/2 px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"
                 onChange={(e) => setBirthDate(new Date(e.target.value))}
                 value={birthDate.toISOString().split("T")[0]}
               />
-              {/* <DatePicker
-                className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
-                selected={birthDate}
-                onChange={(date: Date) => setBirthDate(date)}
-              /> */}
-
+              
               <div className="flex flex-row items-center ml-32">
                 <h6 className="self-center text-lg text-right text-gray-700">
                   تاريخ الميلاد
@@ -219,10 +214,10 @@ function AddEmployee() {
               </div>
             </div>
 
-            <div className="flex flex-row pt-4 mr-4">
+            <div className="flex pl-40 p-4 flex-row items-center justify-between">
               <input
                 type="date"
-                className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                className="w-1/2 px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"
                 onChange={(e) => setAssignDate(new Date(e.target.value))}
                 value={assignDate.toISOString().split("T")[0]}
               />
@@ -233,7 +228,7 @@ function AddEmployee() {
                 </h6>
               </div>
             </div>
-            <div className=" pt-9">
+            <div className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
               <RadioButtonComp
                 label="الديانة"
                 options={religion}
@@ -241,7 +236,7 @@ function AddEmployee() {
                 value={dyana}
               />
             </div>
-            <div className=" pt-9">
+            <div className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
               <RadioButtonComp
                 label="النوع"
                 options={types}
@@ -249,19 +244,19 @@ function AddEmployee() {
                 value={type}
               />
             </div>
-            <div className="flex flex-row items-center justify-end pt-8 mr-2 space-x-64 bg-white rounded-lg">
+            <div className="flex flex-row p-4 pl-40 py-4 mt-3 justify-between bg-white rounded-lg">
               <Dropdown
                 title="الوظيفة"
                 options={wazayef}
                 value={work}
                 onChange={onWorkChange}
               />
-              <label className="self-center p-2 text-lg text-right text-gray-700 ">
+              <label className="text-lg text-right self-center text-gray-700">
                 الوظيفة
               </label>
             </div>
 
-            <div className="flex flex-row justify-around pt-10 ml-24 bg-white rounded-lg space-x-28">
+            <div className="flex p-4 pl-40 mt-3 flex-row justify-between">
               <Dropdown
                 title="المحافظة"
                 options={govs}
