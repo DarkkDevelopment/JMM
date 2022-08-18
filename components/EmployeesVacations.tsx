@@ -32,7 +32,7 @@ export const EmployeesVacations = (props: Props) => {
   }, [props.personCode, year]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white m-5 mt-8 rounded-3xl">
       <h1 className="p-10 text-3xl text-center text-black font-display">
         الاجازات
       </h1>

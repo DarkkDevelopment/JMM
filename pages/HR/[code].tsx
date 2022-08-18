@@ -227,36 +227,38 @@ function EmployeeDetails(props) {
               isEditable={true}
               value={code?.toString()}
             />
-            <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-lg ">
+            <div className="flex flex-col pl-40 p-4 mt-3 space-y-10 text-right bg-white rounded-lg ">
+              
               <div className="flex flex-row items-center justify-between">
                 <input
                   type="date"
-                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                  className="w-1/2 px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"
                   onChange={(e) => setBirthDate(new Date(e.target.value))}
                   value={birthDate.toISOString().split("T")[0]}
                   disabled={!editdata}
                 />
-
-                <h6 className="text-sm text-right text-gray-700">
+                <h6 className="text-lg text-right self-center text-gray-700">
                   تاريخ الميلاد
                 </h6>
               </div>
+
               <div className="flex flex-row items-center justify-between">
                 <input
                   type="date"
-                  className="px-4 py-2 m-3 leading-tight text-center text-black border rounded w-80 "
+                  className="w-1/2 px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"
                   onChange={(e) => setAssignDate(new Date(e.target.value))}
                   value={assignDate.toISOString().split("T")[0]}
                   disabled={!editdata}
                 />
 
-                <h6 className="text-sm text-right text-gray-700">
+                <h6 className="text-lg text-right self-center text-gray-700">
                   تاريخ التعيين
                 </h6>
               </div>
             </div>
+
             <div className="flex flex-col justify-around bg-white rounded-lg ">
-              <div className="flex flex-row justify-end">
+              <div className="flex pl-40 p-4 mt-3 flex-row justify-between">
                 <div className="mr-5">
                   <Dropdown
                     title="المحافظة"
@@ -276,7 +278,6 @@ function EmployeeDetails(props) {
                   />
                 </div>
 
-
               </div>
               <TextField
                 label="العنوان"
@@ -285,31 +286,37 @@ function EmployeeDetails(props) {
                 onChange={setAddress}
               />
             </div>
-            <div className="flex flex-row justify-end bg-white rounded-lg ">
+            <div className="flex flex-row pl-40 p-4 mt-3 justify-between bg-white rounded-lg">
               <Dropdown
                 title="الوظيفة"
                 options={wazayef}
                 value={work}
                 isDisabled={!editdata}
               />
-              <label className="p-2 text-sm text-right text-gray-700 ">
+              <label className="text-lg text-right self-center text-gray-700">
                 الوظيفة
               </label>
             </div>
-            <RadioButtonComp
-              label="الديانة"
-              editable={!editdata}
-              options={religion}
-              onChange={setDyana}
-              value={dyana}
+            <div className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
+              <RadioButtonComp
+                label="الديانة"
+                editable={!editdata}
+                options={religion}
+                onChange={setDyana}
+                value={dyana}
             />
-            <RadioButtonComp
-              label="النوع"
-              editable={!editdata}
-              options={types}
-              onChange={setType}
-              value={type}
-            />
+            </div>
+            
+            <div  className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
+              <RadioButtonComp
+                label="النوع"
+                editable={!editdata}
+                options={types}
+                onChange={setType}
+                value={type}
+              />
+            </div>
+            
             <TextField
               label="عدد سنوات التأمين"
               isEditable={!editdata}
@@ -388,7 +395,9 @@ function EmployeeDetails(props) {
             </button>
           </div>
         ) : null}
+
         <EmployeesVacations personCode={Number.parseInt(code)} />
+
         <div className="flex flex-row justify-center p-4 mt-3 bg-gray-100 space-x-96 ">
           <PersonSolfaComp PersonCode={Number.parseInt(code)} />
           <PersonMorattabComp personId={Number.parseInt(code)} />

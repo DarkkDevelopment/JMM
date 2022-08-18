@@ -15,7 +15,7 @@ function TextField(props: Props) {
   const [error, setError] = useState("");
 
   return (
-    <div className="flex pl-40   justify-between p-4 mt-3 space-x-10 text-right bg-white rounded-lg ">
+    <div className="flex pl-40 justify-between p-4 mt-3 space-x-10 text-right bg-white rounded-lg ">
       {error && <div className="text-red-500">{error}</div>}
       <input
         className="w-1/2 px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"

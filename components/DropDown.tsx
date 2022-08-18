@@ -13,7 +13,7 @@ const Dropdown = (props: Props) => {
   return (
     <div className="">
       <select
-        className="relative flex justify-center w-fit items-center bg-blue-900 text-white rounded focus:outline-none focus:ring ring-gray-200border shadow group p-3"
+        className="relative flex justify-center w-fit items-center bg-blue-900 text-white rounded focus:outline-none focus:ring ring-gray-200border shadow group p-3 px-5"
         value={value}
         disabled={isDisabled}
         onChange={(e) => onChange!(Number(e.target.value))}
