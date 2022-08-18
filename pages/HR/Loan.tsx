@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from "react";
 import LoansCard from "../../components/LoansCard";
 import SearchField from "../../components/searchField";
@@ -5,6 +6,8 @@ import SideBar from "../../components/sideBar";
 import { SolfaModel } from "../../models/SolfaModel";
 import { InferGetServerSidePropsType } from "next";
 import axios from "../../utils/axios";
+import { Alert } from '../../services/alerts/Alert';
+import { ToastContainer } from 'react-toastify';
 
 function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const filteredEmployees: SolfaModel[] = props ? props.data : [];
@@ -13,12 +16,21 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const deleteSolfa = async (id: number) => {
     await axios.post(`/api/HR_Endpoints/khasm/delete`, {
       id
+    }).then(res => {
+      Alert.Success('تم حذف السلفة بنجاح');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }).catch(err => {
+
+      Alert.Error('حدث خطأ اثناء حذف السلفة');
     });
-    window.location.reload();
+    //   window.location.reload();
   }
 
   return (
     <div className="flex flex-row bg-gray-100">
+      <ToastContainer />
       <div className="flex justify-center m-10 font-display basis-5/6">
         <div className="flex flex-col justify-center space-y-10">
           <SearchField setSearchTerm={setSearchTerm} />
@@ -37,7 +49,7 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
               }
               code={obj.PersonCode}
               limit={obj.SolfaLimitAtThatMonth}
-              
+
               history={obj.history}
               lastMonthClosed={obj.lastMonthClosed}
               lastYearClosed={obj.lastYearClosed}

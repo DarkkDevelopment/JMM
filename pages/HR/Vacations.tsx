@@ -5,6 +5,7 @@ import VacationsCard from "../../components/VacationsCard";
 import { IAllEmployeesModel } from "../../interfaces/employees";
 import { Vacatoion } from "../../interfaces/Vactaions";
 import { InferGetServerSidePropsType } from "next";
+import { ToastContainer } from "react-toastify";
 
 function Vacations(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -35,6 +36,7 @@ function Vacations(
   return (
     <div className="flex flex-row bg-gray-100 ">
       <div className="flex justify-center pr-10 m-10 font-display basis-5/6">
+        <ToastContainer />
         <div className="flex flex-col justify-center space-y-6 ">
           <SearchField setSearchTerm={setSearchTerm} />
           {filteredEmployees.map((obj: Vacatoion) => (

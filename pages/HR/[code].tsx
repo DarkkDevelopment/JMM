@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import React, { ReactPropTypes, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextField from "../../components/TextField";
@@ -16,6 +17,8 @@ import {
   getManateqByMohafzaIdService,
   getMohafzatService,
 } from "../../services/constantsService";
+import { ToastContainer } from "react-toastify";
+import { Alert } from '../../services/alerts/Alert';
 // @ts-ignore
 function EmployeeDetails(props) {
   const router = useRouter();
@@ -169,14 +172,20 @@ function EmployeeDetails(props) {
       PersonMohafzaID: govVal,
       PersonDyana: dyana,
       PersonType: type,
-      PersonTa2meenValue: insuranceVal,
+      PersonTa2meenValue: Number(insuranceVal),
       PersonAddress: address,
 
-      CurrentMorattab: salary,
+      CurrentMorattab: Number(salary),
       MobileNumber: mobileNo,
       PersonWazeefa: work,
       PersonMorattabDareebaPercentage: draybPercent,
     });
+    if (response.status === 200) {
+      Alert.Success("تم تعديل البيانات بنجاح");
+      setEditData(false);
+    } else {
+      Alert.Error("حدث خطأ اثناء التعديل");
+    }
   };
 
   const handleGovChange = async (val: number) => {
@@ -189,6 +198,7 @@ function EmployeeDetails(props) {
   return (
     <>
       <div className="bg-gray-100">
+      <ToastContainer />
         <div className="flex flex-row justify-between p-10">
           <button
             className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
@@ -247,26 +257,26 @@ function EmployeeDetails(props) {
             </div>
             <div className="flex flex-col justify-around bg-white rounded-lg ">
               <div className="flex flex-row justify-end">
-                <div className = "mr-5">
+                <div className="mr-5">
                   <Dropdown
-                  title="المحافظة"
-                  options={govs}
-                  value={govVal}
-                  onChange={handleGovChange}
-                  isDisabled={!editdata}
-                />
+                    title="المحافظة"
+                    options={govs}
+                    value={govVal}
+                    onChange={handleGovChange}
+                    isDisabled={!editdata}
+                  />
                 </div>
                 <div>
                   <Dropdown
-                  title="المنطقة"
-                  options={manateq}
-                  value={district}
-                  isDisabled={!editdata}
-                  onChange={onDistrictChange}
-                />
+                    title="المنطقة"
+                    options={manateq}
+                    value={district}
+                    isDisabled={!editdata}
+                    onChange={onDistrictChange}
+                  />
                 </div>
-                
-                
+
+
               </div>
               <TextField
                 label="العنوان"
@@ -310,6 +320,7 @@ function EmployeeDetails(props) {
               label="المرتب"
               isEditable={!editdata}
               value={salary.toString()}
+              onChange={setSalary}
             />
           </div>
           <div className="flex flex-col p-4 mt-3 space-y-10 text-right bg-white rounded-lg ">
@@ -382,6 +393,7 @@ function EmployeeDetails(props) {
           <PersonSolfaComp PersonCode={Number.parseInt(code)} />
           <PersonMorattabComp personId={Number.parseInt(code)} />
         </div>
+       
       </div>
     </>
   );

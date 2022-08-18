@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { solfaHistoryForPerson, SolfaModel } from "../models/SolfaModel";
+import { Alert } from "../services/alerts/Alert";
 
 function LoansCard(props: any) {
   const { name, limit, code, LastSolfaDate, remainingAmount, history, lastMonthClosed, lastYearClosed, deleteSolfa } = props;
@@ -11,19 +12,19 @@ function LoansCard(props: any) {
     e.preventDefault();
     let solfaValue = Number.parseInt(value)
     if (solfaValue > limit) {
-      alert("المبلغ المدخل اكبر من الحد الاقصى المسموح به")
+      Alert.Error("المبلغ المدخل اكبر من الحد الاقصى المسموح به")
       return
     }
     if (solfaValue < 0) {
-      alert("المبلغ المدخل اقل من الصفر")
+      Alert.Error("المبلغ المدخل اقل من الصفر")
       return
     }
     if (solfaValue === 0) {
-      alert("المبلغ المدخل يجب ان يكون اكبر من الصفر")
+      Alert.Error("المبلغ المدخل يجب ان يكون اكبر من الصفر")
       return
     }
     if (new Date(LastSolfaaDate).getMonth() === new Date().getMonth() && new Date(LastSolfaaDate).getFullYear() === new Date().getFullYear()) {
-      alert("لا يمكن طلب سلفة لهذا الشهر")
+      Alert.Error("لا يمكن طلب سلفة لهذا الشهر")
       return
     }
     const response = await axios.post('/api/HR_Endpoints/loan/createLoan', {
@@ -32,14 +33,14 @@ function LoansCard(props: any) {
       SolfaRequestDate: new Date(),
       SolfaMonthToBeApplied: new Date().getMonth() + 1,
       SolfaYearToBeApplied: new Date().getFullYear(),
-    })
-
-    if (response.status == 200) {
-      alert('تمت العملية بنجاح');
-      window.location.reload();
-    } else {
-      alert('حدث خطأ حاول مرة اخرى');
-    }
+    }).then(() => {
+      Alert.Success("تم ارسال الطلب بنجاح")
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    }).catch((err) => {
+      Alert.Error('حدث خطأ حاول مرة اخرى');
+    });
   }
   return (
     <div className="flex flex-col justify-center p-10 space-y-10 bg-white rounded-3xl shadow-lg font-display">

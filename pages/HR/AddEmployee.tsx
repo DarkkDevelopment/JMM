@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useState, useEffect } from "react";
 
 import FileCheck from "../../components/FileCheck";
@@ -11,6 +12,9 @@ import {
   getMohafzatService,
 } from "../../services/constantsService";
 import Dropdown from "../../components/DropDown";
+import { ToastContainer } from "react-toastify";
+import { Alert } from '../../services/alerts/Alert';
+
 
 interface FileModel {
   uploaded: boolean;
@@ -172,8 +176,10 @@ function AddEmployee() {
     };
     const response = await sendEmployee(emp);
 
-    if (response.success) alert("تمت الاضافة بنجاح");
-    else setError(response.message!);
+    if (response.success) Alert.Success("تم إضافة الموظف بنجاح");
+    else {
+      Alert.Error(response.message!);
+    };
   };
 
   return (
@@ -562,6 +568,7 @@ function AddEmployee() {
               >
                 حفظ
               </button>
+              <ToastContainer />
             </div>
           </div>
         </div>

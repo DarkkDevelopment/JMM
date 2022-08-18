@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import { AppProps } from "next/dist/shared/lib/router/router";
 import React, { useEffect, useState } from "react";
@@ -5,6 +6,8 @@ import SideBar from "../../../components/sideBar";
 import { SystemConstantsRow } from "../../../components/SystemConstantsRow";
 import { InferGetServerSidePropsType } from "next";
 import { NEXT_PUBLIC_HOST } from "../../../config/config";
+import { Alert } from '../../../services/alerts/Alert';
+import { ToastContainer } from 'react-toastify';
 
 // @ts-ignore
 const System = (props) => {
@@ -159,11 +162,19 @@ const System = (props) => {
         khasmHourRatio: Number.parseFloat(khasmLateHourRatio.toString()),
         idOfHafezKhasmRatios: 1,
       }
-    );
-    reloadPage();
+    ).then(() => {
+      Alert.Success("تم تعديل البيانات بنجاح");
+    }).catch(err => {
+      Alert.Error("حدث خطأ اثناء تعديل البيانات");
+    });
+    //  reloadPage();
   };
 
   const addHafezAndKahsm = async () => {
+    if (Number.parseFloat(hafezExtraDayRatio.toString()) === 0 || Number.parseFloat(hafezExtraHourRatio.toString()) === 0 || Number.parseFloat(khasmLateDayRatio.toString()) === 0 || Number.parseFloat(khasmLateHourRatio.toString()) === 0) {
+      alert('برجاء ادخال جميع البيانات');
+      return;
+    }
     await axios.post(
       "/api/lookupsData/insertDataIntoLookups/hafezKhasmRatios",
       {
@@ -172,8 +183,13 @@ const System = (props) => {
         khasmDayRatio: Number.parseFloat(khasmLateDayRatio.toString()),
         khasmHourRatio: Number.parseFloat(khasmLateHourRatio.toString()),
       }
-    );
-    reloadPage();
+    ).then(() => {
+      setIsHafezAndKhasmNew(false);
+      Alert.Success('تم اضافة البيانات بنجاح');
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء اضافة البيانات');
+    });
+    // reloadPage();
   };
 
   const editInsurance = async () => {
@@ -188,21 +204,35 @@ const System = (props) => {
         ),
         idOfInsurance: 1,
       }
-    );
-    reloadPage();
+    ).then(() => {
+      Alert.Success('تم تعديل البيانات بنجاح');
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء تعديل البيانات');
+    });
+    //reloadPage();
   };
   const addLoanPercentage = async () => {
+
     await axios.post("/api/lookupsData/insertDataIntoLookups/globalValues", {
       nameOfNewValue: "LoanPercentage",
       newValue: Number.parseFloat(loanPercentage.toString()),
+    }).then(() => {
+      setIsLoanPercentageNew(false);
+      Alert.Success('تم اضافة البيانات بنجاح');
+    }).catch((err) => {
+      Alert.Error('حدث خطأ اثناء اضافة البيانات');
     });
-    reloadPage();
+    //reloadPage();
   };
   const editLoanPercentage = async () => {
     await axios.post("/api/lookupsData/updateDataIntoLookups/globalValues", {
       newValue: Number.parseFloat(loanPercentage.toString()),
+    }).then(() => {
+      Alert.Success('تم تعديل البيانات بنجاح');
+    }).catch((err) => {
+      Alert.Error('حدث خطأ اثناء تعديل البيانات');
     });
-    reloadPage();
+    // reloadPage();
   };
 
   const addInsurance = async () => {
@@ -216,8 +246,13 @@ const System = (props) => {
           companyInsurancePercentage.toString()
         ),
       }
-    );
-    reloadPage();
+    ).then(() => {
+      setIsInsuranceNew(false);
+      Alert.Success('تم اضافة البيانات بنجاح');
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء اضافة البيانات');
+    });
+    //   reloadPage();
   };
 
   const editTime = async () => {
@@ -233,13 +268,16 @@ const System = (props) => {
     );
     let newStartHour = new Date(utcStartHour);
     let newEndHour = new Date(utcEndHour);
-    console.log(newEndHour);
     await axios.post("/api/lookupsData/updateDataIntoLookups/workingHours", {
       startTime: newStartHour,
       endTime: newEndHour,
       workingHoursId: 1,
+    }).then(() => {
+      Alert.Success('تم تعديل البيانات بنجاح');
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء تعديل البيانات');
     });
-    reloadPage();
+    // reloadPage();
   };
 
   const addTime = async () => {
@@ -258,12 +296,18 @@ const System = (props) => {
     await axios.post("/api/lookupsData/insertDataIntoLookups/workingHours", {
       startTime: newStartHour,
       endTime: newEndHour,
+    }).then(() => {
+      setIsTimeNew(false);
+      Alert.Success('تم اضافة البيانات بنجاح');
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء اضافة البيانات');
     });
-    reloadPage();
+    //reloadPage();
   };
 
   return (
     <div className="flex flex-row bg-gray-100">
+      <ToastContainer />
       <div className="grid grid-cols-2 mt-6 ml-12 grid-rows-2font-display basis-5/6 mr-80">
         <div className="p-5 mx-2 my-2 bg-white shadow-lg rounded-3xl">
           <SystemConstantsRow

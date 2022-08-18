@@ -1,8 +1,10 @@
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "../utils/axios";
 import React, { useState } from "react";
 import { AgazaHistory } from "../interfaces/Vactaions";
 import Dropdown from "./DropDownComp";
 import monthDays from "../utils/monthDays";
+import { Alert } from "../services/alerts/Alert";
 
 interface Props {
   name: string;
@@ -67,7 +69,7 @@ function VacationsCard(props: Props) {
 
       let agazaId = agazatConst.find((obj: any) => selected === obj.name).id;
       console.log(dateArray);
-      dateArray.map(async (date) => {
+      await Promise.all(dateArray.map(async (date) => {
         console.log(new Date(date));
         console.log(code);
         console.log(agazaId);
@@ -80,22 +82,26 @@ function VacationsCard(props: Props) {
             AgazaDate: date,
           },
         });
-      });
-      reload();
-      // window.location.reload();
-      /*  } else {
-         alert("برجاء اختيار تاريخ صحيح");
-       } */
+      })).then(() => {
+        Alert.Success("تم اضافة الاجازة بنجاح");
+        setTimeout(() => reload(), 2500);
+      }).catch((err) => {
+        Alert.Error("حدث خطأ اثناء اضافة الاجازة");
+      })
     } else {
-      alert("برجاء اختيار نوع الاجازة");
+      Alert.Error("برجاء اختيار نوع الاجازة");
     }
   };
 
   const deleteVacation = async (id: number) => {
     await axios.post("/api/HR_Endpoints//vacations/deleteVacation", {
       id,
-    });
-    reload();
+    }).then(()=>{
+      Alert.Success("تم حذف الاجازة بنجاح");
+      setTimeout(() => reload(), 1500);
+    }).catch((err) => {
+      Alert.Error("حدث خطأ اثناء حذف الاجازة");
+    })
   };
 
   const calculateVacationDays = () => {

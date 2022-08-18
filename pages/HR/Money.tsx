@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from "react";
 import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
@@ -15,6 +16,8 @@ import { InferGetServerSidePropsType } from "next";
 import { getInsurancePercentageRatio } from "../../controllers/InsuranceController";
 import MonthSeed from "../../utils/MonthsSeed";
 import { DropDownDateComp } from "../../components/DropDownDateComp";
+import { Alert } from "../../services/alerts/Alert";
+import { ToastContainer } from "react-toastify";
 
 function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const InsuranceModels: InsuranceModel[] = props.newInsurance;
@@ -130,7 +133,7 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
       });
     });
     const monthNo = MonthSeed.find((months) => months.name === month)!.id;
-    const NewPayrol = await axios({
+    await axios({
       method: "POST",
       url: "/api/HR_Endpoints/payrol/sendPayrol",
       data: {
@@ -140,12 +143,18 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
         Insurance: InsuranceModelsToBeFilled,
         Taxes: TaxesModelsToBeFilled,
       },
+    }).then(() => {
+      setOld(true);
+      Alert.Success('تم تقفيل الشهر بنجاح')
+    }).catch((err) => {
+      Alert.Error('حدث خطأ اثناء تقفيل الشهر')
     });
-    console.log(NewPayrol.data);
+
   };
 
   return (
     <div className="flex flex-row bg-gray-100 ">
+      <ToastContainer />
       <div className="font-display basis-5/6">
         <div className="flex flex-col p-10 pr-20">
           <div className="flex flex-row items-center justify-between">
