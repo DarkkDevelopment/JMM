@@ -89,7 +89,7 @@ const Manateq = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
             <div className="font-display basis-5/6 m-12 mr-80">
                 <div className="flex flex-col justify-end mr-20 mb-6 pr-10 pt-10 pl-10 bg-white shadow-xl space-y-7 rounded-lg">
                     <div className="justify-center self-center">
-                        <h1 className="text-2xl font-bold text-center justify-center self-center">المناطق</h1>
+                        <h1 className="p-3 text-2xl font-bold text-center justify-center self-center">المناطق</h1>
                         <Dropdown
                             title="المحافظة"
                             options={govs}
@@ -113,6 +113,7 @@ const Manateq = (props: InferGetServerSidePropsType<typeof getServerSideProps>) 
                                     value={matchedGov}
                                 />
                             </div>
+                            <h1 className="px-2 text-lg font-bold text-center justify-center self-center">اختر المحافظة التي تريد ادخال منطقة جديدة لها</h1>
                             <input
                                 className="w-fit px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"
                                 type="text"
