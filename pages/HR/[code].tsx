@@ -67,9 +67,6 @@ function EmployeeDetails(props) {
     const fetchData = async () => {
       const govRes = await getMohafzatService();
 
-      const manteqRes = await getManateqByMohafzaIdService(
-        govRes.data[0].id || 0
-      );
       const workRes = await axios.get(
         "/api/lookupsData/getDataFromLookups/wazayef"
       );
@@ -91,7 +88,6 @@ function EmployeeDetails(props) {
       });
 
       setGovs(govRes.data);
-      setManateq(manteqRes.data);
       setWazayef(workData);
       setReligion(dyanaData);
       setTypes(typeData);
@@ -125,13 +121,16 @@ function EmployeeDetails(props) {
       const { PersonManteqaID, PersonMohafzaID, PersonAddress } =
         employeeAddress;
       const { PersonWazeefaId } = employeeWazeefa;
-      console.log(employeeAddress);
+      
       const { MobileNumber } = employeeMobile;
       const { CurrentMorattab, PersonMorattabDareebaPercentage } =
         employeeMoratab;
       setBirthDate(new Date(PersonTaree5Milad));
       setAssignDate(new Date(PersonTaree5Ta3yeen));
-
+      const manteqRes = await getManateqByMohafzaIdService(
+        PersonMohafzaID === null ? 0 : PersonMohafzaID,
+      );
+      setManateq(manteqRes.data);
       setFirstN(PersonFirstName);
       setSecondN(PersonSecondName);
       setThirdN(PersonThirdName);
@@ -155,7 +154,7 @@ function EmployeeDetails(props) {
   }, [code]);
   const saveEmployee = async (e: any) => {
     e.preventDefault();
-
+    
     let response = await axios.post("/api/HR_Endpoints/employee/update", {
       PersonCode: Number.parseInt(code!.toString()),
       PersonFirstName: firstN,
@@ -198,7 +197,7 @@ function EmployeeDetails(props) {
   return (
     <>
       <div className="bg-gray-100">
-      <ToastContainer />
+        <ToastContainer />
         <div className="flex flex-row justify-between p-10">
           <button
             className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
@@ -393,7 +392,7 @@ function EmployeeDetails(props) {
           <PersonSolfaComp PersonCode={Number.parseInt(code)} />
           <PersonMorattabComp personId={Number.parseInt(code)} />
         </div>
-       
+
       </div>
     </>
   );
