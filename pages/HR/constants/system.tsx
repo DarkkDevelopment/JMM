@@ -243,8 +243,18 @@ const System = (props) => {
   };
 
   const addTime = async () => {
-    let newEndHour = new Date(`2022-12-12T${endHour}:00`).setUTCHours(15);
-    let newStartHour = new Date(`2022-12-12T${startHour}:00`).setUTCHours(15);
+    let startHourArr = startHour.split(":");
+    let endHourArr = endHour.split(":");
+    let utcStartHour = new Date().setUTCHours(
+      Number(startHourArr[0]),
+      Number(startHourArr[1])
+    );
+    let utcEndHour = new Date().setUTCHours(
+      Number(endHourArr[0]),
+      Number(endHourArr[1])
+    );
+    let newStartHour = new Date(utcStartHour);
+    let newEndHour = new Date(utcEndHour);
     await axios.post("/api/lookupsData/insertDataIntoLookups/workingHours", {
       startTime: newStartHour,
       endTime: newEndHour,
