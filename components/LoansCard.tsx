@@ -37,8 +37,9 @@ function LoansCard(props: any) {
         date: new Date(),
       },
     });
+    console.log(checkForLastLoans);
 
-    if (checkForLastLoans.data === false) {
+    if (checkForLastLoans.data.data === false) {
       const response = await axios.post("/api/HR_Endpoints/loan/createLoan", {
         PersonCode: code,
         SolfaValue: value,

@@ -10,7 +10,6 @@ const checkForLastLoansEndpoint = async (
   const code = req.body.code;
   const date = req.body.date;
   const check = await checkIfEmployeeTokeLoanInSameMonthBefore(code, date);
-  console.log(check);
   if (check) {
     res.status(200).json({
       data: check,
