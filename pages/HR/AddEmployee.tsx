@@ -404,7 +404,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
+                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -430,7 +430,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
+                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -455,7 +455,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
+                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -480,7 +480,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
+                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -505,7 +505,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
+                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -530,7 +530,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 rounded-lg focus:outline-blue-500 ml-2"
+                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {

@@ -149,6 +149,7 @@ const calculateTotalHawafezinMonth = async (year: number) => {
       where: {
         PersonHafezId: employee.PersonCode,
         YearOfHafez: year,
+        deletedAt: null,
       },
       select: {
         id: true,

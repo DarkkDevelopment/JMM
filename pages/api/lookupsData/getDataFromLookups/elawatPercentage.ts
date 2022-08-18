@@ -8,12 +8,13 @@ const getElawatPercentage = async (
   res: NextApiResponse
 ) => {
   try {
-    const ElawatPercentage = await prisma.fixedGlobalValues.findUnique({
+    const ElawatPercentage = await prisma.fixedGlobalValues.findFirst({
       where: {
         Name: "ElawatPercentage",
+        deletedAt: null,
       },
     });
-    res.status(200).json(ElawatPercentage);
+    res.status(200).json(ElawatPercentage?.Value);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

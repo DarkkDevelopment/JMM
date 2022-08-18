@@ -29,8 +29,6 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
               }
               code={obj.PersonCode}
               limit={obj.SolfaLimitAtThatMonth}
-              LastSolfaDate={obj.LastSolfaRequestDate}
-              remainingAmount={obj.LastSolfaValue}
             />
           ))}
         </div>

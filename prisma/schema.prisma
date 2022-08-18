@@ -185,6 +185,7 @@ model PersonHafezHistory {
   DayOfHafez          Int?              @default(0)
   MonthOfHafez        Int?              @default(0)
   YearOfHafez         Int?              @default(0)
+  deletedAt          DateTime?          @db.Date
   Person              Person            @relation(fields: [PersonHafezId], references: [PersonCode])
   HafezReasons        HafezReasons?     @relation(fields: [HafezReasonID], references: [ReasonID])
   HafezSubmitMove     HafezSubmitMove[]
@@ -242,6 +243,7 @@ model PersonKhasmHistory {
   DayOfKhasm         Int?              @default(0)
   MonthOfKhasm       Int?              @default(0)
   YearOfKhasm        Int?              @default(0)
+  deletedAt          DateTime?          @db.Date
   Person             Person            @relation(fields: [PersonKhasmId], references: [PersonCode])
   KhasmReasons       KhasmReasons?     @relation(fields: [KhasmReasonID], references: [ReasonID])
   KhasmSubmitMove    KhasmSubmitMove[]
@@ -307,6 +309,7 @@ model PersonSolfaPerMonth {
   SolfaYearToBeApplied  Int
   IsApproved            Boolean
   IsDoneAndPaid         Boolean
+  deletedAt             DateTime? @db.Date
   Person                Person   @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeConstraint")
 }
 

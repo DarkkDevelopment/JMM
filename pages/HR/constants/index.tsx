@@ -8,201 +8,88 @@ import SideBar from "../../../components/sideBar";
 const Home = (props) => {
   const router = useRouter();
   return (
-    <div>
-      <div className="flex flex-col p-10 mx-10 bg-white shadow-xl space-y-7 rounded-3xl w-3/4">
-        <h1 className="text-center text-xl self-center font-bold m-10 items-center justify-center">
+    <div className="flex flex-row bg-gray-100">
+      <div className="flex flex-col  p-5 mx-10 my-10 mt-36 bg-white shadow-xl space-y-7 rounded-3xl w-3/4 text-center text-xl  font-bold items-center justify-center">
+        <h1 className="text-center text-3xl self-center font-bold items-center justify-center rounded-xl p-3 ">
           ثوابت النظام
         </h1>
-        <table className="text-center border-collapse table-auto font-display">
-          <thead className="text-center text-white bg-blue-900">
-            <tr >
-              <th className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
+        <div className="grid grid-cols-4 grid-rows-3 gap-8">
+          <div onClick={() => {
+              router.push("/HR/constants/mohafazat");
+            }} className="text-white cursor-pointer m-auto bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            المحافظات
+          </div>
+          
+          <div onClick={() => {
+              router.push("/HR/constants/manateq");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            المناطق 
+          </div>
 
-                </span>
-              </th>
-              <th className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الإسم
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody className="p-10">
+          <div onClick={() => {
+              router.push("/HR/constants/agazat");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            أسباب الاجازات 
+          </div>
 
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center"
-                  onClick={() => {
-                    router.push("/HR/constants/mohafazat");
-                  }}
-                >
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer" />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  المحافظات
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center"
-                  onClick={() => {
-                    router.push("/HR/constants/manateq");
-                  }}>
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer" />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center"
+          <div onClick={() => {
+              router.push("/HR/constants/hwafezReasons");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            أسباب الحوافز
+          </div>
 
-                >
-                  المناطق
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/agazat");
-                    }} />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  اسباب الاجازات
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/hwafezReasons");
-                    }} />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  اسباب الحوافز
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-right text-xl self-end font-bold m-10 justify-end">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/khasmReasons");
-                    }} />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  اسباب الخصومات
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-right text-xl self-end font-bold m-10 justify-end">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/dyana");
-                    }}
-                  />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الديانات
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-right text-xl self-end font-bold m-10 justify-end">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/wazefa");
-                    }} />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الوظائف
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-right text-xl self-end font-bold m-10 justify-end">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/types");
-                    }}
-                  />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الجنس
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-right text-xl self-end font-bold m-10 justify-end">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/weeklyvacation");
-                    }} />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الاجازات الاسبوعية
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-right text-xl self-end font-bold m-10 justify-end">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/officialagaza");
-                    }} />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الاجازات الرسمية
-                </span>
-              </td>
-            </tr>
-            <tr className="p-4 ">
-              <td className="p-4">
-                <span className="text-right text-xl self-end font-bold m-10 justify-end">
-                  <ChevronLeftIcon className="w-14 h-14 fill-blue-900 cursor-pointer"
-                    onClick={() => {
-                      router.push("/HR/constants/system");
-                    }} />
-                </span>
-              </td>
-              <td className="p-4">
-                <span className="text-center text-xl self-center font-bold m-10 items-center justify-center">
-                  الثوابت العامة
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <div onClick={() => {
+              router.push("/HR/constants/khasmReasons");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            أسباب الخصومات
+          </div>
 
+          <div onClick={() => {
+              router.push("/HR/constants/dyana");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            الديانات
+          </div>
+
+          <div onClick={() => {
+              router.push("/HR/constants/wazefa");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            الوظائف 
+          </div>
+
+          <div onClick={() => {
+              router.push("/HR/constants/types");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            الجنس
+          </div>
+
+          <div onClick={() => {
+              router.push("/HR/constants/weeklyvacation");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            الاجازات الاسبوعية
+          </div>
+
+          <div onClick={() => {
+              router.push("/HR/constants/officialagaza");
+            }}
+            className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            الاجازات الرسمية
+          </div>
+
+          <div onClick={() => {
+              router.push("/HR/constants/system");
+            }} className="text-white m-auto cursor-pointer bg-blue-900 hover:bg-blue-500 shadow-xl rounded-lg text-center text-xl self-center font-bold items-center justify-center py-3 w-48 px-5"> 
+            الثوابت العامة
+          </div>
+
+        </div>
       </div>
       <SideBar pageName="const" />
     </div>

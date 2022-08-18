@@ -16,6 +16,7 @@ const getSolfaHistory = async (
       IsApproved: isApproved,
       IsDoneAndPaid: isDoneAndPaid,
       SolfaYearToBeApplied: year,
+      deletedAt: null,
     },
     orderBy: {
       SolfaRequestDate: "desc",
