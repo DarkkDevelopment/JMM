@@ -38,6 +38,14 @@ function Employees(
           >
             اضافة موظف
           </button>
+          <button
+            onClick={() => {
+              router.push("/HR/DeletedEmployees");
+            }}
+            className="px-4 py-2 font-bold text-red-400 border border-red-400 bg-transparent rounded-xl w-[10vw]  hover:bg-red-500 shadow-md font-display hover:text-white"
+          >
+            قائمة المحذوفين
+          </button>
           <div className="flex flex-row font-display">
             <input
               className="mt-3 mb-3 px-4 py-2 text-right shadow appearance-none border rounded w-[10vw]  text-black leading-tight focus:outline-none focus:shadow-outline"
