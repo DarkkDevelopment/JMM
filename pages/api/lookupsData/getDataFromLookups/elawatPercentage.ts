@@ -14,7 +14,11 @@ const getElawatPercentage = async (
         deletedAt: null,
       },
     });
-    res.status(200).json(ElawatPercentage?.Value);
+    if (ElawatPercentage) {
+      res.status(200).json(ElawatPercentage?.Value);
+    } else {
+      res.status(200).json(null);
+    }
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
