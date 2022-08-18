@@ -84,17 +84,6 @@ function DiscountCard(props: any) {
         اجمالي مبلغ ال{title} في الشهر : {totalKhasminThatMonth}
       </p>
 
-      <div className="flex flex-row justify-between flex-1 w-3/4 align-baseline font-display ">
-
-      </div>
-
-
-
-
-
-
-
-
       <div className="flex flex-row align-baseline justify-between font-display space-x-64 ">
         <div className="mt-7">
           <Dropdown

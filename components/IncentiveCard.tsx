@@ -148,7 +148,7 @@ function IncentiveCard(props: any) {
             </div>
             <button
                 onClick={sendHafez}
-                className="m-3 px-4 py-2 text-center shadow appearance-none border w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900 rounded-3xl ">
+                className="m-3 px-4 py-2 text-center shadow appearance-none border w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900">
                 تم
             </button>
         </div >
