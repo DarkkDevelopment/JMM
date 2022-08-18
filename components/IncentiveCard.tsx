@@ -133,8 +133,8 @@ function IncentiveCard(props: any) {
                         })}
                     </tbody>
                 </table>
-                <div className="flex font-display ml-4">
-                    <div className=" mt-7 ">
+                <div className="flex font-display ml-11">
+                    <div className="mt-7">
                         <Dropdown options={hwafezReasons} title='الحوافز' onChange={setHafez} value={hafez} />
                     </div>
 

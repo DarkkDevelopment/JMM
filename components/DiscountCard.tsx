@@ -96,7 +96,7 @@ function DiscountCard(props: any) {
 
 
       <div className="flex flex-row align-baseline justify-between font-display space-x-64 ">
-        <div className=" mt-7 ">
+        <div className="mt-7">
           <Dropdown
             options={discountReasons}
             title="اسباب الخصم"
@@ -106,8 +106,7 @@ function DiscountCard(props: any) {
 
         </div>
 
-
-        <div className="ml- ">
+        <div className="">
           <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
         </div>
       </div>
