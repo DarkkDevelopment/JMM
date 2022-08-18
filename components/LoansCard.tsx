@@ -133,10 +133,8 @@ function LoansCard(props: any) {
             </tbody>
           </table>
         </div>
-        <div className="flex flex-col text-center text-black font-display">
-          <h4 className="mt-10 text-2xl text-center text-black font-display">
-            الحد الأقصي للسلفة : {limit}
-          </h4>
+        {/* <div className="flex flex-col text-center text-black font-display"> */}
+          
           <input
             className=" ml-16 mt-6 p-2 text-center shadow appearance-none border rounded w-[10vw]  text-black leading-tight focus:outline-blue-500 focus:shadow-outline"
             id="quantity"
@@ -145,7 +143,10 @@ function LoansCard(props: any) {
             value={value}
             onChange={(e) => setValue(Number(e.target.value))}
           />
-        </div>
+          <h4 className="mt-10 text-2xl text-center text-black font-display">
+            الحد الأقصي للسلفة : {limit}
+          </h4>
+        {/* </div> */}
       </div>
       <div className="flex flex-row justify-center ">
         <button
