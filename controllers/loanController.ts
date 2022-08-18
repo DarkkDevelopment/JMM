@@ -115,16 +115,18 @@ const checkIfEmployeeTokeLoanInSameMonthBefore = async (
   year: number
 ) => {
   const loanHistory = await getSolfaHistory(code, true, false, year);
-  console.log(loanHistory);
-  loanHistory.forEach((loan) => {
-    if (
-      loan.SolfaMonthToBeApplied === month &&
-      loan.SolfaYearToBeApplied === year
-    ) {
+  if (loanHistory != null) {
+    const loanHistoryInSameMonthAndYear = loanHistory.filter(
+      (loan) =>
+        loan.SolfaMonthToBeApplied === month &&
+        loan.SolfaYearToBeApplied === year
+    );
+    if (loanHistoryInSameMonthAndYear.length > 0) {
       return true;
+    } else {
+      return false;
     }
-  });
-  return false;
+  }
 };
 
 const deleteLoan = async (id: number) => {
