@@ -11,11 +11,11 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [searchterm, setSearchTerm] = useState("");
 
   const deleteSolfa = async (id: number) => {
-    await axios.post(`/api/HR_Endpoints/khasm/delete`, {
-      id
+    await axios.post(`/api/HR_Endpoints/loan/delete`, {
+      id,
     });
     window.location.reload();
-  }
+  };
 
   return (
     <div className="flex flex-row bg-gray-100">
@@ -37,7 +37,6 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
               }
               code={obj.PersonCode}
               limit={obj.SolfaLimitAtThatMonth}
-              
               history={obj.history}
               lastMonthClosed={obj.lastMonthClosed}
               lastYearClosed={obj.lastYearClosed}

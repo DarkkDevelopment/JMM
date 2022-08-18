@@ -14,12 +14,10 @@ const createLoan = async (req: NextApiRequest, res: NextApiResponse) => {
   } = req.body;
 
   const checkFirst = await checkIfEmployeeTokeLoanInSameMonthBefore(
-    req,
-    res,
     PersonCode,
     new Date(SolfaRequestDate)
   );
-  if (checkFirst) {
+  if (!checkFirst) {
     const loan = await prisma.personSolfaPerMonth.create({
       data: {
         PersonCode,
