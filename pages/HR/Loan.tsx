@@ -28,9 +28,9 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     });
     //   window.location.reload();
   }
-  
 
-    
+
+
 
   return (
     <div className="flex flex-row bg-gray-100">
@@ -54,7 +54,7 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
               }
               code={obj.PersonCode}
               limit={obj.SolfaLimitAtThatMonth}
-
+              LastSolfaaDate={obj.history.length > 0 ? obj.history[obj.history.length - 1].solfaRequestDate : null}
               history={obj.history}
               lastMonthClosed={obj.lastMonthClosed}
               lastYearClosed={obj.lastYearClosed}

@@ -12,13 +12,14 @@ function LoansCard(props: any) {
     lastMonthClosed,
     lastYearClosed,
     deleteSolfa,
+    lastSolfaaDate,
   } = props;
 
   const [value, setValue] = useState(0);
   const sendSolfa = async (e: any) => {
     e.preventDefault();
 
-    let solfaValue = Number.parseInt(value)
+    let solfaValue = value;
     if (solfaValue > limit) {
       Alert.Error("المبلغ المدخل اكبر من الحد الاقصى المسموح به")
       return
@@ -31,7 +32,7 @@ function LoansCard(props: any) {
       Alert.Error("المبلغ المدخل يجب ان يكون اكبر من الصفر")
       return
     }
-    if (new Date(LastSolfaaDate).getMonth() === new Date().getMonth() && new Date(LastSolfaaDate).getFullYear() === new Date().getFullYear()) {
+    if (new Date(lastSolfaaDate).getMonth() === new Date().getMonth() && new Date(lastSolfaaDate).getFullYear() === new Date().getFullYear()) {
       Alert.Error("لا يمكن طلب سلفة لهذا الشهر")
       return
     }
@@ -106,7 +107,7 @@ function LoansCard(props: any) {
                   // todo : need to fix this one
                 */}
                     <td>{hist.solfaValue}</td>
-                    <td>{hist.solfaRequestDate.toString()}</td>
+                    <td>{hist.solfaRequestDate.toString().slice(0,10)}</td>
                   </tr>
                 );
               })}
