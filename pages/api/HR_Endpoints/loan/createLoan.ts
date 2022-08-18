@@ -13,40 +13,29 @@ const createLoan = async (req: NextApiRequest, res: NextApiResponse) => {
     SolfaYearToBeApplied,
   } = req.body;
 
-  const checkFirst = await checkIfEmployeeTokeLoanInSameMonthBefore(
-    PersonCode,
-    new Date(SolfaRequestDate)
-  );
-  if (!checkFirst) {
-    const loan = await prisma.personSolfaPerMonth.create({
+  const loan = await prisma.personSolfaPerMonth.create({
+    data: {
+      PersonCode,
+      SolfaValue,
+      SolfaRequestDate,
+      SolfaMonthToBeApplied,
+      SolfaYearToBeApplied,
+      IsApproved: true,
+      IsDoneAndPaid: false,
+    },
+  });
+
+  if (loan) {
+    res.status(200).json({
+      status: "success",
       data: {
-        PersonCode,
-        SolfaValue,
-        SolfaRequestDate,
-        SolfaMonthToBeApplied,
-        SolfaYearToBeApplied,
-        IsApproved: true,
-        IsDoneAndPaid: false,
+        loan,
       },
     });
-
-    if (loan) {
-      res.status(200).json({
-        status: "success",
-        data: {
-          loan,
-        },
-      });
-    } else {
-      res.status(400).json({
-        status: "fail",
-        message: "Something went wrong",
-      });
-    }
   } else {
     res.status(400).json({
       status: "fail",
-      message: "You can't loan in same month",
+      message: "Something went wrong",
     });
   }
 };

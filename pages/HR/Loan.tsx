@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 
 function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const filteredEmployees: SolfaModel[] = props ? props.data : [];
+  console.log(filteredEmployees);
   const [searchterm, setSearchTerm] = useState("");
 
   const deleteSolfa = async (id: number) => {
@@ -70,7 +71,13 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
 export async function getServerSideProps(context: any) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/loan/getLoanHistory`
+    `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/loan/getLoanHistory`,
+    {
+      method: "post",
+      body: JSON.stringify({
+        year: new Date().getFullYear(),
+      }),
+    }
   );
   const data = await response.json();
   return {

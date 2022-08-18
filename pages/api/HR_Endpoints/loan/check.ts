@@ -12,10 +12,12 @@ const checkForLastLoansEndpoint = async (
   const check = await checkIfEmployeeTokeLoanInSameMonthBefore(code, date);
   if (check) {
     res.status(200).json({
+      data: check,
       message: "لا يمكن تقديم سلفة جديدة في نفس الشهر",
     });
   } else {
-    res.status(400).json({
+    res.status(200).json({
+      data: check,
       message: "يمكن تقديم سلفة جديدة في نفس الشهر",
     });
   }

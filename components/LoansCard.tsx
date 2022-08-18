@@ -50,9 +50,6 @@ function LoansCard(props: any) {
     }).catch((err) => {
       Alert.Error('حدث خطأ حاول مرة اخرى');
     });
-  }
-
-  
   return (
     <div className="flex flex-col p-10 space-y-10 bg-white shadow-lg rounded-3xl font-display">
       <h2 className="mt-10 text-6xl text-center text-black font-display">
