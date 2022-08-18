@@ -49,63 +49,60 @@ const renderLoanHistoryByYear = async (
 ) => {
   const loanPercentage = await getLoanPercentage(req, res);
   const historyModels: SolfaModel[] = [];
-  if (loanPercentage != 0) {
-    const employees = await prisma.person.findMany({
-      where: {
-        deletedAt: null,
-      },
-      select: {
-        PersonCode: true,
-        PersonFirstName: true,
-        PersonSecondName: true,
-        PersonThirdName: true,
-        PersonFourthName: true,
-      },
-    });
-    employees.forEach(async (employee) => {
-      const solfaHistory = await getSolfaHistory(
-        employee.PersonCode,
-        true,
-        false,
-        year
-      );
-      const CurrentMorattab = await getCurrentMorattab(
-        req,
-        res,
-        employee.PersonCode
-      );
-      const lastMonthAndYearClosed = await getLastMonthAndYearClosed();
+  const employees = await prisma.person.findMany({
+    where: {
+      deletedAt: null,
+    },
+    select: {
+      PersonCode: true,
+      PersonFirstName: true,
+      PersonSecondName: true,
+      PersonThirdName: true,
+      PersonFourthName: true,
+    },
+  });
+  employees.forEach(async (employee) => {
+    const solfaHistory = await getSolfaHistory(
+      employee.PersonCode,
+      true,
+      false,
+      year
+    );
+    const CurrentMorattab = await getCurrentMorattab(
+      req,
+      res,
+      employee.PersonCode
+    );
+    const lastMonthAndYearClosed = await getLastMonthAndYearClosed();
 
-      const history: solfaHistoryForPerson[] = solfaHistory.map((loan) => {
-        return {
-          solfaId: loan.id,
-          solfaValue: loan.SolfaValue,
-          solfaRequestDate: loan.SolfaRequestDate,
-        };
+    const history: solfaHistoryForPerson[] = solfaHistory.map((loan) => {
+      return {
+        solfaId: loan.id,
+        solfaValue: loan.SolfaValue,
+        solfaRequestDate: loan.SolfaRequestDate,
+      };
+    });
+
+    if (solfaHistory != null && CurrentMorattab != null) {
+      historyModels.push({
+        PersonName: {
+          PersonFirstName: employee.PersonFirstName,
+          PersonSecondName: employee.PersonSecondName,
+          PersonThirdName: employee.PersonThirdName,
+          PersonFourthName: employee.PersonFourthName,
+        },
+        PersonCode: employee.PersonCode,
+        SolfaLimitAtThatMonth: CurrentMorattab * loanPercentage,
+        history: history,
+        lastMonthClosed: lastMonthAndYearClosed
+          ? lastMonthAndYearClosed.PayrollMonth
+          : null,
+        lastYearClosed: lastMonthAndYearClosed
+          ? lastMonthAndYearClosed.PayrollYear
+          : null,
       });
-
-      if (solfaHistory != null && CurrentMorattab != null) {
-        historyModels.push({
-          PersonName: {
-            PersonFirstName: employee.PersonFirstName,
-            PersonSecondName: employee.PersonSecondName,
-            PersonThirdName: employee.PersonThirdName,
-            PersonFourthName: employee.PersonFourthName,
-          },
-          PersonCode: employee.PersonCode,
-          SolfaLimitAtThatMonth: CurrentMorattab * loanPercentage,
-          history: history,
-          lastMonthClosed: lastMonthAndYearClosed
-            ? lastMonthAndYearClosed.PayrollMonth
-            : null,
-          lastYearClosed: lastMonthAndYearClosed
-            ? lastMonthAndYearClosed.PayrollYear
-            : null,
-        });
-      }
-    });
-  }
-
+    }
+  });
   return historyModels;
 };
 

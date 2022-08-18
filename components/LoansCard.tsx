@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../utils/axios";
 import { solfaHistoryForPerson, SolfaModel } from "../models/SolfaModel";
 import { Alert } from "../services/alerts/Alert";
 
@@ -12,13 +12,11 @@ function LoansCard(props: any) {
     lastMonthClosed,
     lastYearClosed,
     deleteSolfa,
-    lastSolfaaDate,
   } = props;
 
   const [value, setValue] = useState(0);
   const sendSolfa = async (e: any) => {
     e.preventDefault();
-
     let solfaValue = value;
     if (solfaValue > limit) {
       Alert.Error("المبلغ المدخل اكبر من الحد الاقصى المسموح به");
@@ -30,13 +28,6 @@ function LoansCard(props: any) {
     }
     if (solfaValue === 0) {
       Alert.Error("المبلغ المدخل يجب ان يكون اكبر من الصفر");
-      return;
-    }
-    if (
-      new Date(lastSolfaaDate).getMonth() === new Date().getMonth() &&
-      new Date(lastSolfaaDate).getFullYear() === new Date().getFullYear()
-    ) {
-      Alert.Error("لا يمكن طلب سلفة لهذا الشهر");
       return;
     }
     const response = await axios
@@ -56,6 +47,7 @@ function LoansCard(props: any) {
       .catch((err) => {
         Alert.Error("حدث خطأ حاول مرة اخرى");
       });
+    console.log(response);
     return (
       <div className="flex flex-col p-10 space-y-10 bg-white shadow-lg rounded-3xl font-display">
         <h2 className="mt-10 text-6xl text-center text-black font-display">
@@ -106,9 +98,6 @@ function LoansCard(props: any) {
                           </button>
                         </>
                       )}
-                      {/*
-                  // todo : need to fix this one
-                */}
                       <td>{hist.solfaValue}</td>
                       <td>{hist.solfaRequestDate.toString().slice(0, 10)}</td>
                     </tr>
