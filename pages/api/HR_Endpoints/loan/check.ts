@@ -8,8 +8,14 @@ const checkForLastLoansEndpoint = async (
   res: NextApiResponse
 ) => {
   const code = req.body.code;
-  const date = req.body.date;
-  const check = await checkIfEmployeeTokeLoanInSameMonthBefore(code, date);
+  const date = new Date(req.body.date);
+  const monthToBeChecked = date.getMonth() + 1;
+  const yearToBeChecked = date.getFullYear();
+  const check = await checkIfEmployeeTokeLoanInSameMonthBefore(
+    code,
+    monthToBeChecked,
+    yearToBeChecked
+  );
   if (check) {
     res.status(200).json({
       data: check,

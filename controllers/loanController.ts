@@ -111,20 +111,15 @@ const renderLoanHistoryByYear = async (
 
 const checkIfEmployeeTokeLoanInSameMonthBefore = async (
   code: number,
-  checkingDate: Date
+  month: number,
+  year: number
 ) => {
-  const date = new Date(checkingDate);
-  const loanHistory = await getSolfaHistory(
-    code,
-    true,
-    false,
-    date.getFullYear()
-  );
+  const loanHistory = await getSolfaHistory(code, true, false, year);
   console.log(loanHistory);
   loanHistory.forEach((loan) => {
     if (
-      loan.SolfaMonthToBeApplied === date.getMonth() + 1 &&
-      loan.SolfaYearToBeApplied === date.getFullYear()
+      loan.SolfaMonthToBeApplied === month &&
+      loan.SolfaYearToBeApplied === year
     ) {
       return true;
     }
