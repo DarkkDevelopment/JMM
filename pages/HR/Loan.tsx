@@ -4,10 +4,18 @@ import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
 import { SolfaModel } from "../../models/SolfaModel";
 import { InferGetServerSidePropsType } from "next";
+import axios from "../../utils/axios";
 
 function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const filteredEmployees: SolfaModel[] = props ? props.data : [];
   const [searchterm, setSearchTerm] = useState("");
+
+  const deleteSolfa = async (id: number) => {
+    await axios.post(`/api/HR_Endpoints/khasm/delete`, {
+      id
+    });
+    window.location.reload();
+  }
 
   return (
     <div className="flex flex-row bg-gray-100">
@@ -29,6 +37,11 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
               }
               code={obj.PersonCode}
               limit={obj.SolfaLimitAtThatMonth}
+              
+              history={obj.history}
+              lastMonthClosed={obj.lastMonthClosed}
+              lastYearClosed={obj.lastYearClosed}
+              deleteSolfa={deleteSolfa}
             />
           ))}
         </div>
