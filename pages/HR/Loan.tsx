@@ -23,26 +23,34 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
         <div className="flex flex-col justify-center space-y-10">
           <SearchField setSearchTerm={setSearchTerm} />
           <div className="flex flex-row space-x-10"></div>
-          {filteredEmployees.map((obj) => (
-            <LoansCard
-              key={obj.PersonCode}
-              name={
-                obj.PersonName.PersonFirstName +
-                " " +
-                obj.PersonName.PersonSecondName +
-                " " +
-                obj.PersonName.PersonThirdName +
-                " " +
-                obj.PersonName.PersonFourthName
-              }
-              code={obj.PersonCode}
-              limit={obj.SolfaLimitAtThatMonth}
-              history={obj.history}
-              lastMonthClosed={obj.lastMonthClosed}
-              lastYearClosed={obj.lastYearClosed}
-              deleteSolfa={deleteSolfa}
-            />
-          ))}
+          {filteredEmployees.length > 0 ? (
+            filteredEmployees.map((obj) => (
+              <LoansCard
+                key={obj.PersonCode}
+                name={
+                  obj.PersonName.PersonFirstName +
+                  " " +
+                  obj.PersonName.PersonSecondName +
+                  " " +
+                  obj.PersonName.PersonThirdName +
+                  " " +
+                  obj.PersonName.PersonFourthName
+                }
+                code={obj.PersonCode}
+                limit={obj.SolfaLimitAtThatMonth}
+                history={obj.history}
+                lastMonthClosed={obj.lastMonthClosed}
+                lastYearClosed={obj.lastYearClosed}
+                deleteSolfa={deleteSolfa}
+              />
+            ))
+          ) : (
+            <div>
+              <h1 className="text-center text-black font-display">
+                لا يوجد بيانات
+              </h1>
+            </div>
+          )}
         </div>
       </div>
       <SideBar pageName="loan" />
