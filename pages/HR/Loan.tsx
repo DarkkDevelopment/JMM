@@ -16,7 +16,7 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
   const deleteSolfa = async (id: number) => {
     await axios
-      .post(`/api/HR_Endpoints/khasm/delete`, {
+      .post(`/api/HR_Endpoints/loan/delete`, {
         id,
       })
       .then((res) => {
