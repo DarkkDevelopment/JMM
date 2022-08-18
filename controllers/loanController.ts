@@ -93,7 +93,7 @@ const renderLoanHistoryByYear = async (
         },
         PersonCode: employee.PersonCode,
         SolfaLimitAtThatMonth: CurrentMorattab * loanPercentage,
-        history,
+        history: history,
         lastMonthClosed: lastMonthAndYearClosed
           ? lastMonthAndYearClosed.PayrollMonth
           : null,
@@ -107,17 +107,17 @@ const renderLoanHistoryByYear = async (
 };
 
 const checkIfEmployeeTokeLoanInSameMonthBefore = async (
-  req: NextApiRequest,
-  res: NextApiResponse,
   code: number,
-  date: Date
+  checkingDate: Date
 ) => {
+  const date = new Date(checkingDate);
   const loanHistory = await getSolfaHistory(
     code,
     true,
     false,
     date.getFullYear()
   );
+  console.log(loanHistory);
   loanHistory.forEach((loan) => {
     if (
       loan.SolfaMonthToBeApplied === date.getMonth() + 1 &&

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { renderLoanHistoryByYear } from "../../../../controllers/loanController";
 import { SolfaModel } from "../../../../models/SolfaModel";
 
-// http://localhost:3000/api/loan/getLoanHistory
+// http://localhost:3000/api/HR_Endpoints/loan/getLoanHistory
 
 const getLoanHistory = async (req: NextApiRequest, res: NextApiResponse) => {
   try {

@@ -14,6 +14,7 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [searchterm, setSearchTerm] = useState("");
 
   const deleteSolfa = async (id: number) => {
+
     await axios.post(`/api/HR_Endpoints/khasm/delete`, {
       id
     }).then(res => {
@@ -27,6 +28,9 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     });
     //   window.location.reload();
   }
+  
+
+    
 
   return (
     <div className="flex flex-row bg-gray-100">
@@ -35,6 +39,7 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
         <div className="flex flex-col justify-center space-y-10">
           <SearchField setSearchTerm={setSearchTerm} />
           <div className="flex flex-row space-x-10"></div>
+
           {filteredEmployees.map((obj) => (
             <LoansCard
               key={obj.PersonCode}
