@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { solfaHistoryForPerson, SolfaModel } from "../models/SolfaModel";
 
 function LoansCard(props: any) {
-  const { name, limit, code, LastSolfaDate, remainingAmount } = props;
+  const { name, limit, code, LastSolfaDate, remainingAmount, history, lastMonthClosed, lastYearClosed, deleteSolfa } = props;
 
   const LastSolfaaDate = new Date(LastSolfaDate);
   const [value, setValue] = useState('');
@@ -25,7 +26,7 @@ function LoansCard(props: any) {
       alert("لا يمكن طلب سلفة لهذا الشهر")
       return
     }
-    const response = await axios.post('/api/HR_Endpoints//loan/createLoan', {
+    const response = await axios.post('/api/HR_Endpoints/loan/createLoan', {
       PersonCode: code,
       SolfaValue: solfaValue,
       SolfaRequestDate: new Date(),
@@ -106,7 +107,50 @@ function LoansCard(props: any) {
           </div>
         </div>
       </div>
+      <table
+        className="text-right border-collapse table-auto font-display w-[20vw]"
+      >
+        <thead className="text-right text-black border-2 border-t-0 border-l-0 border-r-0 border-b-black">
+          <tr>
+            <th></th>
+            <th>القيمة</th>
+            <th>التاريخ</th>
+          </tr>
+        </thead>
+        <tbody className="text-right ">
+          {history.map((hist: solfaHistoryForPerson) => {
+            return (
+              <tr key={hist.solfaId}>
 
+                {
+                  lastYearClosed != null || lastMonthClosed != null ?
+                    lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear() ?
+                      (
+                        <>
+                          <button
+                            className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                            onClick={() => {
+                              deleteSolfa(hist.solfaId)
+                            }}
+                          >
+                            x
+                          </button>
+                        </>
+                      ) : (<td></td>) : (
+                      <td>
+
+                      </td>
+                    )
+                }
+
+
+                <td>{hist.solfaValue}</td>
+                <td>{`${hist.solfaRequestDate.getFullYear()}-${hist.solfaRequestDate.getMonth() + 1}-${hist.solfaRequestDate.getDate()}`}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
       <div className="flex flex-row justify-center ">
         <button
           onClick={sendSolfa}
