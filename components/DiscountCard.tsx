@@ -75,7 +75,7 @@ function DiscountCard(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center p-10 space-y-10 mr-10 bg-white shadow-lg rounded-3xl font-display">
+    <div className="flex flex-col items-center p-10 space-y-10 bg-white rounded-3xl shadow-lg font-display">
       <h3 className="mt-10 text-3xl text-center text-black font-display">
         {name}
       </h3>
@@ -84,48 +84,41 @@ function DiscountCard(props: any) {
         اجمالي مبلغ ال{title} في الشهر : {totalKhasminThatMonth}
       </p>
 
-      <div className="flex flex-row align-baseline justify-between font-display space-x-64 ">
-        <div className="mt-7">
-          <Dropdown
-            options={discountReasons}
-            title="اسباب الخصم"
-            onChange={setDiscount}
-            value={discount}
-          />
+      <div className="flex flex-row justify-evenly">
 
-        </div>
+      
+        <table
+          className="text-right border-collapse table-auto font-display w-[20vw]"
+        >
+          <thead className="text-right text-black border-2 border-t-0 border-l-0 border-r-0 border-b-black">
+            <tr>
+              <th></th>
+              <th>القيمة</th>
+              <th>التاريخ</th>
+            </tr>
+          </thead>
+          <tbody className="text-right ">
+            {history.map((hist: khasmHistoryForPerson) => {
+              return (
+                <tr key={hist.khasmId}>
 
-        <div className="">
-          <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
-        </div>
-      </div>
-      <button
-        onClick={sendHafez}
-        className="m-3 px-4 py-2 text-center shadow appearance-none border rounded w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900 "
-      >
-        تم
-      </button>
-
-      <table
-        className="text-right border-collapse table-auto font-display w-[20vw]"
-      >
-        <thead className="text-right text-black border-2 border-t-0 border-l-0 border-r-0 border-b-black">
-          <tr>
-            <th></th>
-            <th>القيمة</th>
-            <th>التاريخ</th>
-          </tr>
-        </thead>
-        <tbody className="text-right ">
-          {history.map((hist: khasmHistoryForPerson) => {
-            return (
-              <tr key={hist.khasmId}>
-
-                {
-                  lastYearClosed != null || lastMonthClosed != null ?
-                    lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear() ?
-                      (
-                        <>
+                  {
+                    lastYearClosed != null || lastMonthClosed != null ?
+                      lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear() ?
+                        (
+                          <>
+                            <button
+                              className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                              onClick={() => {
+                                deleteHafez(hist.khasmId);
+                                //   deleteVacation(hist.id);
+                              }}
+                            >
+                              x
+                            </button>
+                          </>
+                        ) : (<td></td>) : (
+                        <td>
                           <button
                             className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
                             onClick={() => {
@@ -135,30 +128,44 @@ function DiscountCard(props: any) {
                           >
                             x
                           </button>
-                        </>
-                      ) : (<td></td>) : (
-                      <td>
-                        <button
-                          className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
-                          onClick={() => {
-                            deleteHafez(hist.khasmId);
-                            //   deleteVacation(hist.id);
-                          }}
-                        >
-                          x
-                        </button>
-                      </td>
-                    )
-                }
+                        </td>
+                      )
+                  }
 
 
-                <td>{hist.khasmValue}</td>
-                <td>{`${hist.YearOfHafez}-${hist.MonthOfHafez}-${hist.DayOfHafez}`}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td>{hist.khasmValue}</td>
+                  <td>{`${hist.YearOfHafez}-${hist.MonthOfHafez}-${hist.DayOfHafez}`}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      
+          <div className="flex font-display ml-11">
+            <div className="mt-7 pl-10">
+                <Dropdown
+                  options={discountReasons}
+                  title="اسباب الخصم"
+                  onChange={setDiscount}
+                  value={discount}
+                />
+
+              </div>
+
+              <div className="">
+                <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
+              </div>
+            </div>
+        
+      </div>
+
+      <button
+        onClick={sendHafez}
+        className="m-3 px-4 py-2 text-center shadow appearance-none border rounded w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900 "
+      >
+        تم
+      </button>
+
     </div>
   );
 }

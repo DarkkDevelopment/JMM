@@ -33,7 +33,7 @@ function Incentive(props) {
   }, [filterDate]);
 
   return (
-    <div className="flex flex-row bg-gray-100 ">
+    <div className="flex flex-row bg-gray-100">
       <div className="mr-10 font-display basis-5/6">
         <div className="flex flex-col m-10">
           <div className="flex flex-col pl-10 mr-10">
