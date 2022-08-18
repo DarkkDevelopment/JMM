@@ -1,10 +1,12 @@
-
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from "react";
 import IncentiveCard from "../../components/IncentiveCard";
 import SideBar from "../../components/sideBar";
 import { HawafezModelHistory } from "../../models/hawafezModel";
 import { getHwafezService } from "../../services/Hr/hwafezService";
 import axios from "../../utils/axios";
+import { Alert } from '../../services/alerts/Alert';
+import { ToastContainer } from 'react-toastify';
 // @ts-ignore
 function Incentive(props) {
 
@@ -16,8 +18,14 @@ function Incentive(props) {
   const deleteHafez = async (id: number) => {
     await axios.post(`/api/HR_Endpoints/hawafez/delete`, {
       id
+    }).then(() => {
+      Alert.Success("تم حذف الحافز بنجاح");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    }).catch(err => {
+      Alert.Error("حدث خطأ حاول مرة اخرى");
     });
-    window.location.reload();
   }
 
   useEffect(() => {
@@ -29,6 +37,7 @@ function Incentive(props) {
       <div className="mr-10 font-display basis-5/6">
         <div className="flex flex-col m-10">
           <div className="flex flex-col pl-10 mr-10">
+              <ToastContainer />
             <div className="flex flex-col justify-center space-y-10">
               {filteredEmployees.map((obj) => (
                 <IncentiveCard

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { khasmHistoryForPerson } from "../models/khasmModel";
+import { Alert } from "../services/alerts/Alert";
 import Dropdown from "./DropDownComp";
 import TextField from "./TextField";
 
@@ -13,19 +14,54 @@ function DiscountCard(props: any) {
   const sendHafez = async (e: any) => {
     e.preventDefault();
     let discountId = discountReasons.find((x: any) => x.name === discount).id;
-
+    let khasmValue = parseInt(money);
     let today = new Date();
-    console.log({
-      PureKhasmValue: Number.parseFloat(money),
-      DayOfKhasm: today.getDate(),
-      MonthOfKhasm: today.getMonth() + 1,
-      YearOfKhasm: today.getFullYear(),
-      SubmitPersonCode: PersonCode,
-      PersonKhasmId: PersonCode,
-      KhasmReasonID: discountId,
-    });
+    if (khasmValue <= 0) {
+      Alert.Error("الرجاء ادخال المبلغ بشكل صحيح");
+      return;
+    }
+    if (lastYearClosed != null || lastMonthClosed != null) {
+      if (lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear()) {
+        await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
+          PureKhasmValue: khasmValue,
+          DayOfKhasm: today.getDate(),
+          MonthOfKhasm: today.getMonth() + 1,
+          YearOfKhasm: today.getFullYear(),
+          SubmitPersonCode: PersonCode,
+          PersonKhasmId: PersonCode,
+          KhasmReasonID: discountId
+        }).then(() => {
+          Alert.Success("تم اضافة الخصم بنجاح");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }).catch(err => {
+          Alert.Error("حدث خطأ حاول مرة اخرى");
+        });
+        return;
+      }
+    } else {
+      await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
+        PureKhasmValue: khasmValue,
+        DayOfKhasm: today.getDate(),
+        MonthOfKhasm: today.getMonth() + 1,
+        YearOfKhasm: today.getFullYear(),
+        SubmitPersonCode: PersonCode,
+        PersonKhasmId: PersonCode,
+        KhasmReasonID: discountId
+      }).then(() => {
+        Alert.Success("تم اضافة الخصم بنجاح");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }).catch(err => {
+        Alert.Error("حدث خطأ حاول مرة اخرى");
+      });
+      return;
+    }
+    Alert.Error('لا يمكن اضافة حافز لهذا الشهر برجاء انتظار الشهر القادم لاعطاء الخصم');
 
-    let response = await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
+    /* let response = await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
       PureKhasmValue: Number.parseFloat(money),
       DayOfKhasm: today.getDate(),
       MonthOfKhasm: today.getMonth() + 1,
@@ -33,9 +69,9 @@ function DiscountCard(props: any) {
       SubmitPersonCode: PersonCode,
       PersonKhasmId: PersonCode,
       KhasmReasonID: discountId,
-    });
+    }); */
     window.location.reload();
-    console.log(response.data);
+    //console.log(response.data);
   };
 
   return (
@@ -114,7 +150,15 @@ function DiscountCard(props: any) {
                         </>
                       ) : (<td></td>) : (
                       <td>
-
+                        <button
+                          className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                          onClick={() => {
+                            deleteHafez(hist.khasmId);
+                            //   deleteVacation(hist.id);
+                          }}
+                        >
+                          x
+                        </button>
                       </td>
                     )
                 }

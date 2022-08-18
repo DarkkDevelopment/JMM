@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { solfaHistoryForPerson, SolfaModel } from "../models/SolfaModel";
+import { Alert } from "../services/alerts/Alert";
 
 function LoansCard(props: any) {
   const {
@@ -11,53 +12,44 @@ function LoansCard(props: any) {
     lastMonthClosed,
     lastYearClosed,
     deleteSolfa,
+    lastSolfaaDate,
   } = props;
 
   const [value, setValue] = useState(0);
   const sendSolfa = async (e: any) => {
     e.preventDefault();
-    if (value > limit) {
-      alert("المبلغ المدخل اكبر من الحد الاقصى المسموح به");
-      return;
-    }
-    if (value < 0) {
-      alert("المبلغ المدخل اقل من الصفر");
-      return;
-    }
-    if (value === 0) {
-      alert("المبلغ المدخل يجب ان يكون اكبر من الصفر");
-      return;
-    }
-    // todo i will put here the checking function first
-    const checkForLastLoans = await axios({
-      method: "post",
-      url: "/api/HR_Endpoints/loan/check",
-      data: {
-        code: code,
-        date: new Date(),
-      },
-    });
-    console.log(checkForLastLoans);
 
-    if (checkForLastLoans.data.data === false) {
-      const response = await axios.post("/api/HR_Endpoints/loan/createLoan", {
-        PersonCode: code,
-        SolfaValue: value,
-        SolfaRequestDate: new Date(),
-        SolfaMonthToBeApplied: new Date().getMonth() + 1,
-        SolfaYearToBeApplied: new Date().getFullYear(),
-      });
-
-      if (response.status == 200) {
-        alert("تمت العملية بنجاح");
+    let solfaValue = value;
+    if (solfaValue > limit) {
+      Alert.Error("المبلغ المدخل اكبر من الحد الاقصى المسموح به")
+      return
+    }
+    if (solfaValue < 0) {
+      Alert.Error("المبلغ المدخل اقل من الصفر")
+      return
+    }
+    if (solfaValue === 0) {
+      Alert.Error("المبلغ المدخل يجب ان يكون اكبر من الصفر")
+      return
+    }
+    if (new Date(lastSolfaaDate).getMonth() === new Date().getMonth() && new Date(lastSolfaaDate).getFullYear() === new Date().getFullYear()) {
+      Alert.Error("لا يمكن طلب سلفة لهذا الشهر")
+      return
+    }
+    const response = await axios.post('/api/HR_Endpoints/loan/createLoan', {
+      PersonCode: code,
+      SolfaValue: solfaValue,
+      SolfaRequestDate: new Date(),
+      SolfaMonthToBeApplied: new Date().getMonth() + 1,
+      SolfaYearToBeApplied: new Date().getFullYear(),
+    }).then(() => {
+      Alert.Success("تم ارسال الطلب بنجاح")
+      setTimeout(() => {
         window.location.reload();
-      } else {
-        alert("حدث خطأ حاول مرة اخرى");
-      }
-    } else {
-      alert("لا يمكنك ادخال سلفة لهذا الشهر");
-    }
-  };
+      }, 1500);
+    }).catch((err) => {
+      Alert.Error('حدث خطأ حاول مرة اخرى');
+    });
   return (
     <div className="flex flex-col p-10 space-y-10 bg-white shadow-lg rounded-3xl font-display">
       <h2 className="mt-10 text-6xl text-center text-black font-display">
@@ -112,7 +104,7 @@ function LoansCard(props: any) {
                   // todo : need to fix this one
                 */}
                     <td>{hist.solfaValue}</td>
-                    <td>{hist.solfaRequestDate.toString()}</td>
+                    <td>{hist.solfaRequestDate.toString().slice(0,10)}</td>
                   </tr>
                 );
               })}

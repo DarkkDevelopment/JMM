@@ -1,10 +1,12 @@
-/* eslint-disable @next/next/no-img-element */
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../utils/axios";
 import React, { ReactPropTypes, useEffect, useState } from "react";
 import DiscountCard from "../../components/DiscountCard";
 import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
 import { KhasmModelHistory } from "../../models/khasmModel";
+import { Alert } from '../../services/alerts/Alert';
+import { ToastContainer } from 'react-toastify';
 
 // @ts-ignore
 function Discounts(props) {
@@ -47,8 +49,14 @@ function Discounts(props) {
   const deleteHafez = async (id: number) => {
     await axios.post(`/api/HR_Endpoints/khasm/delete`, {
       id
+    }).then(() => {
+      Alert.Success('تم حذف الخصم بنجاح');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }).catch(err => {
+      Alert.Error('حدث خطأ اثناء حذف الخصم');
     });
-    window.location.reload();
   }
 
   useEffect(() => {
@@ -77,6 +85,7 @@ function Discounts(props) {
     <div className="flex flex-row bg-gray-100 ">
       <div className="font-display basis-5/6 ">
         <div className="flex flex-col m-10 ">
+          <ToastContainer />
           <div className="flex flex-col justify-center space-y-10">
             {filteredEmployees.map((emp) => {
               return (

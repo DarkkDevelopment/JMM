@@ -1,32 +1,71 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { hawafezHistoryForPerson } from "../models/hawafezModel";
+import { Alert } from "../services/alerts/Alert";
 import Dropdown from "./DropDownComp";
 import TextField from "./TextField";
 
 
 function IncentiveCard(props: any) {
-    const { name, totalIncentive, title, hwafezReasons, PersonCode, history, lastMonthClosed, lastYearClosed,deleteHafez } = props;
+    const { name, totalIncentive, title, hwafezReasons, PersonCode, history, lastMonthClosed, lastYearClosed, deleteHafez } = props;
     const [hafez, setHafez] = useState(hwafezReasons[0].name);
     const [money, setMoney] = useState('');
 
-    
+
 
     const sendHafez = async (e: any) => {
         e.preventDefault();
+        if (money === '') {
+            Alert.Error("يجب ادخال المبلغ");
+            return;
+        }
+        let hafezValue = parseInt(money);
         let today = new Date();
         let hafezId = hwafezReasons.find((x: any) => x.name === hafez).id;
-        let response = await axios.post('/api/HR_Endpoints//hawafez/create?type=pureHafez', {
-            PureHafezValue: Number.parseFloat(money),
-            DayOfHafez: today.getDate(),
-            MonthOfHafez: today.getMonth() + 1,
-            YearOfHafez: today.getFullYear(),
-            SubmitPersonCode: PersonCode,
-            PersonHafezId: PersonCode,
-            HafezReasonID: hafezId,
-        });
-        console.log(response.data);
-        window.location.reload();
+        if (hafezValue <= 0) {
+            Alert.Error("الرجاء ادخال المبلغ بشكل صحيح");
+            return;
+        }
+        if (lastYearClosed != null || lastMonthClosed != null) {
+            if (lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear()) {
+                await axios.post('/api/HR_Endpoints//hawafez/create?type=pureHafez', {
+                    PureHafezValue: hafezValue,
+                    DayOfHafez: today.getDate(),
+                    MonthOfHafez: today.getMonth() + 1,
+                    YearOfHafez: today.getFullYear(),
+                    SubmitPersonCode: PersonCode,
+                    PersonHafezId: PersonCode,
+                    HafezReasonID: hafezId,
+                }).then(() => {
+                    Alert.Success("تم اضافة الحافز بنجاح");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                }).catch(err => {
+                    Alert.Error("حدث خطأ حاول مرة اخرى");
+                });
+                return;
+            }
+        } else {
+            await axios.post('/api/HR_Endpoints//hawafez/create?type=pureHafez', {
+                PureHafezValue: hafezValue,
+                DayOfHafez: today.getDate(),
+                MonthOfHafez: today.getMonth() + 1,
+                YearOfHafez: today.getFullYear(),
+                SubmitPersonCode: PersonCode,
+                PersonHafezId: PersonCode,
+                HafezReasonID: hafezId,
+            }).then(() => {
+                Alert.Success("تم اضافة الحافز بنجاح");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }).catch(err => {
+                Alert.Error("حدث خطأ حاول مرة اخرى");
+            });
+            return;
+        }
+        Alert.Error('لا يمكن اضافة حافز لهذا الشهر برجاء انتظار الشهر القادم لاعطاء الحافز');
     }
 
     return (
@@ -55,7 +94,7 @@ function IncentiveCard(props: any) {
                                 <tr key={hist.hafezId}>
 
                                     {
-                                    lastYearClosed != null || lastMonthClosed != null ?
+                                        lastYearClosed != null || lastMonthClosed != null ?
                                             lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear() ?
                                                 (
                                                     <>
@@ -70,9 +109,19 @@ function IncentiveCard(props: any) {
                                                         </button>
                                                     </>
                                                 ) : (<td></td>) : (
-                                                <td>
 
-                                                </td>
+                                                <>
+                                                    <button
+                                                        className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                                                        onClick={() => {
+                                                            deleteHafez(hist.hafezId);
+                                                            //   deleteVacation(hist.id);
+                                                        }}
+                                                    >
+                                                        x
+                                                    </button>
+                                                </>
+
                                             )
                                     }
 
