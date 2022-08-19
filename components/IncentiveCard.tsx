@@ -77,6 +77,7 @@ function IncentiveCard(props: any) {
             <p>
                 اجمالي مبلغ ال{title} في الشهر : {totalIncentive}
             </p>
+
             <div className='flex flex-row justify-evenly'>
                 <table
                     className="text-right border-collapse table-auto font-display w-[20vw]"
@@ -134,12 +135,12 @@ function IncentiveCard(props: any) {
                     </tbody>
                 </table>
                 <div className="flex font-display ml-11">
-                    <div className="mt-7">
+                    <div className="mt-7 pl-10">
                         <Dropdown options={hwafezReasons} title='الحوافز' onChange={setHafez} value={hafez} />
                     </div>
 
 
-                    <div className="ml- ">
+                    <div className="">
                         <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
                     </div>
                 </div>
@@ -148,7 +149,7 @@ function IncentiveCard(props: any) {
             </div>
             <button
                 onClick={sendHafez}
-                className="m-3 px-4 py-2 text-center shadow appearance-none border w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900 rounded-3xl ">
+                className="m-3 px-4 py-2 text-center shadow appearance-none border w-[10vw]  text-white leading-tight focus:outline-none focus:shadow-outline bg-blue-500 hover:bg-blue-900">
                 تم
             </button>
         </div >

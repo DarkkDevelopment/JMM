@@ -82,9 +82,10 @@ function Discounts(props) {
   }, [filterDate]);
 
   return (
-    <div className="flex flex-row bg-gray-100 ">
-      <div className="font-display basis-5/6 ">
-        <div className="flex flex-col m-10 ">
+    <div className="flex flex-row bg-gray-100">
+      <div className="fmr-10 font-display basis-5/6">
+        <div className="flex flex-col m-10">
+        <div className="flex flex-col pl-10 mr-10">
           <ToastContainer />
           <div className="flex flex-col justify-center space-y-10">
             {filteredEmployees.map((emp) => {
@@ -112,6 +113,7 @@ function Discounts(props) {
               );
             })}
           </div>
+        </div>
         </div>
       </div>
       <SideBar pageName="discounts" />
