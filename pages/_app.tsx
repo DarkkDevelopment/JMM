@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import { Provider } from "react-redux";
+import { store } from "../utils/redux/store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -15,7 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <link rel="icon" href="/logo.png" />
         </Head>
       </div>
-      <Component {...pageProps} />;
+      <Provider store={store}>
+        <Component {...pageProps} />;
+      </Provider>
     </>
   );
 }
