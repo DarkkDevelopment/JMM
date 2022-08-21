@@ -1,56 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import SideBar from "../../components/sideBar";
 import Switch from "../../components/Switch";
 import { GetAbsenceModel } from "../../models/GheyabModels";
 import { VacationsModel } from "../../models/vacationsModel";
+import { fetchGhyabByDate } from "../../utils/redux/features/GhyabSlice";
+import { AppDispatch, RootState } from "../../utils/redux/store";
 
 const Absence = (props: any) => {
-  const [Absence, setAbsence] = useState<GetAbsenceModel[]>([]);
-  const [Vacations, setVacations] = useState<VacationsModel[]>([]);
+  const ghyabState = useSelector((state: RootState) => state.absence)
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [filterDate, setFilterDate] = useState(new Date());
 
   // todo : useEffect to get Absence Of The Day
 
   useEffect(() => {
-    const getGheyabOfTheFilteredDate = async () => {
-      const GheyabHistory = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/absence/get`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            date: filterDate,
-          }),
-        }
-      );
-      const GheyabHistoryJson = await GheyabHistory.json();
-      setAbsence(GheyabHistoryJson);
-    };
-    getGheyabOfTheFilteredDate();
-  }, [filterDate]);
-
-  useEffect(() => {
-    const getVacationHistoryAtFilteredDate = async () => {
-      const VacationHistory = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/vacations/getVacationsAtThatDay`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            date: filterDate,
-          }),
-        }
-      );
-      const VacationHistoryJson = await VacationHistory.json();
-      setVacations(VacationHistoryJson);
-    };
-    getVacationHistoryAtFilteredDate();
-  }, [filterDate]);
+    if (ghyabState.employees.length == 0)
+      dispatch(fetchGhyabByDate(new Date()))
+  }, []);
 
   return (
     <div className="flex flex-row bg-gray-100 ">
@@ -60,9 +28,9 @@ const Absence = (props: any) => {
             <div className="flex flex-row justify-evenly">
               <input
                 type="date"
-                value={filterDate.toISOString().split("T")[0]}
+                value={ghyabState.filterDate.toISOString().split("T")[0]}
                 onChange={(e) => {
-                  setFilterDate(new Date(e.target.value));
+                  dispatch(fetchGhyabByDate(new Date(e.target.value)));
                 }}
                 className="
             my-3
@@ -80,7 +48,7 @@ const Absence = (props: any) => {
           <div className="flex flex-col justify-center p-10 mr-16 bg-white shadow-xl space-y-7 ">
             <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
               <div> الغياب</div>
-              <div> &quot;{filterDate.toLocaleDateString()}&quot; </div>
+              <div> &quot;{ghyabState.filterDate.toLocaleDateString()}&quot; </div>
             </p>
             <table
               title="الغياب"
@@ -98,7 +66,7 @@ const Absence = (props: any) => {
                 </tr>
               </thead>
               <tbody className="p-10">
-                {Absence.map((obj: GetAbsenceModel) => {
+                {ghyabState.employees.map((obj: GetAbsenceModel) => {
                   return (
                     <tr key={obj.PersonCode}>
                       <td className="p-4 border-b-2">
@@ -106,7 +74,7 @@ const Absence = (props: any) => {
                         <Switch
                           old={true}
                           type={false}
-                          toggleSwitch={(value: boolean) => {}}
+                          toggleSwitch={(value: boolean) => { }}
                         />
                       </td>
                       <td className="p-4 border-b-2">{obj.GheyabDayRatio}</td>
@@ -129,7 +97,7 @@ const Absence = (props: any) => {
           <div className="flex flex-col justify-center p-10 mt-5 mr-16 bg-white shadow-xl space-y-7 ">
             <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
               <div> الاجازات</div>
-              <div> &quot;{filterDate.toLocaleDateString()}&quot; </div>
+              <div> &quot;{ghyabState.filterDate.toLocaleDateString()}&quot; </div>
             </p>
             <table
               title="الاجازات"
@@ -145,7 +113,7 @@ const Absence = (props: any) => {
                 </tr>
               </thead>
               <tbody className="p-10">
-                {Vacations.map((obj: VacationsModel) => {
+                {ghyabState.agazat.map((obj: VacationsModel) => {
                   return (
                     <tr key={obj.PersonCode}>
                       <td className="p-4 border-b-2">{obj.VacationType}</td>
