@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setEmployeeHodorTime, setEmplyeeEnsrafTime, setHafezHourRatio, setKhasmHourRatio, ToggleHedor } from "../utils/redux/features/AttendanceSlice";
 import Switch from "./Switch";
 type Props = {
   PersonName: string;
@@ -12,13 +14,10 @@ type Props = {
   TotalNumberOfWorkingHoursAtThatDay: number;
   TotalNumberOfAbsenceHoursAtThatDay: number;
   TotalNumberOfExtraHoursAtThatDay: number;
-  onFromDateChange: (id: number, date: string) => void;
-  onToDateChange: (id: number, date: string) => void;
-  onKhasmChange: (id: number, value: any) => void;
-  onHafezChange: (id: number, value: any) => void;
-  onAttendanceChange: (id: number, attended: boolean) => void;
+  index: number;
 };
 export const HedorRowComponent = (props: Props) => {
+  const dispatch = useDispatch()
   const {
     PersonCode,
     to,
@@ -31,11 +30,7 @@ export const HedorRowComponent = (props: Props) => {
     TotalNumberOfAbsenceHoursAtThatDay,
     TotalNumberOfExtraHoursAtThatDay,
     attended,
-    onToDateChange,
-    onFromDateChange,
-    onKhasmChange,
-    onHafezChange,
-    onAttendanceChange,
+    index,
   } = props;
 
   return (
@@ -45,7 +40,7 @@ export const HedorRowComponent = (props: Props) => {
           old={old}
           type={attended}
           toggleSwitch={(value: boolean) => {
-            onAttendanceChange(PersonCode, value);
+            dispatch(ToggleHedor({ index, attended: value }))
           }}
         />
       </td>
@@ -55,7 +50,7 @@ export const HedorRowComponent = (props: Props) => {
           className="w-full py-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
           type="text"
           value={hafezHourRatio}
-          onChange={(e) => onHafezChange(PersonCode, e.target.value)}
+          onChange={(e) => dispatch(setHafezHourRatio({ index, value: e.target.value }))}
         />
       </td>
       <td className="p-4 border-b-2">
@@ -65,7 +60,8 @@ export const HedorRowComponent = (props: Props) => {
           type="text"
           value={KhasmHourRatio}
           onChange={(e) => {
-            onKhasmChange(PersonCode, e.target.value);
+            dispatch(setKhasmHourRatio({ index, value: e.target.value }))
+            //onKhasmChange(PersonCode, e.target.value);
           }}
         />
       </td>
@@ -82,7 +78,8 @@ export const HedorRowComponent = (props: Props) => {
           className="w-full p-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
           value={to.toString()}
           onChange={(e) => {
-            onToDateChange(PersonCode, e.target.value);
+            //onToDateChange(PersonCode, e.target.value);
+            dispatch(setEmplyeeEnsrafTime({ index, time: e.target.value }))
           }}
         />
       </td>
@@ -93,7 +90,7 @@ export const HedorRowComponent = (props: Props) => {
           className="w-full p-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
           value={from.toString()}
           onChange={(e) => {
-            onFromDateChange(PersonCode, e.target.value);
+            dispatch(setEmployeeHodorTime({ index, time: e.target.value }))
           }}
         />
       </td>
