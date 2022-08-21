@@ -8,12 +8,13 @@ import { InferGetServerSidePropsType } from "next";
 import axios from "../../utils/axios";
 import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
+import Dropdown from "../../components/DropDown";
 
 function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const filteredEmployees: SolfaModel[] = props ? props.data : [];
-  console.log(filteredEmployees);
+  const [filteredEmployees, setFilteredEmployees] = useState<SolfaModel[]>(props ? props.data : []);
+  const [year, setYear] = useState(new Date().getFullYear());
   const [searchterm, setSearchTerm] = useState("");
-
+  let [years, setYears] = useState<{ id: number, name: string }[]>([]);
   const deleteSolfa = async (id: number) => {
     await axios
       .post(`/api/HR_Endpoints/loan/delete`, {
@@ -30,13 +31,42 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
       });
     //   window.location.reload();
   };
-
+  useEffect(() => {
+    let yaersArr = []
+    for (let i = 2020; i <= new Date().getFullYear(); i++) {
+      yaersArr.push({
+        id: i,
+        name: i.toString()
+      });
+    }
+    setYears(yaersArr)
+  }, [])
   return (
     <div className="flex flex-row bg-gray-100">
       <ToastContainer />
       <div className="flex justify-center m-10 font-display basis-5/6">
         <div className="flex flex-col justify-center space-y-10">
-          <SearchField setSearchTerm={setSearchTerm} />
+          <div className="flex flex-row justify-around">
+            <SearchField setSearchTerm={setSearchTerm} />
+            <Dropdown
+              options={years!}
+              value={year}
+              onChange={async (val: number) => {
+                setYear(val)
+                const response = await fetch(
+                  `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/loan/getLoanHistory`,
+                  {
+                    method: "post",
+                    body: JSON.stringify({
+                      year: val,
+                    }),
+                  }
+                );
+                const data = await response.json();
+                setFilteredEmployees(data);
+              }}
+            />
+          </div>
           <div className="flex flex-row space-x-10"></div>
 
           {filteredEmployees.length > 0 ? (

@@ -7,11 +7,14 @@ import SideBar from "../../components/sideBar";
 import { KhasmModelHistory } from "../../models/khasmModel";
 import { Alert } from '../../services/alerts/Alert';
 import { ToastContainer } from 'react-toastify';
+import Dropdown from '../../components/DropDown';
 
 // @ts-ignore
 function Discounts(props) {
   const [filterDate, setFilterDate] = useState(new Date());
   const [searchterm, setSearchTerm] = useState("");
+  let [years, setYears] = useState<{ id: number, name: string }[]>([]);
+  const [year, setYear] = useState(new Date().getFullYear());
   const [filteredEmployeesBackup, setFilteredEmployeesBackup] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState<KhasmModelHistory[]>([]);
   const [discountsReasons, setDiscountReasons] = useState([]);
@@ -60,13 +63,21 @@ function Discounts(props) {
   }
 
   useEffect(() => {
+    let yaersArr = []
+    for (let i = 2020; i <= new Date().getFullYear(); i++) {
+      yaersArr.push({
+        id: i,
+        name: i.toString()
+      });
+    }
+    setYears(yaersArr)
     const fetchData = async () => {
       let response = await axios({
         method: "post",
         url: "/api/HR_Endpoints/khasm/get",
         data: {
-          month: filterDate.getMonth() + 1,
-          year: filterDate.getFullYear(),
+          //month: filterDate.getMonth() + 1,
+          year: year,
         },
       });
       let khasmRes = await axios.get(
@@ -79,12 +90,22 @@ function Discounts(props) {
       setFilteredEmployees(response.data);
     };
     fetchData();
-  }, [filterDate]);
+  }, [year]);
 
   return (
     <div className="flex flex-row bg-gray-100">
       <div className="fmr-10 font-display basis-5/6">
         <div className="flex flex-col m-10">
+        <div className='flex justify-center mb-4'>
+            <Dropdown
+              options={years!}
+              value={year}
+              onChange={async (val: number) => {
+                setYear(val)
+               
+              }}
+            />
+          </div>
         <div className="flex flex-col pl-10 mr-10">
           <ToastContainer />
           <div className="flex flex-col justify-center space-y-10">
