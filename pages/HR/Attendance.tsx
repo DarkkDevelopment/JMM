@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
 import { HedorRowComponent } from "../../components/HedorRowComponent";
@@ -12,6 +13,8 @@ import { useDispatch } from "react-redux";
 import { fetchAttandanceByDate } from "../../utils/redux/features/AttendanceSlice";
 import { AppDispatch, RootState } from "../../utils/redux/store";
 import { useSelector } from "react-redux";
+import { Alert } from '../../services/alerts/Alert';
+import { ToastContainer } from 'react-toastify';
 // @ts-ignore
 function Attendance(props) {
   const [Attendance, setAttendance] = useState<IAttendanceModel[]>([]);
@@ -50,14 +53,19 @@ function Attendance(props) {
 
   const sendAttendanceHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const sendAttendanceRequest = Attendance.map((attendance: any) => {
+    let employees = attendanceState.employees;
+    const sendAttendanceRequest = employees.map((attendance: any) => {
       let startHourArr = attendance.HodoorTime.split(":");
       let endHourArr = attendance.EnserafTime.split(":");
       let utcStartHour = new Date().setUTCHours(Number(startHourArr[0]), Number(startHourArr[1]));
       let utcEndHour = new Date().setUTCHours(Number(endHourArr[0]), Number(endHourArr[1]));
-      attendance.EnserafTime = new Date(utcEndHour);
-      attendance.HodoorTime = new Date(utcStartHour);
-      return attendance;
+      /* attendance.EnserafTime = new Date(utcEndHour);
+      attendance.HodoorTime = new Date(utcStartHour); */
+      return {
+        ...attendance,
+        EnserafTime: new Date(utcEndHour),
+        HodoorTime: new Date(utcStartHour)
+      }
     });
 
     const HedoorModelsToBeFilled: HedoorModel[] = [];
@@ -116,7 +124,8 @@ function Attendance(props) {
       KhasmModelsToBeFilled,
       GheyabModelsToBeFilled
     );
-    window.location.reload();
+    Alert.Success('تم حفظ الحضور بنجاح برجاء عدم نسيان اضافة الغياب')
+    // window.location.reload();
   };
 
 
@@ -125,6 +134,7 @@ function Attendance(props) {
     <div className="flex flex-row bg-gray-100 ">
       <div className="m-12 font-display basis-5/6">
         <div className="flex flex-row justify-center space-x-72 ">
+          <ToastContainer />
           <SearchField setSearchTerm={setSearchTerm} />
           <input
             type="date"

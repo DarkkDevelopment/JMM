@@ -1,3 +1,5 @@
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -8,11 +10,28 @@ import { VacationsModel } from "../../models/vacationsModel";
 import { setHedor } from "../../utils/redux/features/AttendanceSlice";
 import { fetchGhyabByDate, removeGhyab } from "../../utils/redux/features/GhyabSlice";
 import { AppDispatch, RootState } from "../../utils/redux/store";
+import { Alert } from '../../services/alerts/Alert';
+import { ToastContainer } from 'react-toastify';
 
 const Absence = (props: any) => {
   const ghyabState = useSelector((state: RootState) => state.absence)
   const dispatch = useDispatch<AppDispatch>();
 
+  const sendAbsence = () => {
+    let models = ghyabState.employees.map(emp => {
+      return {
+        PersonCode: emp.PersonCode,
+        GheyabDate: emp.Date
+      }
+    })
+    axios.post('/api/HR_Endpoints/absence/create', {
+      models
+    }).then(() => {
+      Alert.Success('تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور')
+    }).catch(() => {
+      Alert.Error('حدث خطأ ما برجاء المحاولة مره اخري')
+    })
+  }
 
   // todo : useEffect to get Absence Of The Day
 
@@ -25,6 +44,7 @@ const Absence = (props: any) => {
     <div className="flex flex-row bg-gray-100 ">
       <div className="font-display basis-5/6">
         <div className="flex flex-col p-10">
+          <ToastContainer />
           <div className="flex flex-row pr-10 font-display">
             <div className="flex flex-row justify-evenly">
               <input
@@ -110,6 +130,15 @@ const Absence = (props: any) => {
               </tbody>
             </table>
           </div>
+          <button
+            /* disabled={attendanceState.old}*/
+            onClick={sendAbsence}
+            className={
+              "flex  justify-start w-fit px-4 py-2 mt-3 leading-tight text-right text-white bg-blue-400 rounded shadow-lg hover:bg-blue-700 disabled:hover:bg-blue-400"
+            }
+          >
+            حفظ غياب اليوم
+          </button>
           <div className="flex flex-col justify-center p-10 mt-5 mr-16 bg-white shadow-xl space-y-7 ">
             <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
               <div> الاجازات</div>
