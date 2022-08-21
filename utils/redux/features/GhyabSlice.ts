@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../axios'
 import { VacationsModel } from '../../../models/vacationsModel'
+import { GetAbsenceModel } from '../../../models/GheyabModels'
 
 
 
@@ -32,7 +33,7 @@ export const fetchGhyabByDate = createAsyncThunk(
 )
 // Define a type for the slice state
 interface AbsenceState {
-    employees: [],
+    employees: GetAbsenceModel[],
     agazat: VacationsModel[],
     old: boolean,
     filterDate: Date
@@ -53,8 +54,11 @@ export const ghyabSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        setGhyab: (state, action) => {
-
+        setGhyab: (state, action: PayloadAction<{ employee: GetAbsenceModel }>) => {
+            state.employees.push(action.payload.employee)
+        },
+        removeGhyab: (state, action: PayloadAction<{ id: number }>) => {
+            state.employees = state.employees.filter(e => e.PersonCode !== action.payload.id)
         }
     },
     extraReducers: builder => {
@@ -76,7 +80,8 @@ export const ghyabSlice = createSlice({
 
 
 export const {
-    setGhyab
+    setGhyab,
+    removeGhyab
 } = ghyabSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type

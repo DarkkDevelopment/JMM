@@ -5,7 +5,8 @@ import SideBar from "../../components/sideBar";
 import Switch from "../../components/Switch";
 import { GetAbsenceModel } from "../../models/GheyabModels";
 import { VacationsModel } from "../../models/vacationsModel";
-import { fetchGhyabByDate } from "../../utils/redux/features/GhyabSlice";
+import { setHedor } from "../../utils/redux/features/AttendanceSlice";
+import { fetchGhyabByDate, removeGhyab } from "../../utils/redux/features/GhyabSlice";
 import { AppDispatch, RootState } from "../../utils/redux/store";
 
 const Absence = (props: any) => {
@@ -72,9 +73,24 @@ const Absence = (props: any) => {
                       <td className="p-4 border-b-2">
                         {" "}
                         <Switch
-                          old={true}
+                          old={false}
                           type={false}
-                          toggleSwitch={(value: boolean) => { }}
+                          toggleSwitch={(value: boolean) => {
+                            dispatch(removeGhyab({ id: obj.PersonCode }));
+                            dispatch(setHedor({
+                              PersonCode: obj.PersonCode,
+                              attended: true,
+                              EnserafTime: "17:00",
+                              Date: obj.Date,
+                              ExtraFactor: 1.5,
+                              ExtraHours: 0,
+                              HodoorTime: "09:00",
+                              LateFactor: 1.5,
+                              LateHours: 0,
+                              PersonName: obj.PersonName,
+                              TotalNumberOfWorkingHoursAtThatDay: 8
+                            }));
+                          }}
                         />
                       </td>
                       <td className="p-4 border-b-2">{obj.GheyabDayRatio}</td>

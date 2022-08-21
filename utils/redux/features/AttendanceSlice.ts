@@ -66,8 +66,9 @@ export const attendanceSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        setEmployees: (state, action: PayloadAction<IAttendanceModel[]>) => {
-            state.employees = action.payload
+        setHedor: (state, action: PayloadAction<IAttendanceModel>) => {
+            console.log(action.payload);
+            state.employees.push(action.payload);
         },
         setEmployeeHodorTime: (state, action: PayloadAction<{ index: number, time: string }>) => {
             let employee = state.employees[action.payload.index]
@@ -90,7 +91,8 @@ export const attendanceSlice = createSlice({
             state.employees[action.payload.index].ExtraFactor = action.payload.value;
         },
         ToggleHedor: (state, action: PayloadAction<{ index: number, attended: boolean }>) => {
-            state.employees[action.payload.index].attended = action.payload.attended;
+            let employees = state.employees.filter((employee, index) => index !== action.payload.index);
+            state.employees = employees;
         },
     },
     extraReducers: builder => {
@@ -138,7 +140,7 @@ const calculateAdditionalHours = (
 
 
 export const {
-    setEmployees,
+    setHedor,
     setEmployeeHodorTime,
     setEmplyeeEnsrafTime,
     setHafezHourRatio,

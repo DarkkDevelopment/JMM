@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setEmployeeHodorTime, setEmplyeeEnsrafTime, setHafezHourRatio, setKhasmHourRatio, ToggleHedor } from "../utils/redux/features/AttendanceSlice";
+import { setGhyab } from "../utils/redux/features/GhyabSlice";
 import Switch from "./Switch";
 type Props = {
   PersonName: string;
@@ -41,6 +42,20 @@ export const HedorRowComponent = (props: Props) => {
           type={attended}
           toggleSwitch={(value: boolean) => {
             dispatch(ToggleHedor({ index, attended: value }))
+            let slicedPersonName = PersonName.split(' ')
+            dispatch(setGhyab({
+              employee: {
+                PersonCode,
+                PersonName: {
+                  PersonFirstName: slicedPersonName[0],
+                  PersonSecondName: slicedPersonName[1],
+                  PersonThirdName: slicedPersonName[2],
+                  PersonFourthName: slicedPersonName[3],
+                },
+                GheyabDayRatio: KhasmHourRatio,
+                Date: new Date()
+              }
+            }))
           }}
         />
       </td>
