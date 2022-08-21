@@ -1,5 +1,4 @@
-import { configureStore, ThunkAction } from '@reduxjs/toolkit'
-import { attendanceApi } from '../../services/attendanceServices'
+import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { attendanceSlice } from './features/AttendanceSlice'
 //import { createWrapper } from "next-redux-wrapper";
