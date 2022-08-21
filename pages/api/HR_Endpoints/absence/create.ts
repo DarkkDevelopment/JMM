@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
 import { sendAbsenceModel } from "../../../../models/GheyabModels";
 
-// http://localhost:3000/api/absence/create
+// http://localhost:3000/api/HR_Endpoints/absence/create
 
 const sendAbsence = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
