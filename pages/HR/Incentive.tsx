@@ -7,6 +7,7 @@ import { getHwafezService } from "../../services/Hr/hwafezService";
 import axios from "../../utils/axios";
 import { Alert } from '../../services/alerts/Alert';
 import { ToastContainer } from 'react-toastify';
+import Dropdown from '../../components/DropDown';
 // @ts-ignore
 function Incentive(props) {
 
@@ -27,17 +28,38 @@ function Incentive(props) {
       Alert.Error("حدث خطأ حاول مرة اخرى");
     });
   }
-
+  let [years, setYears] = useState<{ id: number, name: string }[]>([]);
+  const [year, setYear] = useState(new Date().getFullYear());
+  
+  
   useEffect(() => {
-
-  }, [filterDate]);
+    let yaersArr = []
+    for (let i = 2020; i <= new Date().getFullYear(); i++) {
+      yaersArr.push({
+        id: i,
+        name: i.toString()
+      });
+    }
+    setYears(yaersArr)
+  }, [])
 
   return (
     <div className="flex flex-row bg-gray-100">
       <div className="mr-10 font-display basis-5/6">
         <div className="flex flex-col m-10">
+          <div className='flex justify-center mb-4'>
+            <Dropdown
+              options={years!}
+              value={year}
+              onChange={async (val: number) => {
+                setYear(val)
+                let response =await getHwafezService(val)
+                setFilteredEmployees(response.data);
+              }}
+            />
+          </div>
           <div className="flex flex-col pl-10 mr-10">
-              <ToastContainer />
+            <ToastContainer />
             <div className="flex flex-col justify-center space-y-10">
               {filteredEmployees.map((obj) => (
                 <IncentiveCard
