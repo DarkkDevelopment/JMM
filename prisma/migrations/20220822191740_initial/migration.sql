@@ -183,6 +183,7 @@ CREATE TABLE "PersonHafezHistory" (
     "DayOfHafez" INTEGER DEFAULT 0,
     "MonthOfHafez" INTEGER DEFAULT 0,
     "YearOfHafez" INTEGER DEFAULT 0,
+    "deletedAt" DATE,
 
     CONSTRAINT "PersonHafezHistory_pkey" PRIMARY KEY ("id")
 );
@@ -238,6 +239,7 @@ CREATE TABLE "PersonKhasmHistory" (
     "DayOfKhasm" INTEGER DEFAULT 0,
     "MonthOfKhasm" INTEGER DEFAULT 0,
     "YearOfKhasm" INTEGER DEFAULT 0,
+    "deletedAt" DATE,
 
     CONSTRAINT "PersonKhasmHistory_pkey" PRIMARY KEY ("id")
 );
@@ -281,6 +283,8 @@ CREATE TABLE "PersonPayrollHistory" (
     "PersonTa2meenValue" INTEGER NOT NULL,
     "PersonTa2meenPercentage" DOUBLE PRECISION NOT NULL,
     "TotalValueOfTa2meenatAtThatMonth" DOUBLE PRECISION NOT NULL,
+    "elawatValue" DOUBLE PRECISION NOT NULL,
+    "badalatValue" DOUBLE PRECISION NOT NULL,
     "NetSalary" DOUBLE PRECISION NOT NULL,
     "PersonPayrollDate" DATE NOT NULL,
     "PayrollMonth" INTEGER NOT NULL,
@@ -310,6 +314,7 @@ CREATE TABLE "PersonSolfaPerMonth" (
     "SolfaYearToBeApplied" INTEGER NOT NULL,
     "IsApproved" BOOLEAN NOT NULL,
     "IsDoneAndPaid" BOOLEAN NOT NULL,
+    "deletedAt" DATE,
 
     CONSTRAINT "PersonSolfaPerMonth_pkey" PRIMARY KEY ("id")
 );
