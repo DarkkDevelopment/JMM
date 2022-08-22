@@ -10,8 +10,8 @@ import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
 import Dropdown from "../../components/DropDown";
 
-function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [filteredEmployees, setFilteredEmployees] = useState<SolfaModel[]>(props ? props.data : []);
+function Loan(props: any) {
+  const [filteredEmployees, setFilteredEmployees] = useState<SolfaModel[]>([]);
   const [year, setYear] = useState(new Date().getFullYear());
   const [searchterm, setSearchTerm] = useState("");
   let [years, setYears] = useState<{ id: number, name: string }[]>([]);
@@ -32,6 +32,15 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     //   window.location.reload();
   };
   useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.post(
+        '/api/HR_Endpoints/loan/getLoanHistory',
+        {
+          year,
+        }
+      );
+      setFilteredEmployees(response.data);
+    }
     let yaersArr = []
     for (let i = 2020; i <= new Date().getFullYear(); i++) {
       yaersArr.push({
@@ -40,7 +49,8 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
       });
     }
     setYears(yaersArr)
-  }, [])
+    fetchData();
+  }, [year])
   return (
     <div className="flex flex-row bg-gray-100">
       <ToastContainer />
@@ -53,17 +63,6 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
               value={year}
               onChange={async (val: number) => {
                 setYear(val)
-                const response = await fetch(
-                  `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/loan/getLoanHistory`,
-                  {
-                    method: "post",
-                    body: JSON.stringify({
-                      year: val,
-                    }),
-                  }
-                );
-                const data = await response.json();
-                setFilteredEmployees(data);
               }}
             />
           </div>
@@ -102,24 +101,6 @@ function Loan(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
       <SideBar pageName="loan" />
     </div>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/loan/getLoanHistory`,
-    {
-      method: "post",
-      body: JSON.stringify({
-        year: new Date().getFullYear(),
-      }),
-    }
-  );
-  const data = await response.json();
-  return {
-    props: {
-      data,
-    },
-  };
 }
 
 export default Loan;
