@@ -1,153 +1,31 @@
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
 import { HedorRowComponent } from "../../components/HedorRowComponent";
 import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
-import { AttendanceTable } from "../../interfaces/attendance";
 import { IAttendanceModel } from "../../interfaces/attandance";
-import { GetAttendanceModel, HedoorModel } from "../../models/AttendanceModels";
+import { HedoorModel } from "../../models/AttendanceModels";
 import { HawafezModel } from "../../models/hawafezModel";
 import { KhasmModel } from "../../models/khasmModel";
 import { sendAbsenceModel } from "../../models/GheyabModels";
-import { AppProps } from "next/app";
+import { useDispatch } from "react-redux";
+import { fetchAttandanceByDate } from "../../utils/redux/features/AttendanceSlice";
+import { AppDispatch, RootState } from "../../utils/redux/store";
+import { useSelector } from "react-redux";
+import { Alert } from '../../services/alerts/Alert';
+import { ToastContainer } from 'react-toastify';
 // @ts-ignore
 function Attendance(props) {
-  const [old, setOld] = useState(false);
   const [Attendance, setAttendance] = useState<IAttendanceModel[]>([]);
   const [searchterm, setSearchTerm] = useState("");
-  const [filterDate, setFilterDate] = useState(new Date());
-
-  const workingHoursConstant = 8;
-
-  const onToDateChange = (id: number, date: string) => {
-    console.log(date);
-    const newAttendance = Attendance.map((attendance) => {
-      if (attendance.PersonCode === id) {
-        attendance.EnserafTime = date;
-        attendance.TotalNumberOfWorkingHoursAtThatDay = calcualateWorkingHours(
-          attendance.HodoorTime,
-          attendance.EnserafTime
-        );
-        attendance.LateHours = calculateAbsenceHours(
-          workingHoursConstant,
-          attendance.TotalNumberOfWorkingHoursAtThatDay
-        );
-        attendance.ExtraHours = calculateAdditionalHours(
-          workingHoursConstant,
-          attendance.TotalNumberOfWorkingHoursAtThatDay
-        );
-      }
-      return attendance;
-    });
-    setAttendance(newAttendance);
-  };
-
-  const onFromDateChange = (id: number, date: string) => {
-    const newAttendance = Attendance.map((attendance) => {
-      if (attendance.PersonCode === id) {
-        attendance.HodoorTime = date;
-        attendance.TotalNumberOfWorkingHoursAtThatDay = calcualateWorkingHours(
-          attendance.HodoorTime,
-          attendance.EnserafTime
-        );
-        attendance.LateHours = calculateAbsenceHours(
-          workingHoursConstant,
-          attendance.TotalNumberOfWorkingHoursAtThatDay
-        );
-        attendance.ExtraHours = calculateAdditionalHours(
-          workingHoursConstant,
-          attendance.TotalNumberOfWorkingHoursAtThatDay
-        );
-      }
-      return attendance;
-    });
-    setAttendance(newAttendance);
-  };
-
-  const calcualateWorkingHours = (
-    heddorTime: string,
-    enserafTime: string
-  ): number => {
-    const fromSplitted = heddorTime.split(":");
-    const hedorHour = parseInt(fromSplitted[0]);
-    const hedorMinute = parseInt(fromSplitted[1]);
-
-    const toSplitted = enserafTime.split(":");
-    const enserafHour = parseInt(toSplitted[0]);
-    const enserafMinute = parseInt(toSplitted[1]);
-
-    const totalHours = enserafHour - hedorHour;
-    const totalMinutes = enserafMinute - hedorMinute;
-    const totalWorkingHours = totalHours + totalMinutes / 60;
-
-    return totalWorkingHours;
-  };
-
-  const calculateAdditionalHours = (
-    constHours: number,
-    totalWorkingHours: number
-  ): number =>
-    totalWorkingHours > constHours ? totalWorkingHours - constHours : 0;
-
-  const calculateAbsenceHours = (
-    constHours: number,
-    totalWorkingHours: number
-  ): number =>
-    totalWorkingHours < constHours ? constHours - totalWorkingHours : 0;
-
-  const setKhasmHourRatio = (id: number, value: any) => {
-    const newAttendance = Attendance.map((attendance) => {
-      if (attendance.PersonCode === id) {
-        attendance.LateFactor = value;
-      }
-      return attendance;
-    });
-    setAttendance(newAttendance);
-  };
-
-  const setHafezHourRatio = (id: number, value: any) => {
-    const newAttendance = Attendance.map((attendance) => {
-      if (attendance.PersonCode === id) {
-        attendance.ExtraFactor = value;
-      }
-      return attendance;
-    });
-    setAttendance(newAttendance);
-  };
-
-  const setAttended = (id: number, attended: boolean) => {
-    const newAttendance = Attendance.map((attendance) => {
-      if (attendance.PersonCode === id) {
-        attendance.attended = attended;
-      }
-      return attendance;
-    });
-    setAttendance(newAttendance);
-  };
+  const dispatch = useDispatch<AppDispatch>();
+  const attendanceState = useSelector((state: RootState) => state.attendance);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.post("/api/HR_Endpoints/attendance/get", {
-        AttendanceDate: filterDate,
-      });
-
-      let newAttendance = response.data.map((attendance: AttendanceTable) => {
-        attendance.EnserafTime = attendance
-          .EnserafTime!.toString()
-          .split("T")[1]
-          .slice(0, 5);
-        attendance.HodoorTime = attendance
-          .HodoorTime!.toString()
-          .split("T")[1]
-          .slice(0, 5);
-        attendance.attended = true;
-        return attendance;
-      });
-
-      setAttendance(newAttendance);
-    };
-    fetchData();
-  }, [filterDate]);
+    if (attendanceState.employees.length == 0)
+      dispatch(fetchAttandanceByDate(new Date()))
+  }, []);
 
   const createNewAttendanceService = async (
     HedoorModelsToBeFilled: HedoorModel[],
@@ -175,14 +53,19 @@ function Attendance(props) {
 
   const sendAttendanceHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const sendAttendanceRequest = Attendance.map((attendance: any) => {
-      let startHourArr = attendance.HodoorTime.split(":"); 
+    let employees = attendanceState.employees;
+    const sendAttendanceRequest = employees.map((attendance: any) => {
+      let startHourArr = attendance.HodoorTime.split(":");
       let endHourArr = attendance.EnserafTime.split(":");
       let utcStartHour = new Date().setUTCHours(Number(startHourArr[0]), Number(startHourArr[1]));
       let utcEndHour = new Date().setUTCHours(Number(endHourArr[0]), Number(endHourArr[1]));
-      attendance.EnserafTime = new Date(utcEndHour);
-      attendance.HodoorTime =  new Date(utcStartHour);
-      return attendance;
+      /* attendance.EnserafTime = new Date(utcEndHour);
+      attendance.HodoorTime = new Date(utcStartHour); */
+      return {
+        ...attendance,
+        EnserafTime: new Date(utcEndHour),
+        HodoorTime: new Date(utcStartHour)
+      }
     });
 
     const HedoorModelsToBeFilled: HedoorModel[] = [];
@@ -194,7 +77,7 @@ function Attendance(props) {
       if (attendance.attended) {
         HedoorModelsToBeFilled.push({
           PersonCode: attendance.PersonCode,
-          Date: filterDate,
+          Date: attendanceState.filterDate,
           HodoorTime: attendance.HodoorTime,
           EnserafTime: attendance.EnserafTime,
           TotalNumberOfWorkingHoursAtThatDay:
@@ -204,20 +87,20 @@ function Attendance(props) {
         });
         HawafezModelsToBeFilled.push({
           PersonHafezId: attendance.PersonCode,
-          DayOfHafez: filterDate.getDate(),
+          DayOfHafez: attendanceState.filterDate.getDate(),
           NumberOfBonusHours: attendance.ExtraHours,
           HafezBonusHourRatio: Number.parseFloat(attendance.ExtraFactor),
           HafezReasonID: 1,
           SubmitPersonCode: attendance.PersonCode,
-          MonthOfHafez: filterDate.getMonth() + 1,
-          YearOfHafez: filterDate.getFullYear(),
+          MonthOfHafez: attendanceState.filterDate.getMonth() + 1,
+          YearOfHafez: attendanceState.filterDate.getFullYear(),
           HafezBonusDayRatio: 0,
           NumberOfBonusDays: 0,
           PureHafezValue: 0,
         });
         KhasmModelsToBeFilled.push({
           PersonKhasmId: attendance.PersonCode,
-          DayOfKhasm: filterDate.getDate(),
+          DayOfKhasm: attendanceState.filterDate.getDate(),
           KhasGhyabDayRatio: 0,
           KhasmLateHourRatio: Number.parseFloat(attendance.LateFactor),
           KhasmReasonID: 1,
@@ -225,13 +108,13 @@ function Attendance(props) {
           NumberOfLateHours: attendance.LateHours,
           PureKhasmValue: 0,
           SubmitPersonCode: attendance.PersonCode,
-          MonthOfKhasm: filterDate.getMonth() + 1,
-          YearOfKhasm: filterDate.getFullYear(),
+          MonthOfKhasm: attendanceState.filterDate.getMonth() + 1,
+          YearOfKhasm: attendanceState.filterDate.getFullYear(),
         });
       } else {
         GheyabModelsToBeFilled.push({
           PersonCode: attendance.PersonCode,
-          GheyabDate: filterDate,
+          GheyabDate: attendanceState.filterDate,
         });
       }
     });
@@ -241,32 +124,22 @@ function Attendance(props) {
       KhasmModelsToBeFilled,
       GheyabModelsToBeFilled
     );
-    window.location.reload();
+    Alert.Success('تم حفظ الحضور بنجاح برجاء عدم نسيان اضافة الغياب')
+    // window.location.reload();
   };
 
-  useEffect(() => {
-    const checkIfOldOrNewAttendance = async () => {
-      const checkForAttendanceIfOldOrNEW = await axios({
-        method: "post",
-        url: "/api/HR_Endpoints/attendance/check",
-        data: {
-          date: filterDate,
-        },
-      });
-      setOld(checkForAttendanceIfOldOrNEW.data);
-    };
-    checkIfOldOrNewAttendance();
-  }, [filterDate]);
+
 
   return (
     <div className="flex flex-row bg-gray-100 ">
       <div className="m-12 font-display basis-5/6">
         <div className="flex flex-row justify-center space-x-72 ">
+          <ToastContainer />
           <SearchField setSearchTerm={setSearchTerm} />
           <input
             type="date"
-            value={filterDate.toISOString().split("T")[0]}
-            onChange={(e) => setFilterDate(new Date(e.target.value))}
+            value={attendanceState.filterDate.toISOString().split("T")[0]}
+            onChange={(e) => dispatch(fetchAttandanceByDate(new Date(e.target.value)))}
             className="
 
             py-2
@@ -282,74 +155,72 @@ function Attendance(props) {
         <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
           <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
             <div> الحضور</div>
-            <div> &quot;{filterDate.toLocaleDateString()}&quot; </div>
+            <div> &quot;{attendanceState.filterDate.toLocaleDateString()}&quot; </div>
           </p>
 
-          <table
-            title="الحضور"
-            className="text-center border-collapse table-auto font-display"
-          >
-            <thead className="text-center text-white bg-blue-900">
-              <tr>
-                <th className="w-5 p-4 text-center border-b-2"></th>
-                <th className="w-5 p-4 text-center border-b-2">
-                  معامل الاضافة
-                </th>
-                <th className="w-5 p-4 text-center border-b-2">معامل الغياب</th>
-                <th className="w-5 p-4 text-center border-b-2">
-                  عدد ساعات الغياب
-                </th>
-                <th className="w-5 p-4 text-center border-b-2">
-                  عدد ساعات العمل الاضافية
-                </th>
-                <th className="w-5 p-4 text-center border-b-2">
-                  عدد ساعات العمل
-                </th>
-                <th className="w-5 p-4 text-center border-b-2">الي</th>
-                <th className="w-5 p-4 text-center border-b-2 ">من</th>
-                <th className="w-20 p-4 text-center border-b-2 ">الكود</th>
-                <th className="w-20 p-4 text-center border-b-2 ">الاسم</th>
-              </tr>
-            </thead>
-            <tbody className="p-10">
-              {Attendance.map((employee, index) => {
-                return (
-                  <HedorRowComponent
-                    key={employee.PersonCode}
-                    PersonCode={employee.PersonCode}
-                    PersonName={
-                      employee.PersonName.PersonFirstName +
-                      " " +
-                      employee.PersonName.PersonSecondName +
-                      " " +
-                      employee.PersonName.PersonThirdName +
-                      " " +
-                      employee.PersonName.PersonFourthName
-                    }
-                    from={employee.HodoorTime!}
-                    to={employee.EnserafTime!}
-                    attended={employee.attended}
-                    old={old}
-                    KhasmHourRatio={employee.LateFactor}
-                    hafezHourRatio={employee.ExtraFactor}
-                    onToDateChange={onToDateChange}
-                    onFromDateChange={onFromDateChange}
-                    TotalNumberOfWorkingHoursAtThatDay={
-                      employee.TotalNumberOfWorkingHoursAtThatDay
-                    }
-                    TotalNumberOfAbsenceHoursAtThatDay={employee.LateHours}
-                    TotalNumberOfExtraHoursAtThatDay={employee.ExtraHours}
-                    onKhasmChange={setKhasmHourRatio}
-                    onHafezChange={setHafezHourRatio}
-                    onAttendanceChange={setAttended}
-                  />
-                );
-              })}
-            </tbody>
-          </table>
+          {
+            attendanceState.status === 'loading' ? (<div>Loading...</div>) : (<table
+              title="الحضور"
+              className="text-center border-collapse table-auto font-display"
+            >
+              <thead className="text-center text-white bg-blue-900">
+                <tr>
+                  <th className="w-5 p-4 text-center border-b-2"></th>
+                  <th className="w-5 p-4 text-center border-b-2">
+                    معامل الاضافة
+                  </th>
+                  <th className="w-5 p-4 text-center border-b-2">معامل الغياب</th>
+                  <th className="w-5 p-4 text-center border-b-2">
+                    عدد ساعات الغياب
+                  </th>
+                  <th className="w-5 p-4 text-center border-b-2">
+                    عدد ساعات العمل الاضافية
+                  </th>
+                  <th className="w-5 p-4 text-center border-b-2">
+                    عدد ساعات العمل
+                  </th>
+                  <th className="w-5 p-4 text-center border-b-2">الي</th>
+                  <th className="w-5 p-4 text-center border-b-2 ">من</th>
+                  <th className="w-20 p-4 text-center border-b-2 ">الكود</th>
+                  <th className="w-20 p-4 text-center border-b-2 ">الاسم</th>
+                </tr>
+              </thead>
+              <tbody className="p-10">
+                {attendanceState.employees.map((employee, index) => {
+                  return (
+                    <HedorRowComponent
+                      key={employee.PersonCode}
+                      PersonCode={employee.PersonCode}
+                      PersonName={
+                        employee.PersonName.PersonFirstName +
+                        " " +
+                        employee.PersonName.PersonSecondName +
+                        " " +
+                        employee.PersonName.PersonThirdName +
+                        " " +
+                        employee.PersonName.PersonFourthName
+                      }
+                      from={employee.HodoorTime}
+                      to={employee.EnserafTime!}
+                      attended={employee.attended}
+                      old={attendanceState.old}
+                      KhasmHourRatio={employee.LateFactor}
+                      hafezHourRatio={employee.ExtraFactor}
+                      index={index}
+                      TotalNumberOfWorkingHoursAtThatDay={
+                        Math.floor(employee.TotalNumberOfWorkingHoursAtThatDay)
+                      }
+                      TotalNumberOfAbsenceHoursAtThatDay={employee.LateHours}
+                      TotalNumberOfExtraHoursAtThatDay={employee.ExtraHours}
+                    />
+                  );
+                })}
+              </tbody>
+            </table>)
+          }
         </div>
         <button
-          disabled={old}
+          disabled={attendanceState.old}
           onClick={sendAttendanceHandler}
           className={
             "px-4 py-2 mt-3 leading-tight text-right text-white bg-blue-400 rounded shadow-lg hover:bg-blue-700 disabled:hover:bg-blue-400"
