@@ -15,9 +15,8 @@ const Manateq = (
   const [manateq, setManateq] = useState<
     { id: number; name: string; mohafzaId: number }[]
   >(props.manateq);
-  const [govs, setGovs] = useState<{ name: string; id: number }[]>(
-    props.mohafazat
-  );
+  const governments = props.mohafazat.length > 0 ? props.mohafazat : [];
+  const [govs, setGovs] = useState<{ name: string; id: number }[]>(governments);
   const [selectedGov, setSelectedGov] = useState(props.mohafazat[0].id || 0);
   const [matchedGov, onMatchedGovChange] = useState(props.mohafazat[0].id || 0);
 
