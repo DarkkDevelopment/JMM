@@ -6,8 +6,17 @@ import Dropdown from "./DropDownComp";
 import TextField from "./TextField";
 
 function DiscountCard(props: any) {
-  const { name, totalKhasminThatMonth, title, discountReasons, PersonCode, history, lastMonthClosed, lastYearClosed, deleteHafez } =
-    props;
+  const {
+    name,
+    totalKhasminThatMonth,
+    title,
+    discountReasons,
+    PersonCode,
+    history,
+    lastMonthClosed,
+    lastYearClosed,
+    deleteHafez,
+  } = props;
   const [discount, setDiscount] = useState(discountReasons[0].name);
   const [money, setMoney] = useState("");
 
@@ -21,45 +30,56 @@ function DiscountCard(props: any) {
       return;
     }
     if (lastYearClosed != null || lastMonthClosed != null) {
-      if (lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear()) {
-        await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
+      if (
+        lastMonthClosed < new Date().getMonth() + 1 ||
+        lastYearClosed < new Date().getFullYear()
+      ) {
+        await axios
+          .post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
+            PureKhasmValue: khasmValue,
+            DayOfKhasm: today.getDate(),
+            MonthOfKhasm: today.getMonth() + 1,
+            YearOfKhasm: today.getFullYear(),
+            SubmitPersonCode: PersonCode,
+            PersonKhasmId: PersonCode,
+            KhasmReasonID: discountId,
+          })
+          .then(() => {
+            Alert.Success("تم اضافة الخصم بنجاح");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          })
+          .catch((err) => {
+            Alert.Error("حدث خطأ حاول مرة اخرى");
+          });
+        return;
+      }
+    } else {
+      await axios
+        .post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
           PureKhasmValue: khasmValue,
           DayOfKhasm: today.getDate(),
           MonthOfKhasm: today.getMonth() + 1,
           YearOfKhasm: today.getFullYear(),
           SubmitPersonCode: PersonCode,
           PersonKhasmId: PersonCode,
-          KhasmReasonID: discountId
-        }).then(() => {
+          KhasmReasonID: discountId,
+        })
+        .then(() => {
           Alert.Success("تم اضافة الخصم بنجاح");
           setTimeout(() => {
             window.location.reload();
           }, 1500);
-        }).catch(err => {
+        })
+        .catch((err) => {
           Alert.Error("حدث خطأ حاول مرة اخرى");
         });
-        return;
-      }
-    } else {
-      await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
-        PureKhasmValue: khasmValue,
-        DayOfKhasm: today.getDate(),
-        MonthOfKhasm: today.getMonth() + 1,
-        YearOfKhasm: today.getFullYear(),
-        SubmitPersonCode: PersonCode,
-        PersonKhasmId: PersonCode,
-        KhasmReasonID: discountId
-      }).then(() => {
-        Alert.Success("تم اضافة الخصم بنجاح");
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      }).catch(err => {
-        Alert.Error("حدث خطأ حاول مرة اخرى");
-      });
       return;
     }
-    Alert.Error('لا يمكن اضافة حافز لهذا الشهر برجاء انتظار الشهر القادم لاعطاء الخصم');
+    Alert.Error(
+      "لا يمكن اضافة حافز لهذا الشهر برجاء انتظار الشهر القادم لاعطاء الخصم"
+    );
 
     /* let response = await axios.post("/api/HR_Endpoints//khasm/create?type=pureKhasm", {
       PureKhasmValue: Number.parseFloat(money),
@@ -75,7 +95,7 @@ function DiscountCard(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center p-10 space-y-10 bg-white rounded-3xl shadow-lg font-display">
+    <div className="flex flex-col items-center p-10 space-y-10 bg-white shadow-lg rounded-3xl font-display">
       <h3 className="mt-10 text-3xl text-center text-black font-display">
         {name}
       </h3>
@@ -85,11 +105,7 @@ function DiscountCard(props: any) {
       </p>
 
       <div className="flex flex-row justify-evenly">
-
-      
-        <table
-          className="text-right border-collapse table-auto font-display w-[20vw]"
-        >
+        <table className="text-right border-collapse table-auto font-display w-[20vw]">
           <thead className="text-right text-black border-2 border-t-0 border-l-0 border-r-0 border-b-black">
             <tr>
               <th></th>
@@ -101,37 +117,34 @@ function DiscountCard(props: any) {
             {history.map((hist: khasmHistoryForPerson) => {
               return (
                 <tr key={hist.khasmId}>
-
-                  {
-                    lastYearClosed != null || lastMonthClosed != null ?
-                      lastMonthClosed < new Date().getMonth() + 1 || lastYearClosed < new Date().getFullYear() ?
-                        (
-                          <>
-                            <button
-                              className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
-                              onClick={() => {
-                                deleteHafez(hist.khasmId);
-                                //   deleteVacation(hist.id);
-                              }}
-                            >
-                              x
-                            </button>
-                          </>
-                        ) : (<td></td>) : (
-                        <td>
-                          <button
-                            className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
-                            onClick={() => {
-                              deleteHafez(hist.khasmId);
-                              //   deleteVacation(hist.id);
-                            }}
-                          >
-                            x
-                          </button>
-                        </td>
-                      )
-                  }
-
+                  {lastYearClosed != null || lastMonthClosed != null ? (
+                    lastMonthClosed < new Date().getMonth() + 1 ||
+                    lastYearClosed < new Date().getFullYear() ? (
+                      <>
+                        <button
+                          className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                          onClick={() => {
+                            deleteHafez(hist.khasmId);
+                          }}
+                        >
+                          x
+                        </button>
+                      </>
+                    ) : (
+                      <td></td>
+                    )
+                  ) : (
+                    <td>
+                      <button
+                        className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                        onClick={() => {
+                          deleteHafez(hist.khasmId);
+                        }}
+                      >
+                        x
+                      </button>
+                    </td>
+                  )}
 
                   <td>{hist.khasmValue}</td>
                   <td>{`${hist.YearOfHafez}-${hist.MonthOfHafez}-${hist.DayOfHafez}`}</td>
@@ -140,23 +153,21 @@ function DiscountCard(props: any) {
             })}
           </tbody>
         </table>
-      
-          <div className="flex font-display ml-11">
-            <div className="mt-7 pl-10">
-                <Dropdown
-                  options={discountReasons}
-                  title="اسباب الخصم"
-                  onChange={setDiscount}
-                  value={discount}
-                />
 
-              </div>
+        <div className="flex font-display ml-11">
+          <div className="pl-10 mt-7">
+            <Dropdown
+              options={discountReasons}
+              title="اسباب الخصم"
+              onChange={setDiscount}
+              value={discount}
+            />
+          </div>
 
-              <div className="">
-                <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
-              </div>
-            </div>
-        
+          <div className="">
+            <TextField label="ادخل المبلغ" value={money} onChange={setMoney} />
+          </div>
+        </div>
       </div>
 
       <button
@@ -165,7 +176,6 @@ function DiscountCard(props: any) {
       >
         تم
       </button>
-
     </div>
   );
 }
