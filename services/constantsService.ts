@@ -5,7 +5,7 @@ export const getMohafzatService = async (): Promise<ApiResponseModel> => {
   const response = await axios.get(
     "/api/lookupsData/getDataFromLookups/mohafazat"
   );
-  if (response.data) {
+  if (response.data.length > 0) {
     const agazat = response.data.map(
       (item: { MohafzaID: number; MohafzaName: string }) => {
         return { id: item.MohafzaID, name: item.MohafzaName };
@@ -27,7 +27,7 @@ export const getManateqService = async (): Promise<ApiResponseModel> => {
   const response = await axios.get(
     "/api/lookupsData/getDataFromLookups/manateq"
   );
-  if (response.data) {
+  if (response.data.length > 0) {
     const manateq = response.data.map(
       (manteqa: { ManteqaID: number; ManteqaName: string }) => {
         return { id: manteqa.ManteqaID, name: manteqa.ManteqaName };

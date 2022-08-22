@@ -220,8 +220,8 @@ export async function getServerSideProps(context: any) {
   );
   return {
     props: {
-      manateq: manateqResponse.data || null,
-      mohafazat: mohafazatResponse.data || null,
+      manateq: manateqResponse.data ? manateqResponse.data : [],
+      mohafazat: mohafazatResponse.data ? mohafazatResponse.data : [],
     },
   };
 }
