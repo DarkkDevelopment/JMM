@@ -27,15 +27,22 @@ export const getManateqService = async (): Promise<ApiResponseModel> => {
   const response = await axios.get(
     "/api/lookupsData/getDataFromLookups/manateq"
   );
-  const manateq = response.data.map(
-    (manteqa: { ManteqaID: number; ManteqaName: string }) => {
-      return { id: manteqa.ManteqaID, name: manteqa.ManteqaName };
-    }
-  );
-  return {
-    data: manateq,
-    success: true,
-  };
+  if (response.data) {
+    const manateq = response.data.map(
+      (manteqa: { ManteqaID: number; ManteqaName: string }) => {
+        return { id: manteqa.ManteqaID, name: manteqa.ManteqaName };
+      }
+    );
+    return {
+      data: manateq,
+      success: true,
+    };
+  } else {
+    return {
+      data: [],
+      success: false,
+    };
+  }
 };
 
 export const getManateqByMohafzaIdService = async (
@@ -44,21 +51,28 @@ export const getManateqByMohafzaIdService = async (
   const response = await axios.get(
     `/api/lookupsData/getDataFromLookups/getManateqByMohafzaID?mohafzaID=${mohafzaId}`
   );
-  const manateq = response.data.map(
-    (manteqa: {
-      ManteqaID: number;
-      ManteqaName: string;
-      Manteqa_MohafzaID: number;
-    }) => {
-      return {
-        id: manteqa.ManteqaID,
-        name: manteqa.ManteqaName,
-        mohafzaId: manteqa.Manteqa_MohafzaID,
-      };
-    }
-  );
-  return {
-    data: manateq,
-    success: true,
-  };
+  if (response.data.length > 0) {
+    const manateq = response.data.map(
+      (manteqa: {
+        ManteqaID: number;
+        ManteqaName: string;
+        Manteqa_MohafzaID: number;
+      }) => {
+        return {
+          id: manteqa.ManteqaID,
+          name: manteqa.ManteqaName,
+          mohafzaId: manteqa.Manteqa_MohafzaID,
+        };
+      }
+    );
+    return {
+      data: manateq,
+      success: true,
+    };
+  } else {
+    return {
+      data: [],
+      success: false,
+    };
+  }
 };
