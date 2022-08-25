@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setEmployeeHodorTime, setEmplyeeEnsrafTime, setHafezHourRatio, setKhasmHourRatio, ToggleHedor } from "../utils/redux/features/AttendanceSlice";
-import { setGhyab } from "../utils/redux/features/GhyabSlice";
+import {
+  setEmployeeHodorTime,
+  setEmplyeeEnsrafTime,
+  setHafezHourRatio,
+  setKhasmHourRatio,
+  ToggleHedor,
+} from "../redux/features/AttendanceSlice";
+import { setGhyab } from "../redux/features/GhyabSlice";
 import Switch from "./Switch";
 type Props = {
   PersonName: string;
@@ -18,7 +24,7 @@ type Props = {
   index: number;
 };
 export const HedorRowComponent = (props: Props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {
     PersonCode,
     to,
@@ -41,21 +47,23 @@ export const HedorRowComponent = (props: Props) => {
           old={old}
           type={attended}
           toggleSwitch={(value: boolean) => {
-            dispatch(ToggleHedor({ index, attended: value }))
-            let slicedPersonName = PersonName.split(' ')
-            dispatch(setGhyab({
-              employee: {
-                PersonCode,
-                PersonName: {
-                  PersonFirstName: slicedPersonName[0],
-                  PersonSecondName: slicedPersonName[1],
-                  PersonThirdName: slicedPersonName[2],
-                  PersonFourthName: slicedPersonName[3],
+            dispatch(ToggleHedor({ index, attended: value }));
+            let slicedPersonName = PersonName.split(" ");
+            dispatch(
+              setGhyab({
+                employee: {
+                  PersonCode,
+                  PersonName: {
+                    PersonFirstName: slicedPersonName[0],
+                    PersonSecondName: slicedPersonName[1],
+                    PersonThirdName: slicedPersonName[2],
+                    PersonFourthName: slicedPersonName[3],
+                  },
+                  GheyabDayRatio: KhasmHourRatio,
+                  Date: new Date(),
                 },
-                GheyabDayRatio: KhasmHourRatio,
-                Date: new Date()
-              }
-            }))
+              })
+            );
           }}
         />
       </td>
@@ -65,7 +73,9 @@ export const HedorRowComponent = (props: Props) => {
           className="w-full py-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
           type="text"
           value={hafezHourRatio}
-          onChange={(e) => dispatch(setHafezHourRatio({ index, value: e.target.value }))}
+          onChange={(e) =>
+            dispatch(setHafezHourRatio({ index, value: e.target.value }))
+          }
         />
       </td>
       <td className="p-4 border-b-2">
@@ -75,7 +85,7 @@ export const HedorRowComponent = (props: Props) => {
           type="text"
           value={KhasmHourRatio}
           onChange={(e) => {
-            dispatch(setKhasmHourRatio({ index, value: e.target.value }))
+            dispatch(setKhasmHourRatio({ index, value: e.target.value }));
             //onKhasmChange(PersonCode, e.target.value);
           }}
         />
@@ -94,7 +104,7 @@ export const HedorRowComponent = (props: Props) => {
           value={to.toString()}
           onChange={(e) => {
             //onToDateChange(PersonCode, e.target.value);
-            dispatch(setEmplyeeEnsrafTime({ index, time: e.target.value }))
+            dispatch(setEmplyeeEnsrafTime({ index, time: e.target.value }));
           }}
         />
       </td>
@@ -105,7 +115,7 @@ export const HedorRowComponent = (props: Props) => {
           className="w-full p-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
           value={from.toString()}
           onChange={(e) => {
-            dispatch(setEmployeeHodorTime({ index, time: e.target.value }))
+            dispatch(setEmployeeHodorTime({ index, time: e.target.value }));
           }}
         />
       </td>

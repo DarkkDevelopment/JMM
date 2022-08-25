@@ -1,4 +1,4 @@
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -7,38 +7,42 @@ import SideBar from "../../components/sideBar";
 import Switch from "../../components/Switch";
 import { GetAbsenceModel } from "../../models/GheyabModels";
 import { VacationsModel } from "../../models/vacationsModel";
-import { setHedor } from "../../utils/redux/features/AttendanceSlice";
-import { fetchGhyabByDate, removeGhyab } from "../../utils/redux/features/GhyabSlice";
-import { AppDispatch, RootState } from "../../utils/redux/store";
-import { Alert } from '../../services/alerts/Alert';
-import { ToastContainer } from 'react-toastify';
+import { setHedor } from "../../redux/features/AttendanceSlice";
+import { fetchGhyabByDate, removeGhyab } from "../../redux/features/GhyabSlice";
+import { AppDispatch, RootState } from "../../redux/store";
+import { Alert } from "../../services/alerts/Alert";
+import { ToastContainer } from "react-toastify";
 
-const Absence = (props: any) => {
-  const ghyabState = useSelector((state: RootState) => state.absence)
+// @ts-ignore
+const Absence = (props) => {
+  const ghyabState = useSelector((state: RootState) => state.absence);
   const dispatch = useDispatch<AppDispatch>();
 
   const sendAbsence = () => {
-    let models = ghyabState.employees.map(emp => {
+    let models = ghyabState.employees.map((emp) => {
       return {
         PersonCode: emp.PersonCode,
-        GheyabDate: emp.Date
-      }
-    })
-    axios.post('/api/HR_Endpoints/absence/create', {
-      models
-    }).then(() => {
-      Alert.Success('تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور')
-    }).catch(() => {
-      Alert.Error('حدث خطأ ما برجاء المحاولة مره اخري')
-    })
-  }
+        GheyabDate: emp.Date,
+      };
+    });
+    axios
+      .post("/api/HR_Endpoints/absence/create", {
+        models,
+      })
+      .then(() => {
+        Alert.Success("تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور");
+      })
+      .catch(() => {
+        Alert.Error("حدث خطأ ما برجاء المحاولة مره اخري");
+      });
+  };
 
   // todo : useEffect to get Absence Of The Day
 
   useEffect(() => {
     if (ghyabState.employees.length == 0)
-      dispatch(fetchGhyabByDate(new Date()))
-  }, []);
+      dispatch(fetchGhyabByDate(new Date()));
+  }, [dispatch, ghyabState.employees.length]);
 
   return (
     <div className="flex flex-row bg-gray-100 ">
@@ -69,7 +73,10 @@ const Absence = (props: any) => {
           <div className="flex flex-col justify-center p-10 mr-16 bg-white shadow-xl space-y-7 ">
             <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
               <div> الغياب</div>
-              <div> &quot;{ghyabState.filterDate.toLocaleDateString()}&quot; </div>
+              <div>
+                {" "}
+                &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
+              </div>
             </p>
             <table
               title="الغياب"
@@ -97,19 +104,21 @@ const Absence = (props: any) => {
                           type={false}
                           toggleSwitch={(value: boolean) => {
                             dispatch(removeGhyab({ id: obj.PersonCode }));
-                            dispatch(setHedor({
-                              PersonCode: obj.PersonCode,
-                              attended: true,
-                              EnserafTime: "17:00",
-                              Date: obj.Date,
-                              ExtraFactor: 1.5,
-                              ExtraHours: 0,
-                              HodoorTime: "09:00",
-                              LateFactor: 1.5,
-                              LateHours: 0,
-                              PersonName: obj.PersonName,
-                              TotalNumberOfWorkingHoursAtThatDay: 8
-                            }));
+                            dispatch(
+                              setHedor({
+                                PersonCode: obj.PersonCode,
+                                attended: true,
+                                EnserafTime: "17:00",
+                                Date: obj.Date,
+                                ExtraFactor: 1.5,
+                                ExtraHours: 0,
+                                HodoorTime: "09:00",
+                                LateFactor: 1.5,
+                                LateHours: 0,
+                                PersonName: obj.PersonName,
+                                TotalNumberOfWorkingHoursAtThatDay: 8,
+                              })
+                            );
                           }}
                         />
                       </td>
@@ -142,7 +151,10 @@ const Absence = (props: any) => {
           <div className="flex flex-col justify-center p-10 mt-5 mr-16 bg-white shadow-xl space-y-7 ">
             <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
               <div> الاجازات</div>
-              <div> &quot;{ghyabState.filterDate.toLocaleDateString()}&quot; </div>
+              <div>
+                {" "}
+                &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
+              </div>
             </p>
             <table
               title="الاجازات"

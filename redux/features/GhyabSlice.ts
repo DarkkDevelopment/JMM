@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import axios from '../../axios'
-import { VacationsModel } from '../../../models/vacationsModel'
-import { GetAbsenceModel } from '../../../models/GheyabModels'
+import axios from '../../utils/axios'
+import { VacationsModel } from '../../models/vacationsModel'
+import { GetAbsenceModel } from '../../models/GheyabModels'
 
 
 

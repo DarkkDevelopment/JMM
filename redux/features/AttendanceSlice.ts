@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
-import { GetAttendanceModel } from '../../../models/AttendanceModels'
-import AttendanceServices from '../../../services/attendanceServices'
-import axios from '../../axios'
-import { IAttendanceModel } from '../../../interfaces/attandance'
+import { GetAttendanceModel } from '../../models/AttendanceModels'
+import AttendanceServices from '../../services/attendanceServices'
+import axios from '../../utils/axios'
+import { IAttendanceModel } from '../../interfaces/attandance'
 
 
 

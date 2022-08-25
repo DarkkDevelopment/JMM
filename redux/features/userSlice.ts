@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { userDataState } from "../../../@types/userDataState";
+import { userDataState } from "../../@types/userDataState";
 
 const initialState: userDataState = {
   personCode: 0,
