@@ -38,3 +38,7 @@ export type User = {
   // table Person Agaza Limits
   NumberOfAgazaDays: number;
 };
+export type UserLogin = {
+  PersonCode: number;
+  PersonSystemPassword: string;
+};

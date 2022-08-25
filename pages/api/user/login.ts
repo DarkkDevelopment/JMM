@@ -15,7 +15,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         token,
       });
     } else {
-      return res.status(401).json({
+      return res.status(200).json({
         status: "fail",
         message: "Invalid credentials",
       });
