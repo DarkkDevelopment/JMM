@@ -51,4 +51,12 @@ const authenticate = async (personCode: number, password: string) => {
   }
 };
 
+export const getUserFromToken = (token: string): any => {
+  try {
+    const decoded = jwt.verify(token, config.TOKEN_SECRET);
+    return decoded;
+  } catch (e) {
+    return null;
+  }
+};
 export default authenticate;
