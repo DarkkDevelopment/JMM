@@ -1,25 +1,22 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import useAuth from "../hooks/useAuth";
 import { UserLogin } from "../models/userModel";
 import { loginUserService } from "../services/userServices";
 
 function LoginForm() {
+  const { login } = useAuth();
   const router = useRouter();
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
-  const user: UserLogin = {
-    PersonCode: Number(code),
-    PersonSystemPassword: password,
-  };
+
   // this function to handle the login function and what happens when logged in successfully or not
   const handleLogin = async (e: any) => {
     e.preventDefault();
-    const login = await loginUserService(user);
-    if (login.token) {
+    try {
+      await login(Number(code), password);
       router.push("/HR/Employees");
-    } else {
-      alert("برجاء ادخال الكود و الرقم السري الصحيحين");
-    }
+    } catch {}
   };
   return (
     <div className="flex flex-col items-center justify-center ">
