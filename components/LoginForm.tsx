@@ -18,7 +18,7 @@ function LoginForm() {
     if (login.token) {
       router.push("/HR/Employees");
     } else {
-      alert("Invalid Credentials");
+      alert("برجاء ادخال الكود و الرقم السري الصحيحين");
     }
   };
   return (
