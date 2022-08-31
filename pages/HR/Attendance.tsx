@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
@@ -51,7 +52,6 @@ function Attendance() {
       dispatch(fetchGhyabByDate(new Date()));
     if (attendanceState.employees.length == 0)
       dispatch(fetchAttandanceByDate(new Date()));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const createNewAttendanceService = async (
