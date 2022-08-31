@@ -20,7 +20,6 @@ export const fetchAttandanceByDate = createAsyncThunk(
         .split("T")[1]
         .slice(0, 5);
       attendance.attended = true;
-      console.log(attendance);
       return attendance;
     });
 

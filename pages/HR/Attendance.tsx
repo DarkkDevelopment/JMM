@@ -27,14 +27,14 @@ function Attendance() {
   const ghyabState = useSelector((state: RootState) => state.absence);
   const attendanceState = useSelector((state: RootState) => state.attendance);
 
-  const sendAbsence = () => {
+  const sendAbsence = async () => {
     let models = ghyabState.employees.map((emp) => {
       return {
         PersonCode: emp.PersonCode,
         GheyabDate: emp.Date,
       };
     });
-    axios
+    await axios
       .post("/api/HR_Endpoints/absence/create", {
         models,
       })
@@ -51,13 +51,13 @@ function Attendance() {
       dispatch(fetchGhyabByDate(new Date()));
     if (attendanceState.employees.length == 0)
       dispatch(fetchAttandanceByDate(new Date()));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const createNewAttendanceService = async (
     HedoorModelsToBeFilled: HedoorModel[],
     HawafezModelsToBeFilled: HawafezModel[],
-    KhasmModelsToBeFilled: KhasmModel[],
-    GheyabModelsToBeFilled: sendAbsenceModel[]
+    KhasmModelsToBeFilled: KhasmModel[]
   ) => {
     const newAttendanceRequest = await axios({
       method: "post",
@@ -68,13 +68,7 @@ function Attendance() {
         KhasmModelsToBeFilled,
       },
     });
-    const newAbsenceRequest = await axios({
-      method: "post",
-      url: "/api/HR_Endpoints/absence/create",
-      data: {
-        models: GheyabModelsToBeFilled,
-      },
-    });
+    sendAbsence();
   };
 
   const sendAttendanceHandler = async (e: React.SyntheticEvent) => {
@@ -148,11 +142,14 @@ function Attendance() {
         });
       }
     });
+    console.log(GheyabModelsToBeFilled);
+    console.log(HedoorModelsToBeFilled);
+    console.log(HawafezModelsToBeFilled);
+    console.log(KhasmModelsToBeFilled);
     createNewAttendanceService(
       HedoorModelsToBeFilled,
       HawafezModelsToBeFilled,
-      KhasmModelsToBeFilled,
-      GheyabModelsToBeFilled
+      KhasmModelsToBeFilled
     );
     Alert.Success("تم حفظ الحضور بنجاح برجاء عدم نسيان اضافة الغياب");
     window.location.reload();
