@@ -14,7 +14,7 @@ export type User = {
   PersonDyana: number;
   PersonType: number;
   PersonTa2meenValue: number;
-  deletedAt: Date;
+  deletedAt: Date | null;
   // table address
   PersonAddress: string;
   PersonManteqaID: number;

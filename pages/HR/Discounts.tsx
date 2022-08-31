@@ -95,7 +95,7 @@ function Discounts(props) {
               }}
             />
           </div>
-          <div className="flex flex-col pl-10 mr-10">
+          <div className="flex flex-col">
             <ToastContainer />
             <div className="flex flex-col justify-center">
               {filteredEmployees.map((emp) => {

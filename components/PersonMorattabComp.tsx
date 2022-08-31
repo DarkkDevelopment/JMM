@@ -30,11 +30,14 @@ export const PersonMorattabComp = (props: Props) => {
     const fetchData = async () => {
       const monthNo = MonthSeed.find((monthh) => monthh.name === month)!.id;
       console.log(monthNo, year);
-      const res = await axios.post("/api/payrol/getPayrolHistoryByCode", {
-        code: personId,
-        month: monthNo,
-        year: Number.parseInt(year),
-      });
+      const res = await axios.post(
+        "/api/HR_Endpoints/payrol/getPayrolHistoryByCode",
+        {
+          code: personId,
+          month: monthNo,
+          year: Number.parseInt(year),
+        }
+      );
       setPersonDate(res.data);
     };
     fillArr();
@@ -42,9 +45,7 @@ export const PersonMorattabComp = (props: Props) => {
   }, [year, month, personId]);
   return (
     <div className="flex flex-col w-1/2 p-4 mt-3 mb-4 space-y-10 text-center bg-white rounded-lg">
-      <h1 className="text-3xl text-center text-black font-display">
-        المرتبات
-      </h1>
+      <h1 className="text-3xl text-center text-black font-display">المرتبات</h1>
       <div className="flex flex-row items-center justify-center space-x-5 text-center text-black font-display">
         <Dropdown
           title="السنة"

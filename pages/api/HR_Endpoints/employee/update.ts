@@ -25,7 +25,6 @@ const updateEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
       PersonDyanaId: u.PersonDyana,
       PersonTypeId: u.PersonType,
       PersonTa2meenValue: u.PersonTa2meenValue,
-      deletedAt: u.deletedAt,
     },
   });
 
@@ -40,19 +39,19 @@ const updateEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  const updateDocuments = await prisma.personDocuments.update({
-    where: {
-      PersonCode: u.PersonCode,
-    },
-    data: {
-      Beta2aWesh: u.Beta2aWesh,
-      Beta2aDahr: u.Beta2aDahr,
-      Feesh: u.Feesh,
-      ShehadetMilad: u.ShehadetMilad,
-      ShehadetGeish: u.ShehadetGeish,
-      PersonContract: u.PersonContract,
-    },
-  });
+  // const updateDocuments = await prisma.personDocuments.update({
+  //   where: {
+  //     PersonCode: u.PersonCode,
+  //   },
+  //   data: {
+  //     Beta2aWesh: u.Beta2aWesh,
+  //     Beta2aDahr: u.Beta2aDahr,
+  //     Feesh: u.Feesh,
+  //     ShehadetMilad: u.ShehadetMilad,
+  //     ShehadetGeish: u.ShehadetGeish,
+  //     PersonContract: u.PersonContract,
+  //   },
+  // });
 
   const updateMoratab =
     await prisma.personCurrentMorattabAndDarayebPercentage.update({
@@ -86,7 +85,7 @@ const updateEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
   if (
     updatedGeneralInfo &&
     updatedAddress &&
-    updateDocuments &&
+    // updateDocuments &&
     updateMoratab &&
     updateMobileNumbers &&
     updatePersonWazefa
@@ -95,7 +94,7 @@ const updateEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
       message: "Employee updated successfully",
       updatedGeneralInfo,
       updatedAddress,
-      updateDocuments,
+      // updateDocuments,
       updateMoratab,
       updateMobileNumbers,
       updatePersonWazefa,

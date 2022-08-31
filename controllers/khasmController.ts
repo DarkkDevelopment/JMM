@@ -64,30 +64,32 @@ const createPureKhasm = async (
 const createKhasmLateHours = async (model: KhasmModel) => {
   try {
     const morattab = await getMorattabAndDarebaPercentage(model.PersonKhasmId);
-    const khasm = await prisma.personKhasmHistory.create({
-      data: {
-        PersonKhasmId: model.PersonKhasmId,
-        KhasmReasonID: model.KhasmReasonID,
-        DayOfKhasm: model.DayOfKhasm,
-        MonthOfKhasm: model.MonthOfKhasm,
-        YearOfKhasm: model.YearOfKhasm,
-        NumberOfLateHours: model.NumberOfLateHours,
-        KhasmLateHourRatio: model.KhasmLateHourRatio,
-        KhasmLateValue:
-          ((model.NumberOfLateHours *
+    const numOfHours = (await getWorkingHours()).NumberOfWorkingHours;
+    const morattabPerHour = morattab.morattab / (numOfHours * 30);
+    if (model.NumberOfLateHours > 0) {
+      const khasm = await prisma.personKhasmHistory.create({
+        data: {
+          PersonKhasmId: model.PersonKhasmId,
+          KhasmReasonID: model.KhasmReasonID,
+          DayOfKhasm: model.DayOfKhasm,
+          MonthOfKhasm: model.MonthOfKhasm,
+          YearOfKhasm: model.YearOfKhasm,
+          NumberOfLateHours: model.NumberOfLateHours,
+          KhasmLateHourRatio: model.KhasmLateHourRatio,
+          KhasmLateValue:
+            model.NumberOfLateHours *
             model.KhasmLateHourRatio *
-            morattab.morattab) /
-            30) *
-          (
-            await getWorkingHours()
-          ).NumberOfWorkingHours,
-        PureKhasmValue: 0,
-        NumberOfGhyabDays: 0,
-        KhasmGhyabDayRatio: 0,
-      },
-    });
-    const newMove = await createKhasmMove(khasm.id, model.SubmitPersonCode);
-    return { khasm, newMove };
+            morattabPerHour,
+          PureKhasmValue: 0,
+          NumberOfGhyabDays: 0,
+          KhasmGhyabDayRatio: 0,
+        },
+      });
+      const newMove = await createKhasmMove(khasm.id, model.SubmitPersonCode);
+      return { khasm, newMove };
+    } else {
+      return null;
+    }
   } catch (error) {
     return error;
   }
@@ -100,27 +102,30 @@ const createKhasmGheyabDays = async (
 ) => {
   try {
     const morattab = await getMorattabAndDarebaPercentage(model.PersonKhasmId);
-    const khasm = await prisma.personKhasmHistory.create({
-      data: {
-        PersonKhasmId: model.PersonKhasmId,
-        KhasmReasonID: model.KhasmReasonID,
-        DayOfKhasm: model.DayOfKhasm,
-        MonthOfKhasm: model.MonthOfKhasm,
-        YearOfKhasm: model.YearOfKhasm,
-        NumberOfGhyabDays: model.NumberOfGhyabDays,
-        KhasmGhyabDayRatio: model.KhasGhyabDayRatio,
-        KhasmLateValue:
-          (model.NumberOfGhyabDays *
-            model.KhasGhyabDayRatio *
-            morattab.morattab) /
-          30,
-        NumberOfLateHours: 0,
-        KhasmLateHourRatio: 0,
-        PureKhasmValue: 0,
-      },
-    });
-    const newMove = await createKhasmMove(khasm.id, model.SubmitPersonCode);
-    return { khasm, newMove };
+    const numOfHours = (await getWorkingHours()).NumberOfWorkingHours;
+    const morattabPerHour = morattab.morattab / (numOfHours * 30);
+    if (model.NumberOfGhyabDays > 0) {
+      const khasm = await prisma.personKhasmHistory.create({
+        data: {
+          PersonKhasmId: model.PersonKhasmId,
+          KhasmReasonID: model.KhasmReasonID,
+          DayOfKhasm: model.DayOfKhasm,
+          MonthOfKhasm: model.MonthOfKhasm,
+          YearOfKhasm: model.YearOfKhasm,
+          NumberOfGhyabDays: model.NumberOfGhyabDays,
+          KhasmGhyabDayRatio: model.KhasGhyabDayRatio,
+          KhasmLateValue:
+            model.NumberOfGhyabDays * model.KhasGhyabDayRatio * morattabPerHour,
+          NumberOfLateHours: 0,
+          KhasmLateHourRatio: 0,
+          PureKhasmValue: 0,
+        },
+      });
+      const newMove = await createKhasmMove(khasm.id, model.SubmitPersonCode);
+      return { khasm, newMove };
+    } else {
+      return null;
+    }
   } catch (error) {
     return error;
   }
@@ -165,7 +170,8 @@ const calculateTotalKhsomatinMonth = async (year: number) => {
     const history: khasmHistoryForPerson[] = getKhasm.map((khasm) => {
       return {
         khasmId: khasm.id,
-        khasmValue: Number(khasm.PureKhasmValue),
+        PureKhasmValue: Number(khasm.PureKhasmValue),
+        khasmValue: Number(khasm.KhasmLateValue),
         DayOfHafez: Number(khasm.DayOfKhasm),
         MonthOfHafez: Number(khasm.MonthOfKhasm),
         YearOfHafez: Number(khasm.YearOfKhasm),

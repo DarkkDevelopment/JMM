@@ -21,10 +21,13 @@ export const PersonSolfaComp = (props: Props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post("/api/loan/getLoanHistoryByCode", {
-        code: PersonCode,
-        year: Number.parseInt(year),
-      });
+      const response = await axios.post(
+        "/api/HR_Endpoints/loan/getLoanHistoryByCode",
+        {
+          code: PersonCode,
+          year: Number.parseInt(year),
+        }
+      );
       setPersonDate(response.data);
     };
     fillArr();
@@ -33,9 +36,7 @@ export const PersonSolfaComp = (props: Props) => {
 
   return (
     <div className="flex flex-col justify-center w-1/2 p-4 mt-3 space-y-10 text-center bg-white rounded-lg">
-      <h1 className="text-3xl text-center text-black font-display">
-        السُلف
-      </h1>
+      <h1 className="text-3xl text-center text-black font-display">السُلف</h1>
       <div className="flex flex-row items-center justify-center space-x-5 text-center text-black font-display">
         <Dropdown
           title="السنة"

@@ -66,33 +66,35 @@ const createHafezPure = async (
 const createHafezExtraHours = async (model: HawafezModel) => {
   try {
     const morattab = await getMorattabAndDarebaPercentage(model.PersonHafezId);
-    const hafez = await prisma.personHafezHistory.create({
-      data: {
-        PersonHafezId: model.PersonHafezId,
-        HafezReasonID: model.HafezReasonID,
-        PureHafezValue: 0,
-        NumberOfBonusHours: model.NumberOfBonusHours,
-        HafezBonusHourRatio: model.HafezBonusHourRatio,
-        HafezTotalValue:
-          ((model.NumberOfBonusHours *
+    if (model.NumberOfBonusHours > 0) {
+      const numbOfHours = (await getWorkingHours()).NumberOfWorkingHours;
+      const morattabPerHour = morattab.morattab / (numbOfHours * 30);
+      const hafez = await prisma.personHafezHistory.create({
+        data: {
+          PersonHafezId: model.PersonHafezId,
+          HafezReasonID: model.HafezReasonID,
+          PureHafezValue: 0,
+          NumberOfBonusHours: model.NumberOfBonusHours,
+          HafezBonusHourRatio: model.HafezBonusHourRatio,
+          HafezTotalValue:
+            model.NumberOfBonusHours *
             model.HafezBonusHourRatio *
-            morattab.morattab) /
-            30) *
-          (
-            await getWorkingHours()
-          ).NumberOfWorkingHours,
-        NumberOfBonusDays: 0,
-        HafezBonusDayRatio: 0,
-        DayOfHafez: model.DayOfHafez,
-        MonthOfHafez: model.MonthOfHafez,
-        YearOfHafez: model.YearOfHafez,
-      },
-    });
-    const newMove = await createHafezMove(hafez.id, model.SubmitPersonCode);
-    return {
-      hafez,
-      newMove,
-    };
+            morattabPerHour,
+          NumberOfBonusDays: 0,
+          HafezBonusDayRatio: 0,
+          DayOfHafez: model.DayOfHafez,
+          MonthOfHafez: model.MonthOfHafez,
+          YearOfHafez: model.YearOfHafez,
+        },
+      });
+      const newMove = await createHafezMove(hafez.id, model.SubmitPersonCode);
+      return {
+        hafez,
+        newMove,
+      };
+    } else {
+      return null;
+    }
   } catch (error) {
     return error;
   }
@@ -101,30 +103,35 @@ const createHafezExtraHours = async (model: HawafezModel) => {
 const createHafezExtraDays = async (model: HawafezModel) => {
   try {
     const morattab = await getMorattabAndDarebaPercentage(model.PersonHafezId);
-    const hafez = await prisma.personHafezHistory.create({
-      data: {
-        PersonHafezId: model.PersonHafezId,
-        HafezReasonID: model.HafezReasonID,
-        PureHafezValue: 0,
-        NumberOfBonusDays: model.NumberOfBonusDays,
-        HafezBonusDayRatio: model.HafezBonusDayRatio,
-        HafezTotalValue:
-          (model.NumberOfBonusDays *
+    const numbOfHours = (await getWorkingHours()).NumberOfWorkingHours;
+    const morattabPerHour = morattab.morattab / (numbOfHours * 30);
+    if (model.NumberOfBonusDays > 0) {
+      const hafez = await prisma.personHafezHistory.create({
+        data: {
+          PersonHafezId: model.PersonHafezId,
+          HafezReasonID: model.HafezReasonID,
+          PureHafezValue: 0,
+          NumberOfBonusDays: model.NumberOfBonusDays,
+          HafezBonusDayRatio: model.HafezBonusDayRatio,
+          HafezTotalValue:
+            model.NumberOfBonusDays *
             model.HafezBonusDayRatio *
-            morattab.morattab) /
-          30,
-        NumberOfBonusHours: 0,
-        HafezBonusHourRatio: 0,
-        DayOfHafez: model.DayOfHafez,
-        MonthOfHafez: model.MonthOfHafez,
-        YearOfHafez: model.YearOfHafez,
-      },
-    });
-    const newMove = await createHafezMove(hafez.id, model.SubmitPersonCode);
-    return {
-      hafez,
-      newMove,
-    };
+            morattabPerHour,
+          NumberOfBonusHours: 0,
+          HafezBonusHourRatio: 0,
+          DayOfHafez: model.DayOfHafez,
+          MonthOfHafez: model.MonthOfHafez,
+          YearOfHafez: model.YearOfHafez,
+        },
+      });
+      const newMove = await createHafezMove(hafez.id, model.SubmitPersonCode);
+      return {
+        hafez,
+        newMove,
+      };
+    } else {
+      return null;
+    }
   } catch (error) {
     return error;
   }
@@ -169,7 +176,8 @@ const calculateTotalHawafezinMonth = async (year: number) => {
     const history: hawafezHistoryForPerson[] = getHafez.map((h) => {
       return {
         hafezId: h.id,
-        HafezValue: Number(h.PureHafezValue),
+        PureValue: Number(h.PureHafezValue),
+        HafezValue: Number(h.HafezTotalValue),
         DayOfHafez: Number(h.DayOfHafez),
         MonthOfHafez: Number(h.MonthOfHafez),
         YearOfHafez: Number(h.YearOfHafez),

@@ -71,7 +71,7 @@ function Incentive(
               onChange={handleYearChange}
             />
           </div>
-          <div className="flex flex-col pl-10 mr-10">
+          <div className="flex flex-col">
             <ToastContainer />
             <div className="flex flex-col justify-center">
               {filteredEmployees?.map((obj) => {
@@ -109,10 +109,11 @@ function Incentive(
 
 export async function getServerSideProps(context: any) {
   let response = await getHwafezService(new Date().getFullYear());
-  let hwafezRes = await axios.get(
-    "/api/lookupsData/getDataFromLookups/getHawafezReasons"
+  let hwafezRes = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/getHawafezReasons`
   );
-  let hwafezReasons = hwafezRes.data.map((x: any) => {
+  let hawafezResJson = await hwafezRes.json();
+  let hwafezReasons = hawafezResJson.map((x: any) => {
     return { id: x.ReasonID, name: x.ReasonDescription };
   });
   return {

@@ -1,13 +1,10 @@
-import 'react-toastify/dist/ReactToastify.css';
-import React, { ReactPropTypes, useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextField from "../../components/TextField";
-
 import RadioButtonComp from "../../components/RadioButtonComp";
-import EmployeeVacation from "../../components/EmployeeVacation";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import CustomizableTextField from "../../components/CustomizableTextField";
-import axios from "axios";
+import axios from "../../utils/axios";
 import { IEmployeeProfileModel } from "../../interfaces/employees";
 import { EmployeesVacations } from "../../components/EmployeesVacations";
 import { PersonMorattabComp } from "../../components/PersonMorattabComp";
@@ -18,14 +15,22 @@ import {
   getMohafzatService,
 } from "../../services/constantsService";
 import { ToastContainer } from "react-toastify";
-import { Alert } from '../../services/alerts/Alert';
-// @ts-ignore
-function EmployeeDetails(props) {
+import { Alert } from "../../services/alerts/Alert";
+import { InferGetServerSidePropsType } from "next";
+
+function EmployeeDetails(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
   const router = useRouter();
-  const code = router.query.code as string;
-  const [employee, setEmployee] = useState<IEmployeeProfileModel | undefined>(
-    undefined
-  );
+  const employeeDetails = props.employeeData;
+  const DeyanaTypes = props.dyanaRes;
+  const typesData = props.typeRes;
+  const wazayefTypes = props.workRes;
+  const governments = props.govRes;
+
+  const Usercode = router.query.code as string;
+  console.log(Usercode);
+
   const [editdata, setEditData] = useState(false);
   // input states
   const [address, setAddress] = useState("");
@@ -41,68 +46,51 @@ function EmployeeDetails(props) {
   const [insuranceYears, setInsuranceYear] = useState<"" | number>("");
   const [salary, setSalary] = useState<"" | number>("");
   const [draybPercent, setDraybPercent] = useState<"" | number>("");
-
   const [govs, setGovs] = useState<{ name: string; id: number }[]>([]);
   const [manateq, setManateq] = useState<{ name: string; id: number }[]>([]);
   const [wazayef, setWazayef] = useState<{ name: string; id: number }[]>([]);
   const [religion, setReligion] = useState([]);
   const [types, setTypes] = useState([]);
-
   const [govVal, onGovChange] = useState<any | undefined>(undefined);
   const [district, onDistrictChange] = useState<any | undefined>(undefined);
   const [work, onWorkChange] = useState<any | undefined>(undefined);
-
   const [dyana, setDyana] = useState<number | undefined>(undefined);
   const [type, setType] = useState<number | undefined>(undefined);
-
   const [birthDate, setBirthDate] = useState(new Date());
   const [assignDate, setAssignDate] = useState(new Date());
 
   const deleteEmployee = async (e: any) => {
     e.preventDefault();
-    await axios.delete(`/api/HR_Endpoints/employee/delete?PersonCode=${code}`);
+    await axios.delete(
+      `/api/HR_Endpoints/employee/delete?PersonCode=${Usercode}`
+    );
     router.back();
   };
+
   useEffect(() => {
     const fetchData = async () => {
-      const govRes = await getMohafzatService();
-
-      const workRes = await axios.get(
-        "/api/lookupsData/getDataFromLookups/wazayef"
-      );
-      const dyanaRes = await axios.get(
-        "/api/lookupsData/getDataFromLookups/personDeyana"
-      );
-      const typeRes = await axios.get(
-        "/api/lookupsData/getDataFromLookups/personTypes"
-      );
-
-      let workData = workRes.data.map((item: any) => {
+      let workData = wazayefTypes.map((item: any) => {
         return { id: item.WazeefaID, name: item.WazeefaName };
       });
-      let dyanaData = dyanaRes.data.map((item: any) => {
+      let dyanaData = DeyanaTypes.map((item: any) => {
         return { value: item.DyanaID, label: item.DyanaName };
       });
-      let typeData = typeRes.data.map((item: any) => {
+      let typeData = typesData.map((item: any) => {
         return { value: item.PersonTypeID, label: item.PersonType };
       });
 
-      setGovs(govRes.data);
+      setGovs(governments.data);
       setWazayef(workData);
       setReligion(dyanaData);
       setTypes(typeData);
 
-      let response = await axios.get(
-        `/api/HR_Endpoints/employee/getEmployee?PersonCode=${code}`
-      );
-      setEmployee(response.data);
       const {
         employeeGeneralInfo,
         employeeAddress,
         employeeMobile,
         employeeMoratab,
         employeeWazeefa,
-      }: IEmployeeProfileModel = response.data;
+      }: IEmployeeProfileModel = employeeDetails;
       const {
         PersonTaree5Milad,
         PersonTaree5Ta3yeen,
@@ -121,14 +109,14 @@ function EmployeeDetails(props) {
       const { PersonManteqaID, PersonMohafzaID, PersonAddress } =
         employeeAddress;
       const { PersonWazeefaId } = employeeWazeefa;
-      
+
       const { MobileNumber } = employeeMobile;
       const { CurrentMorattab, PersonMorattabDareebaPercentage } =
         employeeMoratab;
       setBirthDate(new Date(PersonTaree5Milad));
       setAssignDate(new Date(PersonTaree5Ta3yeen));
       const manteqRes = await getManateqByMohafzaIdService(
-        PersonMohafzaID === null ? 0 : PersonMohafzaID,
+        PersonMohafzaID === null ? 0 : PersonMohafzaID
       );
       setManateq(manteqRes.data);
       setFirstN(PersonFirstName);
@@ -151,39 +139,56 @@ function EmployeeDetails(props) {
       setDraybPercent(PersonMorattabDareebaPercentage);
     };
     fetchData();
-  }, [code]);
+  }, [
+    DeyanaTypes,
+    Usercode,
+    employeeDetails,
+    governments.data,
+    typesData,
+    wazayefTypes,
+  ]);
+
   const saveEmployee = async (e: any) => {
     e.preventDefault();
-    
-    let response = await axios.post("/api/HR_Endpoints/employee/update", {
-      PersonCode: Number.parseInt(code!.toString()),
+    const updatedUser = {
       PersonFirstName: firstN,
       PersonSecondName: secondN,
       PersonThirdName: thirdN,
       PersonFourthName: fourthN,
       PersonRaqamQawmy: nationlNo,
       PersonRaqamTa2meeny: insuranceNo,
+      PersonSanawatTa2meen: Number(insuranceYears),
+      PersonTa2meenValue: Number(insuranceVal),
       PersonTelephoneArdy: landlineNo,
+      PersonAddress: address,
+      PersonMohafzaID: govVal,
+      PersonManteqaID: district,
+      PersonWazeefa: work,
+      PersonDyana: Number(dyana),
+      PersonType: Number(type),
       PersonTaree5Milad: birthDate,
       PersonTaree5Ta3yeen: assignDate,
-      PersonSanawatTa2meen: insuranceYears,
-      PersonManteqaID: district,
-      PersonMohafzaID: govVal,
-      PersonDyana: dyana,
-      PersonType: type,
-      PersonTa2meenValue: Number(insuranceVal),
-      PersonAddress: address,
-
+      PersonMorattabDareebaPercentage: Number(draybPercent),
       CurrentMorattab: Number(salary),
       MobileNumber: mobileNo,
-      PersonWazeefa: work,
-      PersonMorattabDareebaPercentage: draybPercent,
-    });
-    if (response.status === 200) {
-      Alert.Success("تم تعديل البيانات بنجاح");
-      setEditData(false);
-    } else {
-      Alert.Error("حدث خطأ اثناء التعديل");
+      PersonCode: Number(Usercode),
+      deletedAt: null,
+    };
+    console.log(updatedUser);
+    try {
+      let response = await axios({
+        method: "PUT",
+        url: "/api/HR_Endpoints/employee/update",
+        data: updatedUser,
+      });
+      if (response.status === 200) {
+        Alert.Success("تم تعديل البيانات بنجاح");
+        setEditData(false);
+      } else {
+        Alert.Error("حدث خطأ اثناء التعديل");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -224,10 +229,9 @@ function EmployeeDetails(props) {
             <TextField
               label="الكود"
               isEditable={true}
-              value={code?.toString()}
+              value={Usercode?.toString()}
             />
             <div className="flex flex-col pl-40 p-4 mt-3 space-y-10 text-right bg-white rounded-lg ">
-              
               <div className="flex flex-row items-center justify-between">
                 <input
                   type="date"
@@ -276,7 +280,6 @@ function EmployeeDetails(props) {
                     onChange={onDistrictChange}
                   />
                 </div>
-
               </div>
               <TextField
                 label="العنوان"
@@ -291,6 +294,7 @@ function EmployeeDetails(props) {
                 options={wazayef}
                 value={work}
                 isDisabled={!editdata}
+                onChange={onWorkChange}
               />
               <label className="text-lg text-right self-center text-gray-700">
                 الوظيفة
@@ -303,10 +307,10 @@ function EmployeeDetails(props) {
                 options={religion}
                 onChange={setDyana}
                 value={dyana}
-            />
+              />
             </div>
-            
-            <div  className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
+
+            <div className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
               <RadioButtonComp
                 label="النوع"
                 editable={!editdata}
@@ -315,7 +319,7 @@ function EmployeeDetails(props) {
                 value={type}
               />
             </div>
-            
+
             <TextField
               label="عدد سنوات التأمين"
               isEditable={!editdata}
@@ -395,16 +399,47 @@ function EmployeeDetails(props) {
           </div>
         ) : null}
 
-        <EmployeesVacations personCode={Number.parseInt(code)} />
+        <EmployeesVacations personCode={Number.parseInt(Usercode)} />
 
         <div className="flex flex-row justify-center p-4 mt-3 bg-gray-100 space-x-96 ">
-          <PersonSolfaComp PersonCode={Number.parseInt(code)} />
-          <PersonMorattabComp personId={Number.parseInt(code)} />
+          <PersonSolfaComp PersonCode={Number.parseInt(Usercode)} />
+          <PersonMorattabComp personId={Number.parseInt(Usercode)} />
         </div>
-
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const { code } = context.query;
+  const employeeData = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/employee/getEmployee?PersonCode=${code}`
+  );
+  const govRes = await getMohafzatService();
+
+  const workRes = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/wazayef`
+  );
+  const dyanaRes = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/personDeyana`
+  );
+  const typeRes = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/lookupsData/getDataFromLookups/personTypes`
+  );
+  const employeeDataJSON = await employeeData.json();
+  const workJSON = await workRes.json();
+  const dyanaJSON = await dyanaRes.json();
+  const typeJSON = await typeRes.json();
+
+  return {
+    props: {
+      employeeData: employeeDataJSON,
+      govRes: govRes,
+      workRes: workJSON,
+      dyanaRes: dyanaJSON,
+      typeRes: typeJSON,
+    },
+  };
 }
 
 export default EmployeeDetails;

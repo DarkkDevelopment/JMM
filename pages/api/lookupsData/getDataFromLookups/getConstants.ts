@@ -18,7 +18,7 @@ const getAllNeededConstants = async (
     getInsurancePercentageEndpoint.percentageRatioOfPerson;
 
   const getWorkingHoursEndpoint = await getWorkingHours();
-  const { StartTime, EndTime } = getWorkingHoursEndpoint;
+  const { StartTime, EndTime, NumberOfWorkingHours } = getWorkingHoursEndpoint;
 
   const getHafezAndKhasmConstants = await gethafezAndKhasmRatiosEndpoint();
   const { hafezHourRatio, khasmHourRatio, hafezDayRatio, khasmDayRatio, id } =
@@ -34,6 +34,7 @@ const getAllNeededConstants = async (
     KhasmLateHourRatio: khasmHourRatio,
     HafezExtraDayRatio: hafezDayRatio,
     KhasmLateDayRatio: khasmDayRatio,
+    NumberOfWorkingHours: NumberOfWorkingHours,
   });
 };
 

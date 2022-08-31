@@ -135,9 +135,24 @@ const deleteLoan = async (id: number) => {
   return deletedLoan;
 };
 
+// todo : this one will make all the loans in the month to be closed financially to be updated in the database
+const sendLoans = async (month: number, year: number) => {
+  const updatedLoans = await prisma.personSolfaPerMonth.updateMany({
+    where: {
+      SolfaMonthToBeApplied: month,
+      SolfaYearToBeApplied: year,
+    },
+    data: {
+      IsDoneAndPaid: true,
+    },
+  });
+  return updatedLoans;
+};
+
 export {
   renderLoanHistoryByYear,
   getCurrentMorattab,
   checkIfEmployeeTokeLoanInSameMonthBefore,
   deleteLoan,
+  sendLoans,
 };

@@ -9,8 +9,7 @@ const getWorkingHours = async () => {
   });
   if (hours) {
     const { StartTime, EndTime } = hours!;
-    const NumberOfWorkingHours =
-      Number(hours?.EndTime) - Number(hours?.StartTime);
+    const NumberOfWorkingHours = EndTime.getHours() - StartTime.getHours();
     return { NumberOfWorkingHours, StartTime, EndTime };
   } else {
     return { NumberOfWorkingHours: 0, StartTime: "", EndTime: "" };

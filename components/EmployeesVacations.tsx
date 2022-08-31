@@ -12,9 +12,12 @@ export const EmployeesVacations = (props: Props) => {
 
   useEffect(() => {
     const fetchAgaze = async () => {
-      const response = await axios.post("/api/vacations/getVacationsHistory", {
-        personCode: props.personCode,
-      });
+      const response = await axios.post(
+        "/api/HR_Endpoints/vacations/getVacationsHistory",
+        {
+          personCode: props.personCode,
+        }
+      );
       const vacationsResponse = response.data.data.history;
       let newVacations: { [key: number]: Array<{}> } = {};
       for (let i = 1; i <= 12; i++) newVacations[i] = [];
