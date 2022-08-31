@@ -6,11 +6,11 @@ import { sendAbsenceModel } from "../../../../models/GheyabModels";
 
 const sendAbsence = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const AbsenceModels: sendAbsenceModel[] = req.body.models;
-    AbsenceModels.forEach(async (element) => {
+    const AbsenceModels: sendAbsenceModel[] = req.body;
+    AbsenceModels.map(async (element) => {
       const createGheyab = await prisma.gheyabHistory.create({
         data: {
-          PersonGheyabCode: element.PersonCode,
+          PersonGheyabCode: element.PersonGheyabCode,
           GheyabDate: element.GheyabDate,
         },
       });

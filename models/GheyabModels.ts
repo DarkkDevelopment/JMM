@@ -11,6 +11,6 @@ export type GetAbsenceModel = {
 };
 
 export type sendAbsenceModel = {
-  PersonCode: number;
+  PersonGheyabCode: number;
   GheyabDate: Date;
 };

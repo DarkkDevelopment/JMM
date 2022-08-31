@@ -28,17 +28,26 @@ function Attendance() {
   const ghyabState = useSelector((state: RootState) => state.absence);
   const attendanceState = useSelector((state: RootState) => state.attendance);
 
+  useEffect(() => {
+    if (ghyabState.employees.length == 0)
+      dispatch(fetchGhyabByDate(new Date()));
+    if (attendanceState.employees.length == 0)
+      dispatch(fetchAttandanceByDate(new Date()));
+  }, []);
+
   const sendAbsence = async () => {
     let models = ghyabState.employees.map((emp) => {
       return {
-        PersonCode: emp.PersonCode,
+        PersonGheyabCode: emp.PersonCode,
         GheyabDate: emp.Date,
       };
     });
-    await axios
-      .post("/api/HR_Endpoints/absence/create", {
-        models,
-      })
+    console.log(models);
+    await axios({
+      method: "POST",
+      url: "/api/HR_Endpoints/absence/create",
+      data: models,
+    })
       .then(() => {
         Alert.Success("تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور");
       })
@@ -46,13 +55,6 @@ function Attendance() {
         Alert.Error("حدث خطأ ما برجاء المحاولة مره اخري");
       });
   };
-
-  useEffect(() => {
-    if (ghyabState.employees.length == 0)
-      dispatch(fetchGhyabByDate(new Date()));
-    if (attendanceState.employees.length == 0)
-      dispatch(fetchAttandanceByDate(new Date()));
-  }, []);
 
   const createNewAttendanceService = async (
     HedoorModelsToBeFilled: HedoorModel[],
@@ -68,7 +70,6 @@ function Attendance() {
         KhasmModelsToBeFilled,
       },
     });
-    sendAbsence();
   };
 
   const sendAttendanceHandler = async (e: React.SyntheticEvent) => {
@@ -135,24 +136,16 @@ function Attendance() {
           MonthOfKhasm: attendanceState.filterDate.getMonth() + 1,
           YearOfKhasm: attendanceState.filterDate.getFullYear(),
         });
-      } else {
-        GheyabModelsToBeFilled.push({
-          PersonCode: attendance.PersonCode,
-          GheyabDate: attendanceState.filterDate,
-        });
       }
     });
-    console.log(GheyabModelsToBeFilled);
-    console.log(HedoorModelsToBeFilled);
-    console.log(HawafezModelsToBeFilled);
-    console.log(KhasmModelsToBeFilled);
     createNewAttendanceService(
       HedoorModelsToBeFilled,
       HawafezModelsToBeFilled,
       KhasmModelsToBeFilled
     );
+    sendAbsence();
     Alert.Success("تم حفظ الحضور بنجاح برجاء عدم نسيان اضافة الغياب");
-    window.location.reload();
+    //window.location.reload();
   };
 
   return (
