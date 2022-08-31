@@ -5,6 +5,7 @@ import {
   HawafezModel,
   HawafezModelHistory,
 } from "../models/hawafezModel";
+import getPersonTa2meenValue from "./getPersonTa2meenValue";
 import getWorkingHours from "./getWorkingHours";
 import {
   checkIfPayrolExists,
@@ -63,12 +64,13 @@ const createHafezPure = async (
   }
 };
 
+// todo : person ta2meen value from table person insted of morattab.morattab as that is the egmaly morattab
 const createHafezExtraHours = async (model: HawafezModel) => {
   try {
-    const morattab = await getMorattabAndDarebaPercentage(model.PersonHafezId);
+    const personAsasMorattab = await getPersonTa2meenValue(model.PersonHafezId);
     if (model.NumberOfBonusHours > 0) {
       const numbOfHours = (await getWorkingHours()).NumberOfWorkingHours;
-      const morattabPerHour = morattab.morattab / (numbOfHours * 30);
+      const morattabPerHour = personAsasMorattab / (numbOfHours * 30);
       const hafez = await prisma.personHafezHistory.create({
         data: {
           PersonHafezId: model.PersonHafezId,
@@ -102,9 +104,9 @@ const createHafezExtraHours = async (model: HawafezModel) => {
 
 const createHafezExtraDays = async (model: HawafezModel) => {
   try {
-    const morattab = await getMorattabAndDarebaPercentage(model.PersonHafezId);
+    const personAsasMorattab = await getPersonTa2meenValue(model.PersonHafezId);
     const numbOfHours = (await getWorkingHours()).NumberOfWorkingHours;
-    const morattabPerHour = morattab.morattab / (numbOfHours * 30);
+    const morattabPerHour = personAsasMorattab / (numbOfHours * 30);
     if (model.NumberOfBonusDays > 0) {
       const hafez = await prisma.personHafezHistory.create({
         data: {

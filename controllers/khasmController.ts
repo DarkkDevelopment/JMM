@@ -5,6 +5,7 @@ import {
   KhasmModel,
   KhasmModelHistory,
 } from "../models/khasmModel";
+import getPersonTa2meenValue from "./getPersonTa2meenValue";
 import getWorkingHours from "./getWorkingHours";
 import {
   checkIfPayrolExists,
@@ -63,9 +64,9 @@ const createPureKhasm = async (
 
 const createKhasmLateHours = async (model: KhasmModel) => {
   try {
-    const morattab = await getMorattabAndDarebaPercentage(model.PersonKhasmId);
+    const personAsasMorattab = await getPersonTa2meenValue(model.PersonKhasmId);
     const numOfHours = (await getWorkingHours()).NumberOfWorkingHours;
-    const morattabPerHour = morattab.morattab / (numOfHours * 30);
+    const morattabPerHour = personAsasMorattab / (numOfHours * 30);
     if (model.NumberOfLateHours > 0) {
       const khasm = await prisma.personKhasmHistory.create({
         data: {
@@ -101,9 +102,9 @@ const createKhasmGheyabDays = async (
   model: KhasmModel
 ) => {
   try {
-    const morattab = await getMorattabAndDarebaPercentage(model.PersonKhasmId);
+    const personAsasMorattab = await getPersonTa2meenValue(model.PersonKhasmId);
     const numOfHours = (await getWorkingHours()).NumberOfWorkingHours;
-    const morattabPerHour = morattab.morattab / (numOfHours * 30);
+    const morattabPerHour = personAsasMorattab / (numOfHours * 30);
     if (model.NumberOfGhyabDays > 0) {
       const khasm = await prisma.personKhasmHistory.create({
         data: {
