@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
