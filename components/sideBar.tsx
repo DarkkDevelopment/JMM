@@ -110,22 +110,6 @@ const SideBar = (props: any) => {
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
-              pageName === "absence"
-                ? "text-red-600 text-2xl"
-                : "text-blue-900 text-2xl"
-            }`}
-              onClick={() => {
-                router.push("/HR/Absence");
-              }}
-            >
-              غياب
-            </h3>
-            <Image src={absentLogo} alt="absence logo" width={50} height={50} />
-          </div>
-          <div className="flex flex-row items-center justify-between space-x-4">
-            <h3
-              className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${
               pageName === "loan"
                 ? "text-red-600 text-2xl"
                 : "text-blue-900 text-2xl"
@@ -138,22 +122,7 @@ const SideBar = (props: any) => {
             </h3>
             <Image src={loanLogo} alt="employee" width={50} height={50} />
           </div>
-          {/* <div className="flex flex-row items-center space-x-4 justify-between">
-            <h3
-              className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
-            ${
-              pageName === "taxes"
-                ? "text-red-600 text-2xl"
-                : "text-blue-900 text-2xl"
-            }`}
-              onClick={() => {
-                router.push("/HR/Taxes");
-              }}
-            >
-              الضرائب
-            </h3>
-            <Image src={taxesLogo} alt="employee" width={65} height={75} />
-          </div> */}
+
           <div className="flex flex-row items-center space-x-4 justify-between">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 

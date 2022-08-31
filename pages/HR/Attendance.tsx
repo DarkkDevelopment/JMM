@@ -13,15 +13,45 @@ import { AppDispatch, RootState } from "../../utils/redux/store";
 import { useSelector } from "react-redux";
 import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
+import Switch from "../../components/Switch";
+import { GetAbsenceModel } from "../../models/GheyabModels";
+import { setHedor } from "../../utils/redux/features/AttendanceSlice";
+import {
+  fetchGhyabByDate,
+  removeGhyab,
+} from "../../utils/redux/features/GhyabSlice";
+import { VacationsModel } from "../../models/vacationsModel";
 
 function Attendance() {
   const dispatch = useDispatch<AppDispatch>();
+  const ghyabState = useSelector((state: RootState) => state.absence);
   const attendanceState = useSelector((state: RootState) => state.attendance);
 
+  const sendAbsence = () => {
+    let models = ghyabState.employees.map((emp) => {
+      return {
+        PersonCode: emp.PersonCode,
+        GheyabDate: emp.Date,
+      };
+    });
+    axios
+      .post("/api/HR_Endpoints/absence/create", {
+        models,
+      })
+      .then(() => {
+        Alert.Success("تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور");
+      })
+      .catch(() => {
+        Alert.Error("حدث خطأ ما برجاء المحاولة مره اخري");
+      });
+  };
+
   useEffect(() => {
+    if (ghyabState.employees.length == 0)
+      dispatch(fetchGhyabByDate(new Date()));
     if (attendanceState.employees.length == 0)
       dispatch(fetchAttandanceByDate(new Date()));
-  }, [attendanceState.employees.length, dispatch]);
+  }, []);
 
   const createNewAttendanceService = async (
     HedoorModelsToBeFilled: HedoorModel[],
@@ -142,8 +172,16 @@ function Attendance() {
             className="py-2 px-2 mb-4 text-center appearance-none shadow-md
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500"
           />
+          <button
+            disabled={attendanceState.old}
+            onClick={sendAttendanceHandler}
+            className={
+              "px-4 py-2 mb-3 leading-tight text-right text-white bg-red-400 rounded shadow-lg hover:bg-red-700 disabled:hover:bg-red-400"
+            }
+          >
+            حفظ حضور و غياب اليوم
+          </button>
         </div>
-
         <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
           <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
             <div> الحضور</div>
@@ -218,15 +256,113 @@ function Attendance() {
             </table>
           )}
         </div>
-        <button
-          disabled={attendanceState.old}
-          onClick={sendAttendanceHandler}
-          className={
-            "px-4 py-2 mt-3 leading-tight text-right text-white bg-blue-400 rounded shadow-lg hover:bg-blue-700 disabled:hover:bg-blue-400"
-          }
-        >
-          حفظ حضور اليوم
-        </button>
+        <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
+          <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
+            <div> الغياب</div>
+            <div>
+              {" "}
+              &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
+            </div>
+          </p>
+          <table
+            title="الغياب"
+            className="text-center border-collapse table-auto font-display"
+          >
+            <thead className="text-center text-white bg-blue-900">
+              <tr>
+                <th className="w-20 p-4 text-center border-b-2 "></th>
+                <th className="w-5 p-4 text-center border-b-2">معامل الغياب</th>
+
+                <th className="w-20 p-4 text-center border-b-2 ">الكود</th>
+                <th className="w-20 p-4 text-center border-b-2 ">الاسم</th>
+              </tr>
+            </thead>
+            <tbody className="p-10">
+              {ghyabState.employees.map((obj: GetAbsenceModel) => {
+                return (
+                  <tr key={obj.PersonCode}>
+                    <td className="p-4 border-b-2">
+                      {" "}
+                      <Switch
+                        old={false}
+                        type={false}
+                        toggleSwitch={(value: boolean) => {
+                          dispatch(removeGhyab({ id: obj.PersonCode }));
+                          dispatch(
+                            setHedor({
+                              PersonCode: obj.PersonCode,
+                              attended: true,
+                              EnserafTime: "17:00",
+                              Date: obj.Date,
+                              ExtraFactor: 1.5,
+                              ExtraHours: 0,
+                              HodoorTime: "09:00",
+                              LateFactor: 1.5,
+                              LateHours: 0,
+                              PersonName: obj.PersonName,
+                              TotalNumberOfWorkingHoursAtThatDay: 8,
+                            })
+                          );
+                        }}
+                      />
+                    </td>
+                    <td className="p-4 border-b-2">{obj.GheyabDayRatio}</td>
+                    <td className="p-4 border-b-2">{obj.PersonCode}</td>
+                    <td className="p-4 border-b-2">
+                      {obj.PersonName.PersonFirstName +
+                        " " +
+                        obj.PersonName.PersonSecondName +
+                        " " +
+                        obj.PersonName.PersonThirdName +
+                        " " +
+                        obj.PersonName.PersonFourthName}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
+          <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
+            <div> الاجازات</div>
+            <div>
+              {" "}
+              &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
+            </div>
+          </p>
+          <table
+            title="الاجازات"
+            className="text-center border-collapse table-auto font-display"
+          >
+            <thead className="text-center text-white bg-blue-900">
+              <tr>
+                <th className="w-5 p-4 text-center border-b-2">نوع الاجازة</th>
+                <th className="w-20 p-4 text-center border-b-2 ">الكود</th>
+                <th className="w-20 p-4 text-center border-b-2 ">الاسم</th>
+              </tr>
+            </thead>
+            <tbody className="p-10">
+              {ghyabState.agazat.map((obj: VacationsModel) => {
+                return (
+                  <tr key={obj.PersonCode}>
+                    <td className="p-4 border-b-2">{obj.VacationType}</td>
+                    <td className="p-4 border-b-2">{obj.PersonCode}</td>
+                    <td className="p-4 border-b-2">
+                      {obj.PersonName.PersonFirstName +
+                        " " +
+                        obj.PersonName.PersonSecondName +
+                        " " +
+                        obj.PersonName.PersonThirdName +
+                        " " +
+                        obj.PersonName.PersonFourthName}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
       <SideBar pageName="attendance" />
     </div>
