@@ -447,8 +447,14 @@ const renderNewPayrols = async (
           PersonPayrollDate: new Date(),
           PayrolMonth: currentMonth,
           PayrolYear: currentYear,
-          elawatValue: getElawat * employee.PersonTa2meenValue,
-          badalatValue: elawat * employee.PersonTa2meenValue,
+          elawatValue:
+            getElawat *
+            (MorattabAndDarayebPercentage.morattab -
+              employee.PersonTa2meenValue),
+          badalatValue:
+            elawat *
+            (MorattabAndDarayebPercentage.morattab -
+              employee.PersonTa2meenValue),
         });
       });
     }
