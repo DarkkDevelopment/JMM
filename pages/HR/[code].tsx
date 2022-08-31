@@ -184,6 +184,7 @@ function EmployeeDetails(
       if (response.status === 200) {
         Alert.Success("تم تعديل البيانات بنجاح");
         setEditData(false);
+        router.push("/HR/Employees");
       } else {
         Alert.Error("حدث خطأ اثناء التعديل");
       }
