@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { HedorRowComponent } from "../../components/HedorRowComponent";
 import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
-import { IAttendanceModel } from "../../interfaces/attandance";
 import { HedoorModel } from "../../models/AttendanceModels";
 import { HawafezModel } from "../../models/hawafezModel";
 import { KhasmModel } from "../../models/khasmModel";
@@ -15,9 +14,8 @@ import { AppDispatch, RootState } from "../../utils/redux/store";
 import { useSelector } from "react-redux";
 import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
-import { AppProps } from "next/dist/shared/lib/router/router";
 
-function Attendance(props: AppProps) {
+function Attendance() {
   const [searchterm, setSearchTerm] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const attendanceState = useSelector((state: RootState) => state.attendance);
@@ -144,15 +142,8 @@ function Attendance(props: AppProps) {
             onChange={(e) =>
               dispatch(fetchAttandanceByDate(new Date(e.target.value)))
             }
-            className="
-
-            py-2
-            text-center
-      
-            appearance-none
-            shadow-md
-            border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500 
-            "
+            className="py-2 px-2 mb-4 text-center appearance-none shadow-md
+            border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500"
           />
         </div>
 
