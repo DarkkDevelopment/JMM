@@ -176,9 +176,6 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
                         التأمينات
                       </th>
                       <th className="w-20 p-4 text-right border-b-2">
-                        الضرائب
-                      </th>
-                      <th className="w-20 p-4 text-right border-b-2">
                         الخصومات
                       </th>
 
@@ -212,9 +209,6 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
                             {employee.TotalValueOfTa2meenAtThatMonth}
-                          </td>
-                          <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.TotalValueOfDarayebAtThatMonth}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
                             {employee.TotalKhasmSummationValue}
