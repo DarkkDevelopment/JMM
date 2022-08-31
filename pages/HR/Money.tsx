@@ -1,4 +1,4 @@
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
@@ -143,13 +143,14 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
         Insurance: InsuranceModelsToBeFilled,
         Taxes: TaxesModelsToBeFilled,
       },
-    }).then(() => {
-      setOld(true);
-      Alert.Success('تم تقفيل الشهر بنجاح')
-    }).catch((err) => {
-      Alert.Error('حدث خطأ اثناء تقفيل الشهر')
-    });
-
+    })
+      .then(() => {
+        setOld(true);
+        Alert.Success("تم تقفيل الشهر بنجاح");
+      })
+      .catch((err) => {
+        Alert.Error("حدث خطأ اثناء تقفيل الشهر");
+      });
   };
 
   return (

@@ -18,7 +18,7 @@ const getPayrolHistory = async (req: NextApiRequest, res: NextApiResponse) => {
           status: "success NEW",
           data: newPayrols,
         });
-      }, 100);
+      }, 200);
     } else {
       const OldPayrols = await renderPastPayrols(month, year);
       res.status(200).json({

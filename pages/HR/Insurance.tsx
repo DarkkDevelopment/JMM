@@ -135,7 +135,7 @@ function Insurance(
                           {employee.FinalValue}
                         </td>
                         <td className="justify-center p-4 text-center border-b-2 ">
-                          {employee.InsuranceBySherkaPercentage}%
+                          {employee.InsuranceBySherkaPercentage * 100}%
                         </td>
                         <td className="justify-center p-4 text-center border-b-2 ">
                           {employee.PersonInsuranceValue}
