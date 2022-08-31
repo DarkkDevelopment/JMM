@@ -28,11 +28,7 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [isMonthSearch, setIsMonthSearch] = useState(false);
   const InsuranceModelsToBeFilled: sendInsuranceModel[] = [];
   const TaxesModelsToBeFilled: sendTaxesModel[] = [];
-  const [filteredEmployeesBackup, setFilteredEmployeesBackup] = useState<
-    PayrolModel[]
-  >([]);
   const [filteredEmployees, setFilteredEmployees] = useState<PayrolModel[]>([]);
-  const [searchterm, setSearchTerm] = useState("");
   const [pageNumber, setPageNumber] = useState(0);
   const pagesVisted = pageNumber * numberOfItemsPerPage;
   const [filterDate, setFilterDate] = useState(new Date());
@@ -41,7 +37,6 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     MonthSeed.find((month) => month.id === new Date().getMonth() + 1)!.name
   );
   const [year, setYear] = useState(new Date().getFullYear().toString());
-
   const pageCount = Math.ceil(filteredEmployees.length / numberOfItemsPerPage);
   const handleChangePage = (link: any) => {
     setPageNumber(link - 1);
@@ -50,19 +45,6 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   for (var i = 1; i <= pageCount; i++) {
     links.push(i);
   }
-
-  useEffect(() => {
-    let filteredEmployeesCopy = filteredEmployeesBackup.filter((obj) => {
-      return obj.PersonName.PersonFirstName.toLowerCase().includes(
-        searchterm.toLowerCase()
-      );
-    });
-    if (searchterm != "") {
-      setFilteredEmployees(filteredEmployeesCopy);
-    } else {
-      setFilteredEmployees(filteredEmployeesBackup);
-    }
-  }, [filteredEmployeesBackup, searchterm]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -159,7 +141,6 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
       <div className="font-display basis-5/6">
         <div className="flex flex-col p-10 pr-20">
           <div className="flex flex-row items-center justify-between">
-            <SearchField setSearchTerm={setSearchTerm} />
             <button
               className="px-8 py-2 mb-5 text-2xl font-bold text-center text-white bg-blue-500 shadow-lg hover:bg-blue-900 rounded-xl"
               onClick={handleSearchButton}

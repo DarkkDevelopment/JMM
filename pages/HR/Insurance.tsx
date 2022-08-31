@@ -88,7 +88,6 @@ function Insurance(
       <div className="font-display basis-5/6">
         <div className="flex flex-col px-10 pt-10">
           <div className="flex flex-row items-center justify-between">
-            <SearchField setSearchTerm={setSearchTerm} />
             <button
               className="px-8 py-2 mb-5 text-2xl font-bold text-center text-white bg-blue-500 shadow-lg hover:bg-blue-900 rounded-xl"
               onClick={handleSearchButton}

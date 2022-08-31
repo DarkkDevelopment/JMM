@@ -2,7 +2,6 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "../../utils/axios";
 import React, { useEffect, useState } from "react";
 import { HedorRowComponent } from "../../components/HedorRowComponent";
-import SearchField from "../../components/searchField";
 import SideBar from "../../components/sideBar";
 import { HedoorModel } from "../../models/AttendanceModels";
 import { HawafezModel } from "../../models/hawafezModel";
@@ -16,7 +15,6 @@ import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
 
 function Attendance() {
-  const [searchterm, setSearchTerm] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const attendanceState = useSelector((state: RootState) => state.attendance);
 
@@ -135,7 +133,6 @@ function Attendance() {
       <div className="m-12 font-display basis-5/6">
         <div className="flex flex-row justify-center space-x-72 ">
           <ToastContainer />
-          <SearchField setSearchTerm={setSearchTerm} />
           <input
             type="date"
             value={attendanceState.filterDate.toISOString().split("T")[0]}
