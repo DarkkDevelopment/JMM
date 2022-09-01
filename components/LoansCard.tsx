@@ -31,8 +31,10 @@ function LoansCard(props: any) {
       return;
     }
     if (lastMonthClosed != null && lastYearClosed != null) {
-      if (lastMonthClosed < new Date().getMonth() + 1 ||
-        lastYearClosed < new Date().getFullYear()) {
+      if (
+        lastMonthClosed < new Date().getMonth() + 1 ||
+        lastYearClosed < new Date().getFullYear()
+      ) {
         await axios
           .post("/api/HR_Endpoints/loan/createLoan", {
             PersonCode: code,
@@ -72,9 +74,7 @@ function LoansCard(props: any) {
           Alert.Error("حدث خطأ حاول مرة اخرى");
         });
     }
-
-
-  }
+  };
   return (
     <div className="flex flex-col p-10 space-y-10 bg-white shadow-lg rounded-3xl font-display">
       <h2 className="mt-10 text-6xl text-center text-black font-display">
@@ -99,7 +99,7 @@ function LoansCard(props: any) {
                   <tr key={hist.solfaId}>
                     {lastYearClosed != null || lastMonthClosed != null ? (
                       lastMonthClosed < new Date().getMonth() + 1 ||
-                        lastYearClosed < new Date().getFullYear() ? (
+                      lastYearClosed < new Date().getFullYear() ? (
                         <>
                           <button
                             className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
@@ -134,18 +134,18 @@ function LoansCard(props: any) {
           </table>
         </div>
         {/* <div className="flex flex-col text-center text-black font-display"> */}
-          
-          <input
-            className=" ml-16 mt-6 p-2 text-center shadow appearance-none border rounded w-[10vw]  text-black leading-tight focus:outline-blue-500 focus:shadow-outline"
-            id="quantity"
-            type="text"
-            placeholder="ادخل المبلغ"
-            value={value}
-            onChange={(e) => setValue(Number(e.target.value))}
-          />
-          <h4 className="mt-10 text-2xl text-center text-black font-display">
-            الحد الأقصي للسلفة : {limit}
-          </h4>
+
+        <input
+          className=" ml-16 mt-6 p-2 text-center shadow appearance-none border rounded w-[10vw]  text-black leading-tight focus:outline-blue-500 focus:shadow-outline"
+          id="quantity"
+          type="text"
+          placeholder="ادخل المبلغ"
+          value={value}
+          onChange={(e) => setValue(Number(e.target.value))}
+        />
+        <h4 className="mt-10 text-2xl text-center text-black font-display">
+          الحد الأقصي للسلفة : {limit}
+        </h4>
         {/* </div> */}
       </div>
       <div className="flex flex-row justify-center ">
@@ -158,6 +158,6 @@ function LoansCard(props: any) {
       </div>
     </div>
   );
-};
+}
 
 export default LoansCard;

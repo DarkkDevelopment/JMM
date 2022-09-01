@@ -1,4 +1,4 @@
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import axios from "../utils/axios";
 import React, { useState } from "react";
 import { AgazaHistory } from "../interfaces/Vactaions";
@@ -48,12 +48,6 @@ function VacationsCard(props: Props) {
   };
   const sendVacation = async () => {
     if (selected) {
-      /* const currentDay = new Date().getDate();
-      const currentMonth = new Date().getMonth() + 1;
-      const currentYear = new Date().getFullYear();
- */
-      //      if (didnotPassed(startDate)) {
-
       let tempDate = new Date(startDate);
       var dateArray = new Array();
       while (tempDate < endDate) {
@@ -69,39 +63,46 @@ function VacationsCard(props: Props) {
 
       let agazaId = agazatConst.find((obj: any) => selected === obj.name).id;
       console.log(dateArray);
-      await Promise.all(dateArray.map(async (date) => {
-        console.log(new Date(date));
-        console.log(code);
-        console.log(agazaId);
-        await axios({
-          method: "post",
-          url: "/api/HR_Endpoints//vacations/createNewVacation",
-          data: {
-            PersonCode: code,
-            AgazaTypeId: agazaId,
-            AgazaDate: date,
-          },
+      await Promise.all(
+        dateArray.map(async (date) => {
+          console.log(new Date(date));
+          console.log(code);
+          console.log(agazaId);
+          await axios({
+            method: "post",
+            url: "/api/HR_Endpoints//vacations/createNewVacation",
+            data: {
+              PersonCode: code,
+              AgazaTypeId: agazaId,
+              AgazaDate: date,
+            },
+          });
+        })
+      )
+        .then(() => {
+          Alert.Success("تم اضافة الاجازة بنجاح");
+          setTimeout(() => reload(), 2500);
+        })
+        .catch((err) => {
+          Alert.Error("حدث خطأ اثناء اضافة الاجازة");
         });
-      })).then(() => {
-        Alert.Success("تم اضافة الاجازة بنجاح");
-        setTimeout(() => reload(), 2500);
-      }).catch((err) => {
-        Alert.Error("حدث خطأ اثناء اضافة الاجازة");
-      })
     } else {
       Alert.Error("برجاء اختيار نوع الاجازة");
     }
   };
 
   const deleteVacation = async (id: number) => {
-    await axios.post("/api/HR_Endpoints//vacations/deleteVacation", {
-      id,
-    }).then(()=>{
-      Alert.Success("تم حذف الاجازة بنجاح");
-      setTimeout(() => reload(), 1500);
-    }).catch((err) => {
-      Alert.Error("حدث خطأ اثناء حذف الاجازة");
-    })
+    await axios
+      .post("/api/HR_Endpoints//vacations/deleteVacation", {
+        id,
+      })
+      .then(() => {
+        Alert.Success("تم حذف الاجازة بنجاح");
+        setTimeout(() => reload(), 1500);
+      })
+      .catch((err) => {
+        Alert.Error("حدث خطأ اثناء حذف الاجازة");
+      });
   };
 
   const calculateVacationDays = () => {
@@ -130,17 +131,14 @@ function VacationsCard(props: Props) {
         days += new Date(endyear, endmonth, monthDays[endmonth]).getDate();
       }
       return days + endDate.getDate() - startDate.getDate();
-    }
-    else {
+    } else {
       return endDate.getDate() - startDate.getDate();
     }
-
-
   };
   return (
     <div className="flex flex-row bg-gray-100 ">
       <div className="font-display basis-[96.285%] ">
-        <div className="flex flex-col items-center px-5 space-y-10 bg-white rounded-3xl shadow-lg font-display">
+        <div className="flex flex-col items-center px-5 space-y-10 bg-white shadow-lg rounded-3xl font-display">
           <h3 className="mt-10 text-3xl text-center text-black font-display">
             {name}
           </h3>
@@ -148,9 +146,9 @@ function VacationsCard(props: Props) {
           <p>الكود : {code}</p>
           <p>عدد الاجازات المتاحة : {availableVacations}</p>
           <div className="grid justify-center grid-cols-2 ">
-            <div className="mr-24  ">
-              <div className="flex flex-col items-center pt-14 space-y-5 text-center text-black font-display">
-                <h6 className="text-xl text-center pl-52 text-black font-display">
+            <div className="mr-24 ">
+              <div className="flex flex-col items-center space-y-5 text-center text-black pt-14 font-display">
+                <h6 className="text-xl text-center text-black pl-52 font-display">
                   الاجازات السابقة
                 </h6>
                 {history.length > 0 ? (
@@ -170,7 +168,6 @@ function VacationsCard(props: Props) {
                       {history.map((hist) => {
                         return (
                           <tr key={hist.id}>
-
                             <button
                               className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
                               onClick={() => {
@@ -179,7 +176,6 @@ function VacationsCard(props: Props) {
                             >
                               x
                             </button>
-
 
                             <td>{hist.AgazaType.AgazaType}</td>
                             <td>{hist.AgazaDate.toString().slice(0, 10)}</td>
@@ -195,13 +191,13 @@ function VacationsCard(props: Props) {
             </div>
 
             <div className="flex flex-col ">
-              <h5 className="pr-44 space-x-10 text-xl text-right text-black font-display">
+              <h5 className="space-x-10 text-xl text-right text-black pr-44 font-display">
                 الايام المطلوبة
               </h5>
 
-              <div className=" flex flex-row mt-5 ml-28  ">
-                <h6 className="text-xl pr-60   text-black font-display">الي</h6>
-                <h6 className="text-xl  text-black font-display">من</h6>
+              <div className="flex flex-row mt-5 ml-28">
+                <h6 className="text-xl text-black pr-60 font-display">الي</h6>
+                <h6 className="text-xl text-black font-display">من</h6>
               </div>
 
               <div className="flex flex-row mt-5 mr-62 ">
@@ -233,7 +229,7 @@ function VacationsCard(props: Props) {
                 </h5>
               ) : (
                 calculateVacationDays() + 1 <= availableVacations && (
-                  <div className="flex flex-col  items-center  pt-4">
+                  <div className="flex flex-col items-center pt-4">
                     <div className=" mt-2.5   ">
                       <Dropdown
                         title="نوع الاجازة"
@@ -243,11 +239,11 @@ function VacationsCard(props: Props) {
                       />
                     </div>
 
-                    <h5 className=" text-xl mt-12 text-center text-black font-display">
+                    <h5 className="mt-12 text-xl text-center text-black font-display">
                       اجمالي عدد الايام المطلوبة
                     </h5>
 
-                    <h1 className="mt-2  text-3xl text-center text-black font-display ">
+                    <h1 className="mt-2 text-3xl text-center text-black font-display ">
                       {calculateVacationDays() + 1}
                     </h1>
                     <h1 className="mt-2 text-center text-black font-display ">

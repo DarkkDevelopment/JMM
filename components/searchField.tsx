@@ -5,7 +5,7 @@ function SearchField(props: any) {
   const setSearchTerm = props.setSearchTerm;
 
   return (
-    <div className="flex flex-row  font-display ">
+    <div className="flex flex-row font-display ">
       <input
         className=" focus:border-blue-500 mb-3 px-4 py-2 text-right shadow appearance-none border rounded w-[10vw]  text-black leading-tight focus:outline-none focus:shadow-outline"
         id="search"

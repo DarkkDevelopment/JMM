@@ -1,24 +1,20 @@
 import React from "react";
 
 type Props = {
-  month: number,
+  month: number;
   agazat: Array<{}>;
 };
 
 function EmployeeVacation(props: Props) {
-  const { month, agazat } = props
+  const { month, agazat } = props;
   return (
-    <div
-      className="bg-gray-200 shadow-lg
-      rounded p-10
-    "
-    >
+    <div className="p-10 bg-gray-200 rounded shadow-lg ">
       <div className="flex flex-col ">
-        <label className="p-2 text-md text-center text-gray-700 ">
+        <label className="p-2 text-center text-gray-700 text-md ">
           {month} شهر
         </label>
-        <div className="border-b-2 border-gray-500 w-full"></div>
-        <label className="p-2 text-md text-right text-gray-700 ">
+        <div className="w-full border-b-2 border-gray-500"></div>
+        <label className="p-2 text-right text-gray-700 text-md ">
           عدد الأيام : {agazat.length}
         </label>
       </div>

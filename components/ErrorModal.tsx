@@ -16,7 +16,7 @@ export const ErrorModal = (props: Props) => {
       </h2>
       <div className="flex gap-5">
         <button
-          className="w-auto h-10 px-12 my-5 font-semibold text-red-600 border border-red-100 rounded-md  hover:bg-red-700 hover:text-white hover:shadow-lg"
+          className="w-auto h-10 px-12 my-5 font-semibold text-red-600 border border-red-100 rounded-md hover:bg-red-700 hover:text-white hover:shadow-lg"
           onClick={() => setShowModal(false)}
         >
           Close

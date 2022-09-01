@@ -13,16 +13,17 @@ const Dropdown = (props: Props) => {
   return (
     <div className="">
       <select
-        className="relative flex jutify-center w-fit items-centerbg-white bg-blue-900 text-white rounded focus:outline-none focus:ring ring-gray-200border shadow group p-2"
+        className="relative flex p-2 text-white bg-blue-900 rounded shadow jutify-center w-fit items-centerbg-white focus:outline-none focus:ring ring-gray-200border group"
         value={value}
         disabled={isDisabled}
         onChange={(e) => onChange!(e.target.value)}
-
       >
         {options &&
           options!.map((option, index) => {
             return (
-              <option key={index} value={option.name}>{option.name}</option>
+              <option key={index} value={option.name}>
+                {option.name}
+              </option>
             );
           })}
       </select>
