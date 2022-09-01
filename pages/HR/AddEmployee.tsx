@@ -1,4 +1,4 @@
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 
 import FileCheck from "../../components/FileCheck";
@@ -13,16 +13,18 @@ import {
 } from "../../services/constantsService";
 import Dropdown from "../../components/DropDown";
 import { ToastContainer } from "react-toastify";
-import { Alert } from '../../services/alerts/Alert';
-
+import { Alert } from "../../services/alerts/Alert";
+import { useRouter } from "next/router";
 
 interface FileModel {
   uploaded: boolean;
   fileInfo: File | null;
 }
 
-function AddEmployee() {
+// @ts-ignore
+function AddEmployee(props) {
   const [error, setError] = useState("");
+  const router = useRouter();
 
   // input states
 
@@ -135,16 +137,6 @@ function AddEmployee() {
   const handleSave = async (e: any) => {
     e.preventDefault();
 
-    /* const wazefaId = wazayef.find(
-      (item: { name: string; id: number }) => item.name === work
-    )!.id;
-    const mohafzaId = govs.find(
-      (item: { name: string; id: number }) => item.name === govVal
-    )!.id;
-    const manteqaId = manateq.find(
-      (item: { name: string; id: number }) => item.name === district
-    )!.id; */
-
     let emp = {
       PersonCode: Number.parseInt(code),
       PersonFirstName: firstN,
@@ -176,10 +168,12 @@ function AddEmployee() {
     };
     const response = await sendEmployee(emp);
 
-    if (response.success) Alert.Success("تم إضافة الموظف بنجاح");
-    else {
+    if (response.success) {
+      Alert.Success("تم إضافة الموظف بنجاح");
+      router.push("/HR/Employees");
+    } else {
       Alert.Error(response.message!);
-    };
+    }
   };
 
   return (
@@ -198,15 +192,15 @@ function AddEmployee() {
             }
             errorMsg="كود الموظف يجب أن يكون رقم"
           />
-          <div className="lex flex-col mt-3 space-y-10 text-right bg-white rounded-lg ">
-            <div className="flex pl-40 p-4 flex-row items-center justify-between">
+          <div className="flex-col mt-3 space-y-10 text-right bg-white rounded-lg lex ">
+            <div className="flex flex-row items-center justify-between p-4 pl-40">
               <input
                 type="date"
                 className="w-1/2 px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"
                 onChange={(e) => setBirthDate(new Date(e.target.value))}
                 value={birthDate.toISOString().split("T")[0]}
               />
-              
+
               <div className="flex flex-row items-center ml-32">
                 <h6 className="self-center text-lg text-right text-gray-700">
                   تاريخ الميلاد
@@ -214,7 +208,7 @@ function AddEmployee() {
               </div>
             </div>
 
-            <div className="flex pl-40 p-4 flex-row items-center justify-between">
+            <div className="flex flex-row items-center justify-between p-4 pl-40">
               <input
                 type="date"
                 className="w-1/2 px-4 py-3 text-center border border-gray-300 rounded-lg focus:outline-blue-500"
@@ -228,7 +222,7 @@ function AddEmployee() {
                 </h6>
               </div>
             </div>
-            <div className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
+            <div className="flex flex-row justify-end p-4 mt-3 bg-white rounded-lg">
               <RadioButtonComp
                 label="الديانة"
                 options={religion}
@@ -236,7 +230,7 @@ function AddEmployee() {
                 value={dyana}
               />
             </div>
-            <div className="flex flex-row p-4 mt-3 justify-end bg-white rounded-lg">
+            <div className="flex flex-row justify-end p-4 mt-3 bg-white rounded-lg">
               <RadioButtonComp
                 label="النوع"
                 options={types}
@@ -244,19 +238,19 @@ function AddEmployee() {
                 value={type}
               />
             </div>
-            <div className="flex flex-row p-4 pl-40 py-4 mt-3 justify-between bg-white rounded-lg">
+            <div className="flex flex-row justify-between p-4 py-4 pl-40 mt-3 bg-white rounded-lg">
               <Dropdown
                 title="الوظيفة"
                 options={wazayef}
                 value={work}
                 onChange={onWorkChange}
               />
-              <label className="text-lg text-right self-center text-gray-700">
+              <label className="self-center text-lg text-right text-gray-700">
                 الوظيفة
               </label>
             </div>
 
-            <div className="flex p-4 pl-40 mt-3 flex-row justify-between">
+            <div className="flex flex-row justify-between p-4 pl-40 mt-3">
               <Dropdown
                 title="المحافظة"
                 options={govs}
@@ -393,9 +387,9 @@ function AddEmployee() {
             onChange={setDraybPercent}
           />
         </div>
-        <div className="flex flex-col mt-5 space-y-10 text-right bg-white justify-space-between rounded-2xl col-start-1 col-end-3 mx-auto px-5">
+        <div className="flex flex-col col-start-1 col-end-3 px-5 mx-auto mt-5 space-y-10 text-right bg-white justify-space-between rounded-2xl">
           <div className="flex flex-col justify-center mt-10 text-center ">
-            <h1 className="justify-center  text-3xl text-center text-black font-display">
+            <h1 className="justify-center text-3xl text-center text-black font-display">
               ملفات الموظف
             </h1>
           </div>
@@ -405,7 +399,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
+                  className="w-full ml-2 text-right border border-gray-300 focus:outline-blue-500"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -431,7 +425,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
+                  className="w-full ml-2 text-right border border-gray-300 focus:outline-blue-500"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -456,7 +450,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
+                  className="w-full ml-2 text-right border border-gray-300 focus:outline-blue-500"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -481,7 +475,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
+                  className="w-full ml-2 text-right border border-gray-300 focus:outline-blue-500"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -506,7 +500,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
+                  className="w-full ml-2 text-right border border-gray-300 focus:outline-blue-500"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {
@@ -531,7 +525,7 @@ function AddEmployee() {
 
               <div>
                 <input
-                  className="w-full text-right border border-gray-300 focus:outline-blue-500 ml-2"
+                  className="w-full ml-2 text-right border border-gray-300 focus:outline-blue-500"
                   type="file"
                   accept={"image/*, .pdf"}
                   onChange={(e) => {

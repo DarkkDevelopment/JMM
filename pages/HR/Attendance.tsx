@@ -36,11 +36,16 @@ function Attendance(props) {
       dispatch(fetchAttandanceByDate(new Date()));
   }, []);
 
+  const handleDateChange = (date: Date) => {
+    dispatch(fetchGhyabByDate(date));
+    dispatch(fetchAttandanceByDate(date));
+  };
+
   const sendAbsence = async () => {
     let models = ghyabState.employees.map((emp) => {
       return {
         PersonGheyabCode: emp.PersonCode,
-        GheyabDate: emp.Date,
+        GheyabDate: attendanceState.filterDate,
       };
     });
     console.log(models);
@@ -51,6 +56,7 @@ function Attendance(props) {
     })
       .then(() => {
         Alert.Success("تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور");
+        window.location.reload();
       })
       .catch(() => {
         Alert.Error("حدث خطأ ما برجاء المحاولة مره اخري");
@@ -97,7 +103,6 @@ function Attendance(props) {
     const HedoorModelsToBeFilled: HedoorModel[] = [];
     const HawafezModelsToBeFilled: HawafezModel[] = [];
     const KhasmModelsToBeFilled: KhasmModel[] = [];
-    const GheyabModelsToBeFilled: sendAbsenceModel[] = [];
 
     sendAttendanceRequest.forEach((attendance) => {
       if (attendance.attended) {
@@ -157,9 +162,7 @@ function Attendance(props) {
           <input
             type="date"
             value={attendanceState.filterDate.toISOString().split("T")[0]}
-            onChange={(e) =>
-              dispatch(fetchAttandanceByDate(new Date(e.target.value)))
-            }
+            onChange={(e) => handleDateChange(new Date(e.target.value))}
             className="py-2 px-2 mb-4 text-center appearance-none shadow-md
             border rounded w-[15vw]  text-black leading-tight focus:outline-none focus:border-blue-500"
           />
