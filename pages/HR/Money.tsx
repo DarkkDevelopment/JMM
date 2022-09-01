@@ -137,7 +137,7 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
       <div className="font-display basis-5/6">
         <div className="flex flex-col p-10 pr-20">
           <div className="flex flex-row items-center justify-between">
-            <div className="flex flex-row justify-center space-x-10">
+            <div className="flex flex-row justify-center mb-4 space-x-10">
               <DropDownDateComp
                 month={month}
                 year={year}

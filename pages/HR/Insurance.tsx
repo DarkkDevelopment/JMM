@@ -63,37 +63,58 @@ function Insurance(
     year,
   ]);
 
-  const handleSearchButton = async (e: any) => {
+  // const handleSearchButton = async (e: any) => {
+  //   const neededMonth = MonthSeed.find((myMonth) => myMonth.name === month)!.id;
+  //   const getNewInsuranceData = await axios({
+  //     method: "post",
+  //     url: "/api/HR_Endpoints/insurance/getAll",
+  //     data: {
+  //       month: neededMonth,
+  //       year: Number(year),
+  //     },
+  //   });
+  //   let TotalTa2meen = getNewInsuranceData.data.data.reduce(
+  //     (acc: any, curr: { FinalValue: any }) => acc + curr.FinalValue,
+  //     0
+  //   );
+  //   console.log(getNewInsuranceData.data.data);
+  //   console.log(TotalTa2meen);
+  //   setFilteredEmployees(getNewInsuranceData.data.data);
+  //   setTotalT2menValue(TotalTa2meen);
+  // };
+
+  useEffect(() => {
     const neededMonth = MonthSeed.find((myMonth) => myMonth.name === month)!.id;
-    const getNewInsuranceData = await axios({
-      method: "post",
-      url: "/api/HR_Endpoints/insurance/getAll",
-      data: {
-        month: neededMonth,
-        year: Number(year),
-      },
-    });
-    let TotalTa2meen = getNewInsuranceData.data.data.reduce(
-      (acc: any, curr: { FinalValue: any }) => acc + curr.FinalValue,
-      0
-    );
-    console.log(getNewInsuranceData.data.data);
-    console.log(TotalTa2meen);
-    setFilteredEmployees(getNewInsuranceData.data.data);
-    setTotalT2menValue(TotalTa2meen);
-  };
+    const getInsurance = async () => {
+      const getNewInsuranceData = await axios({
+        method: "post",
+        url: "/api/HR_Endpoints/insurance/getAll",
+        data: {
+          month: neededMonth,
+          year: Number(year),
+        },
+      });
+      let TotalTa2meen = getNewInsuranceData.data.data.reduce(
+        (acc: any, curr: { FinalValue: any }) => acc + curr.FinalValue,
+        0
+      );
+      setFilteredEmployees(getNewInsuranceData.data.data);
+      setTotalT2menValue(TotalTa2meen);
+    };
+    getInsurance();
+  }, [month, year]);
 
   return (
     <div className="flex flex-row mr-16 bg-gray-100 ">
       <div className="font-display basis-5/6">
         <div className="flex flex-col px-10 pt-10">
           <div className="flex flex-row items-center justify-between">
-            <button
+            {/* <button
               className="px-8 py-2 mb-5 text-2xl font-bold text-center text-white bg-blue-500 shadow-lg hover:bg-blue-900 rounded-xl"
               onClick={handleSearchButton}
             >
               بحث
-            </button>
+            </button> */}
             <div className="flex flex-row justify-center space-x-10">
               <DropDownDateComp
                 month={month}
