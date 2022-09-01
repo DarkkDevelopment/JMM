@@ -87,7 +87,7 @@ function IncentiveCard(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center p-10 space-y-10 bg-white shadow-lg rounded-3xl font-display">
+    <div className="flex flex-col items-center p-10 mb-4 space-y-10 bg-white shadow-lg rounded-3xl font-display">
       <h3 className="mt-10 text-3xl text-center text-black font-display">
         {name}
       </h3>
