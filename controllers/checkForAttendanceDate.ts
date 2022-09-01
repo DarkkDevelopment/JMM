@@ -25,7 +25,12 @@ const checkIfAttendanceIsAlreadyTakenForTodayDate = async (
       Date: date,
     },
   });
-  if (attendance.length > 0) {
+  const absence = await prisma.gheyabHistory.findMany({
+    where: {
+      GheyabDate: date,
+    },
+  });
+  if (attendance.length > 0 || absence.length > 0) {
     return true;
   } else {
     return false;
