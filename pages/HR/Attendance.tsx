@@ -23,7 +23,8 @@ import {
 } from "../../utils/redux/features/GhyabSlice";
 import { VacationsModel } from "../../models/vacationsModel";
 
-function Attendance() {
+// @ts-ignore
+function Attendance(props) {
   const dispatch = useDispatch<AppDispatch>();
   const ghyabState = useSelector((state: RootState) => state.absence);
   const attendanceState = useSelector((state: RootState) => state.attendance);
@@ -274,7 +275,7 @@ function Attendance() {
                     <td className="p-4 border-b-2">
                       {" "}
                       <Switch
-                        old={false}
+                        old={attendanceState.old}
                         type={false}
                         toggleSwitch={(value: boolean) => {
                           dispatch(removeGhyab({ id: obj.PersonCode }));
