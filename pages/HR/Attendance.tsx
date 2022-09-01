@@ -23,29 +23,11 @@ import {
 } from "../../utils/redux/features/GhyabSlice";
 import { VacationsModel } from "../../models/vacationsModel";
 
-function Attendance() {
+// @ts-ignore
+function Attendance(props) {
   const dispatch = useDispatch<AppDispatch>();
   const ghyabState = useSelector((state: RootState) => state.absence);
   const attendanceState = useSelector((state: RootState) => state.attendance);
-
-  const sendAbsence = () => {
-    let models = ghyabState.employees.map((emp) => {
-      return {
-        PersonCode: emp.PersonCode,
-        GheyabDate: emp.Date,
-      };
-    });
-    axios
-      .post("/api/HR_Endpoints/absence/create", {
-        models,
-      })
-      .then(() => {
-        Alert.Success("تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور");
-      })
-      .catch(() => {
-        Alert.Error("حدث خطأ ما برجاء المحاولة مره اخري");
-      });
-  };
 
   useEffect(() => {
     if (ghyabState.employees.length == 0)
@@ -54,11 +36,31 @@ function Attendance() {
       dispatch(fetchAttandanceByDate(new Date()));
   }, []);
 
+  const sendAbsence = async () => {
+    let models = ghyabState.employees.map((emp) => {
+      return {
+        PersonGheyabCode: emp.PersonCode,
+        GheyabDate: emp.Date,
+      };
+    });
+    console.log(models);
+    await axios({
+      method: "POST",
+      url: "/api/HR_Endpoints/absence/create",
+      data: models,
+    })
+      .then(() => {
+        Alert.Success("تمت اضافة الغياب بنجاح برجاء التأكد من اضافة الحضور");
+      })
+      .catch(() => {
+        Alert.Error("حدث خطأ ما برجاء المحاولة مره اخري");
+      });
+  };
+
   const createNewAttendanceService = async (
     HedoorModelsToBeFilled: HedoorModel[],
     HawafezModelsToBeFilled: HawafezModel[],
-    KhasmModelsToBeFilled: KhasmModel[],
-    GheyabModelsToBeFilled: sendAbsenceModel[]
+    KhasmModelsToBeFilled: KhasmModel[]
   ) => {
     const newAttendanceRequest = await axios({
       method: "post",
@@ -67,13 +69,6 @@ function Attendance() {
         HedoorModelsToBeFilled,
         HawafezModelsToBeFilled,
         KhasmModelsToBeFilled,
-      },
-    });
-    const newAbsenceRequest = await axios({
-      method: "post",
-      url: "/api/HR_Endpoints/absence/create",
-      data: {
-        models: GheyabModelsToBeFilled,
       },
     });
   };
@@ -142,21 +137,16 @@ function Attendance() {
           MonthOfKhasm: attendanceState.filterDate.getMonth() + 1,
           YearOfKhasm: attendanceState.filterDate.getFullYear(),
         });
-      } else {
-        GheyabModelsToBeFilled.push({
-          PersonCode: attendance.PersonCode,
-          GheyabDate: attendanceState.filterDate,
-        });
       }
     });
     createNewAttendanceService(
       HedoorModelsToBeFilled,
       HawafezModelsToBeFilled,
-      KhasmModelsToBeFilled,
-      GheyabModelsToBeFilled
+      KhasmModelsToBeFilled
     );
+    sendAbsence();
     Alert.Success("تم حفظ الحضور بنجاح برجاء عدم نسيان اضافة الغياب");
-    window.location.reload();
+    //window.location.reload();
   };
 
   return (
@@ -285,7 +275,7 @@ function Attendance() {
                     <td className="p-4 border-b-2">
                       {" "}
                       <Switch
-                        old={false}
+                        old={attendanceState.old}
                         type={false}
                         toggleSwitch={(value: boolean) => {
                           dispatch(removeGhyab({ id: obj.PersonCode }));
