@@ -46,21 +46,6 @@ function Employees(
           >
             قائمة المحذوفين
           </button>
-          <div className="flex flex-row font-display">
-            <input
-              className="mt-3 mb-3 px-4 py-2 text-right shadow appearance-none border rounded w-[10vw]  text-black leading-tight focus:outline-none focus:shadow-outline"
-              id="search"
-              type="text"
-              placeholder="بحث "
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/54/54481.png"
-              alt="search"
-              className="mt-5 ml-3 w-7 h-7"
-            />
-          </div>
-
           <div className="flex flex-col pt-10 pl-10 pr-10 mr-10 bg-white shadow-xl space-y-7">
             <table className="text-right border-collapse table-fixed font-display">
               <thead className="text-right text-white bg-blue-900 ">

@@ -17,17 +17,9 @@ function Vacations(
   const [agazat, setAgazat] = useState([]);
 
   useEffect(() => {
-    if (searchterm == "") {
-      setFilteredEmployees(empVacations);
-      setAgazat(agazaTypes);
-    } else {
-      let backupEmployee = filteredEmployees.filter((obj: Vacatoion) => {
-        if (obj.PersonCode.toString().includes(searchterm)) return obj;
-        if (obj.PersonName.includes(searchterm)) return obj;
-      });
-      setFilteredEmployees(backupEmployee);
-    }
-  }, [agazaTypes, empVacations, filteredEmployees, searchterm]);
+    setFilteredEmployees(empVacations);
+    setAgazat(agazaTypes);
+  }, [agazaTypes, empVacations]);
 
   const refreshPage = () => {
     window.location.reload();
@@ -38,7 +30,6 @@ function Vacations(
       <div className="flex justify-center pr-10 m-10 font-display basis-5/6">
         <ToastContainer />
         <div className="flex flex-col justify-center space-y-6 ">
-          <SearchField setSearchTerm={setSearchTerm} />
           {filteredEmployees.map((obj: Vacatoion) => (
             <VacationsCard
               key={obj.PersonCode}

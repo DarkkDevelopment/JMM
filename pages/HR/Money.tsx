@@ -75,10 +75,6 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
   const [isHovering, setIsHovering] = useState(false);
 
-  const handleSearchButton = async (e: any) => {
-    setIsMonthSearch(!isMonthSearch);
-  };
-
   const handleMouseEnter = () => {
     setIsHovering(true);
   };
@@ -141,12 +137,6 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
       <div className="font-display basis-5/6">
         <div className="flex flex-col p-10 pr-20">
           <div className="flex flex-row items-center justify-between">
-            <button
-              className="px-8 py-2 mb-5 text-2xl font-bold text-center text-white bg-blue-500 shadow-lg hover:bg-blue-900 rounded-xl"
-              onClick={handleSearchButton}
-            >
-              بحث
-            </button>
             <div className="flex flex-row justify-center space-x-10">
               <DropDownDateComp
                 month={month}
