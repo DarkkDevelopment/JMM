@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { InferGetServerSidePropsType } from "next";
-import SideBar from "../../components/TSB";
+import TSB from "../../components/TSB";
 import React from "react";
 
 const Quality: NextPage = () => {
@@ -72,7 +72,7 @@ const Quality: NextPage = () => {
           </div>
         </div>
       </div>
-      <SideBar pageName="absence" />
+      <TSB pageName="Quality" />
     </div>
   );
 };
