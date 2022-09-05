@@ -228,6 +228,7 @@ function Attendance(props) {
         >
           حفظ حضور اليوم
         </button>
+        
       </div>
       <SideBar pageName="attendance" />
     </div>

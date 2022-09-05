@@ -21,6 +21,7 @@ import discounts from "../public/icons/discounts.png";
 import attendanceLogo from "../public/icons/user.png";
 import absentLogo from "../public/icons/absent.png";
 import conslogo from "../public/icons/cons.png";
+import { Icon } from '@iconify/react';
 
 const NestedList = (props: any) => {
 
@@ -60,9 +61,7 @@ const NestedList = (props: any) => {
       
       
       <ListItemButton onClick={handleClick}  >
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
+      <Icon icon="fluent:person-28-regular"  width={25} height={25} />
         <ListItemText primary="HR" />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
@@ -329,21 +328,72 @@ const NestedList = (props: any) => {
 
 
 
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="مخازن" />
-        {open ? <ExpandLess /> : <ExpandMore />}
+      <ListItemButton onClick={handleClick} sx={{ marginTop:2 , marginBottom:2  ,justifyContent:'space-between' }} >
+     
+     
+     
+     
+      <div className="flex flex-row items-center space-x-4 justify-between">
+          
+            <div >
+
+            <Icon icon="material-symbols:inventory-2-outline-rounded" width={25} height={25} />
+          </div>
+     
+         
+           <div   className={"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 " }   
+             
+            >
+             <ListItemText primary="مخازن" />
+       
+            
+            </div>
+            </div>
+          {open ? <ExpandLess /> : <ExpandMore />}
+     
+     
+     
+      
+         
+        
+      
+       
+        
       </ListItemButton>
+     
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
+
+
+       < ListItemButton sx={{ paddingX:6 ,marginTop:2 , marginBottom:2  ,justifyContent:'space-between' }} 
+           onClick={() => {
+            router.push("/Inventory/Quality");
+          }} >
+          <div className="flex flex-row items-center space-x-4 justify-between">
+            <h3
+              className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
+            ${
+              pageName === "const"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
+             
+            >
+              الجوده
+            </h3>
+
+            </div>
+            <div>
+            <Icon icon="heroicons-outline:beaker" width={50} height={50}/>
+
+            
+          </div>
+          </ListItemButton>
 
 
             
           
-          </ListItemButton>
+          
 
           
 
