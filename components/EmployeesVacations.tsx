@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import axios from "axios";
+import axios from "../utils/axios";
 import React, { useEffect, useState } from "react";
 import EmployeeVacation from "./EmployeeVacation";
 type Props = {
@@ -12,12 +12,15 @@ export const EmployeesVacations = (props: Props) => {
 
   useEffect(() => {
     const fetchAgaze = async () => {
-      const response = await axios.post(
-        "/api/HR_Endpoints/vacations/getVacationsHistory",
-        {
-          personCode: props.personCode,
-        }
-      );
+      const response = await axios({
+        method: "POST",
+        url: "/api/HR_Endpoints/vacations/getVacationsHistory",
+        data: {
+          PersonCode: props.personCode,
+        },
+      });
+      //console.log(response.data.data.history);
+      console.log(props.personCode);
       const vacationsResponse = response.data.data.history;
       let newVacations: { [key: number]: Array<{}> } = {};
       for (let i = 1; i <= 12; i++) newVacations[i] = [];
