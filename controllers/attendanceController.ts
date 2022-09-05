@@ -15,13 +15,8 @@ const getWorkingHoursAndTotalNumberOfWorkingHours = async () => {
       EndTime: true,
     },
   });
-  const totalWorkingHours = workingHours.reduce((acc, curr) => {
-    const startTime = new Date(curr.StartTime);
-    const endTime = new Date(curr.EndTime);
-    const diff = endTime.getTime() - startTime.getTime();
-    const diffInHours = diff / 1000 / 60 / 60;
-    return acc + diffInHours;
-  }, 0);
+  const totalWorkingHours =
+    workingHours[0].EndTime.getHours() - workingHours[0].StartTime.getHours();
   return { workingHours, totalWorkingHours };
 };
 

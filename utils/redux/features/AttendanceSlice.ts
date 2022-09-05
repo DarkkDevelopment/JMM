@@ -5,6 +5,7 @@ import { GetAttendanceModel } from "../../../models/AttendanceModels";
 import AttendanceServices from "../../../services/attendanceServices";
 import axios from "../../axios";
 import { IAttendanceModel } from "../../../interfaces/attandance";
+import getWorkingHours from "../../../controllers/getWorkingHours";
 
 export const fetchAttandanceByDate = createAsyncThunk(
   "attendance/fetchAttandanceByDate",
@@ -52,7 +53,7 @@ const initialState: AttendanceState = {
   employees: [],
   old: false,
   filterDate: new Date(),
-  workingHoursConstant: 8,
+  workingHoursConstant: 9,
   status: "loading",
 };
 
