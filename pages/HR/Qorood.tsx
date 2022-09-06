@@ -14,7 +14,7 @@ function Qorood(props) {
         <div className="grid grid-cols-4 grid-rows-3 gap-8">
           <div
             onClick={() => {
-              router.push("/HR/constants/mohafazat");
+              router.push("/HR/CreateQard");
             }}
             className="items-center self-center justify-center w-48 px-5 py-3 m-auto text-xl font-bold text-center text-white bg-blue-900 rounded-lg shadow-xl cursor-pointer hover:bg-blue-500"
           >
