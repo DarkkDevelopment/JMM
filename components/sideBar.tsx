@@ -122,7 +122,6 @@ const SideBar = (props: any) => {
             </h3>
             <Image src={loanLogo} alt="employee" width={50} height={50} />
           </div>
-
           <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
@@ -155,22 +154,22 @@ const SideBar = (props: any) => {
             </h3>
             <Image src={discounts} alt="employee" width={50} height={50} />
           </div>
-          {/* <div className="flex flex-row items-center justify-between space-x-4">
+          <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
-              pageName === "reports"
+              pageName === "qorood"
                 ? "text-red-600 text-2xl"
                 : "text-blue-900 text-2xl"
             }`}
               onClick={() => {
-                router.push("/HR/Reports");
+                router.push("/HR/Qorood");
               }}
             >
-              التقارير
+              القروض
             </h3>
             <Image src={reportLogo} alt="employee" width={50} height={50} />
-          </div> */}
+          </div>
           <div className="flex flex-row items-center justify-between space-x-4">
             <h3
               className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
