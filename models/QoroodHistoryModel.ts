@@ -1,5 +1,6 @@
 export type QoroodHistoryModel = {
   QardId: number;
+  PersonCode: number;
   PersonName: {
     PersonFirstName: string;
     PersonSecondName: string;
