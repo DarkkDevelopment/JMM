@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'jmmdeploy'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_95F21AF36D514FF4903AF9E30AA219D5 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE}}
           package: .
