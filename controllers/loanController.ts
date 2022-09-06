@@ -61,7 +61,7 @@ const renderLoanHistoryByYear = async (
       PersonFourthName: true,
     },
   });
-  employees.forEach(async (employee) => {
+  for (const employee of employees) {
     const solfaHistory = await getSolfaHistory(
       employee.PersonCode,
       true,
@@ -102,7 +102,7 @@ const renderLoanHistoryByYear = async (
           : null,
       });
     }
-  });
+  }
   return historyModels;
 };
 
