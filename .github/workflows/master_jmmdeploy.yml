@@ -1,4 +1,4 @@
-# File: .github/workflows/workflow.yml
+# File: .github/workflows/master_jmmdeploy.yml
 name: JavaScript CI
 
 on: [push]
