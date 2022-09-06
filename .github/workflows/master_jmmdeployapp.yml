@@ -29,6 +29,7 @@ jobs:
           npx prisma generate
           npx prisma migrate resolve --applied "20220822191740_initial" --preview-feature
           npx prisma db push
+          npm run start
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
