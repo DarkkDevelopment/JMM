@@ -1,43 +1,49 @@
 import React from "react";
 import { InferGetServerSidePropsType } from "next";
 
-// @ts-ignore
-function SadadatHistory(
+function QoroodHistory(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-  const SadadatHistory = props ? props.SadadatHistoryData : [];
-  console.log(SadadatHistory);
+  const QoroodHistory = props.data;
   return (
     <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7">
       <h1 className="items-center self-center justify-center p-3 text-3xl font-bold text-center rounded-xl ">
-        سجل السدادات
+        سجل القروض
       </h1>
       <table className="text-center border-collapse table-auto font-display">
         <thead className="text-center text-white bg-blue-900">
           <tr>
-            <th className="w-20 p-4 text-center border-b-2 ">التاريخ</th>
-            <th className="w-20 p-4 text-center border-b-2 ">القيمة</th>
+            <th className="w-20 p-4 text-center border-b-2 ">
+              القيمة المتبقية
+            </th>
+            <th className="w-20 p-4 text-center border-b-2 ">
+              تاريخ صرف القرض
+            </th>
+            <th className="w-20 p-4 text-center border-b-2 ">قيمة القرض</th>
             <th className="w-20 p-4 text-center border-b-2 ">الاسم</th>
             <th className="w-20 p-4 text-center border-b-2 ">#</th>
           </tr>
         </thead>
         <tbody>
-          {SadadatHistory.map((sadad: any, index: number) => (
-            <tr key={sadad.id}>
+          {QoroodHistory.map((qard: any, index: number) => (
+            <tr key={qard.QardId}>
               <td className="p-4 border-b-2 border-gray-200">
-                {new Date(sadad.EznDate).toLocaleDateString()}
+                {qard.Remaining}
               </td>
               <td className="p-4 border-b-2 border-gray-200">
-                {sadad.EznValue}
+                {new Date(qard.QardRequestDate).toLocaleDateString()}
               </td>
               <td className="p-4 border-b-2 border-gray-200">
-                {sadad.Qard.Person.PersonFirstName +
+                {qard.QardValue}
+              </td>
+              <td className="p-4 border-b-2 border-gray-200">
+                {qard.PersonName.PersonFirstName +
                   " " +
-                  sadad.Qard.Person.PersonSecondName +
+                  qard.PersonName.PersonSecondName +
                   " " +
-                  sadad.Qard.Person.PersonThirdName +
+                  qard.PersonName.PersonThirdName +
                   " " +
-                  sadad.Qard.Person.PersonFourthName}
+                  qard.PersonName.PersonFourthName}
               </td>
               <td className="p-4 border-b-2 border-gray-200">{++index}</td>
             </tr>
@@ -48,18 +54,19 @@ function SadadatHistory(
   );
 }
 
-// todo : we need to get the sadadat History here
+// todo : here we should get the Qorood History for all the Employees
 
 export async function getServerSideProps(context: any) {
-  const SadadatHistory = await fetch(
-    `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/ozonat/get`
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST}/api/HR_Endpoints/qorood/get`
   );
-  const SadadatHistoryJson = await SadadatHistory.json();
+  const data = await response.json();
+
   return {
     props: {
-      SadadatHistoryData: SadadatHistoryJson,
+      data,
     },
   };
 }
 
-export default SadadatHistory;
+export default QoroodHistory;

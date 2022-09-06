@@ -41,7 +41,7 @@ function Qorood(props) {
 
           <div
             onClick={() => {
-              router.push("/HR/constants/agazat");
+              router.push("/HR/QoroodHistory");
             }}
             className="items-center self-center justify-center w-48 px-5 py-3 m-auto text-xl font-bold text-center text-white bg-blue-900 rounded-lg shadow-xl cursor-pointer hover:bg-blue-500"
           >

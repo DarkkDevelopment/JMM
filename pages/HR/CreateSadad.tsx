@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Dropdown from "../../components/DropDown";
 import { InferGetServerSidePropsType } from "next";
 import axios from "../../utils/axios";
 
-// @ts-ignore
 function CreateSadad(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const AllEmployees = props ? props.employeesOptions : [];
   const [sadadValue, setSadadValue] = React.useState(0);
   const [employee, setEmployee] = React.useState(0);
-  const [qard, setQard] = React.useState(0);
-  const [qorood, setQorood] = React.useState([]);
   const [QoroodOptions, setQoroodOptions] = React.useState<
     [
       {
@@ -22,9 +19,10 @@ function CreateSadad(
   >([
     {
       id: 0,
-      name: "الرجاء اختيار القرض",
+      name: "اختر القرض",
     },
   ]);
+  const [qard, setQard] = React.useState(0);
 
   // todo: need to use this to filter the qorood with the selected employee code
   const handleChangeEmployee = async (code: number) => {
@@ -36,12 +34,13 @@ function CreateSadad(
       },
     });
     setEmployee(code);
-    setQorood(response.data);
-
     const qoroodOptions = response.data.map((qorood: any) => {
       return {
         id: qorood.id,
-        name: qorood.TotalQardValue + " L.E  :  " + qorood.QardRequestDate,
+        name:
+          qorood.TotalQardValue +
+          " L.E  :  " +
+          new Date(qorood.QardRequestDate).toLocaleDateString(),
       };
     });
     setQoroodOptions(qoroodOptions);
@@ -50,15 +49,32 @@ function CreateSadad(
   // todo: this to handle the creation logic
   const handleCreateSadad = async (e: any) => {
     e.preventDefault();
-    const response = await axios({
-      method: "POST",
-      url: "/api/HR_Endpoints/ozonat/create",
-      data: {
-        QardId: qard,
-        EznValue: sadadValue,
-      },
-    });
-    window.location.reload();
+    if (QoroodOptions.length === 1) {
+      const response = await axios({
+        method: "POST",
+        url: "/api/HR_Endpoints/ozonat/create",
+        data: {
+          QardId: QoroodOptions[0].id,
+          EznValue: sadadValue,
+        },
+      });
+      console.log(response);
+    } else {
+      const response = await axios({
+        method: "POST",
+        url: "/api/HR_Endpoints/ozonat/create",
+        data: {
+          QardId: qard,
+          EznValue: sadadValue,
+        },
+      });
+      console.log(response);
+    }
+    //window.location.reload();
+  };
+
+  const handleQardChange = (id: number) => {
+    setQard(id);
   };
 
   return (
@@ -84,7 +100,7 @@ function CreateSadad(
               title="القرض"
               options={QoroodOptions}
               value={qard}
-              onChange={(value: React.SetStateAction<number>) => setQard(value)}
+              onChange={handleQardChange}
             />
             <label className="text-2xl " htmlFor="name">
               القرض
@@ -146,16 +162,10 @@ export async function getServerSideProps(context: any) {
           employee.PersonName.PersonFourthName,
       });
     }
-
-    QoroodOptions.push({
-      id: employee.QardId,
-      name: employee.QardValue + " " + employee.QardRequestDate,
-    });
   }
   return {
     props: {
       employeesOptions,
-      QoroodOptions,
     },
   };
 }
