@@ -318,10 +318,7 @@ const getBadalatPercentageController = async () => {
   }
 };
 
-const renderNewPayrols = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-): Promise<PayrolModel[]> => {
+const renderNewPayrols = async (): Promise<PayrolModel[]> => {
   const getElawat = await getElawatPercentageController();
   const elawat = await getBadalatPercentageController();
   // todo : get elawat and badalat percentages
@@ -344,7 +341,7 @@ const renderNewPayrols = async (
       },
     });
     if (getEmployess.length > 0) {
-      getEmployess.forEach(async (employee) => {
+      for (const employee of getEmployess) {
         const MorattabAndDarayebPercentage =
           await getMorattabAndDarebaPercentage(employee.PersonCode);
         const totalSolafInMonth = await getTotalSolafInMonth(
@@ -456,7 +453,7 @@ const renderNewPayrols = async (
             (MorattabAndDarayebPercentage.morattab -
               employee.PersonTa2meenValue),
         });
-      });
+      }
     }
   }
   return NewRecords;

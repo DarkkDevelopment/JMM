@@ -12,9 +12,7 @@ const getLoanHistory = async (req: NextApiRequest, res: NextApiResponse) => {
       res,
       year
     );
-    setTimeout(() => {
-      res.status(200).json(historyOfLoans);
-    }, 50);
+    res.status(200).json(historyOfLoans);
   } catch (error) {
     res.status(500).json({ error });
   }
