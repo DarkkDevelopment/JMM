@@ -27,7 +27,6 @@ jobs:
           npm run build --if-present
           npm run test --if-present
           npx prisma generate
-          npx prisma migrate resolve --applied "20220822191740_initial" --preview-feature
           npx prisma db push
           npm run start
 
