@@ -58,7 +58,6 @@ function CreateSadad(
           EznValue: sadadValue,
         },
       });
-      console.log(response);
     } else {
       const response = await axios({
         method: "POST",
@@ -68,9 +67,8 @@ function CreateSadad(
           EznValue: sadadValue,
         },
       });
-      console.log(response);
     }
-    //window.location.reload();
+    window.location.reload();
   };
 
   const handleQardChange = (id: number) => {
