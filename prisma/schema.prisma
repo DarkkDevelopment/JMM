@@ -113,6 +113,7 @@ model Person {
   GheyabHistory                             GheyabHistory[]
   PersonDyana                               DyanaLookup                                 @relation(fields: [PersonDyanaId], references: [DyanaID])
   PersonType                                PersonTypesLookup                           @relation(fields: [PersonTypeId], references: [PersonTypeID])
+  Qorood                                    Qorood[]
 }
 
 model PersonAddress {
@@ -185,7 +186,7 @@ model PersonHafezHistory {
   DayOfHafez          Int?              @default(0)
   MonthOfHafez        Int?              @default(0)
   YearOfHafez         Int?              @default(0)
-  deletedAt          DateTime?          @db.Date
+  deletedAt           DateTime?         @db.Date
   Person              Person            @relation(fields: [PersonHafezId], references: [PersonCode])
   HafezReasons        HafezReasons?     @relation(fields: [HafezReasonID], references: [ReasonID])
   HafezSubmitMove     HafezSubmitMove[]
@@ -243,7 +244,7 @@ model PersonKhasmHistory {
   DayOfKhasm         Int?              @default(0)
   MonthOfKhasm       Int?              @default(0)
   YearOfKhasm        Int?              @default(0)
-  deletedAt          DateTime?          @db.Date
+  deletedAt          DateTime?         @db.Date
   Person             Person            @relation(fields: [PersonKhasmId], references: [PersonCode])
   KhasmReasons       KhasmReasons?     @relation(fields: [KhasmReasonID], references: [ReasonID])
   KhasmSubmitMove    KhasmSubmitMove[]
@@ -301,16 +302,16 @@ model PersonSQLRequestHistory {
 }
 
 model PersonSolfaPerMonth {
-  id                    Int      @id @default(autoincrement())
+  id                    Int       @id @default(autoincrement())
   PersonCode            Int
   SolfaValue            Int
-  SolfaRequestDate      DateTime @db.Date
+  SolfaRequestDate      DateTime  @db.Date
   SolfaMonthToBeApplied Int
   SolfaYearToBeApplied  Int
   IsApproved            Boolean
   IsDoneAndPaid         Boolean
   deletedAt             DateTime? @db.Date
-  Person                Person   @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeConstraint")
+  Person                Person    @relation(fields: [PersonCode], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeConstraint")
 }
 
 model PersonSystemLogging {
@@ -379,4 +380,21 @@ model FixedGlobalValues {
   Name      String    @id @db.VarChar(50)
   Value     Float
   deletedAt DateTime?
+}
+
+model Qorood {
+  id                   Int                    @id @default(autoincrement())
+  PersonId             Int
+  TotalQardValue       Float
+  QardRequestDate      DateTime               @db.Date
+  Person               Person                 @relation(fields: [PersonId], references: [PersonCode], onDelete: NoAction, onUpdate: NoAction, map: "PersonCodeConstraint")
+  QoroodOzoonatHistory QoroodOzoonatHistory[]
+}
+
+model QoroodOzoonatHistory {
+  id       Int      @id @default(autoincrement())
+  QardId   Int
+  EznValue Float
+  EznDate  DateTime @db.Date
+  Qard     Qorood   @relation(fields: [QardId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "QardIdConstraint")
 }
