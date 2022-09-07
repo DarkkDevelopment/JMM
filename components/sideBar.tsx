@@ -134,7 +134,7 @@ const SideBar = (props: any) => {
                 router.push("/HR/Incentive");
               }}
             >
-              الحوافز
+              المكافآت
             </h3>
             <Image src={incentive} alt="employee" width={60} height={60} />
           </div>

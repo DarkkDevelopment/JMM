@@ -170,10 +170,13 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
                       </th>
 
                       <th className="w-20 p-4 text-right border-b-2">
+                        المكافآت
+                      </th>
+                      <th className="w-20 p-4 text-right border-b-2 ">
                         الحوافز
                       </th>
                       <th className="w-20 p-4 text-right border-b-2 ">
-                        أساس المرتب
+                        المرتب
                       </th>
                       <th className="w-20 p-4 text-right border-b-2">
                         اسم الموظف
@@ -189,25 +192,36 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
                             {Math.floor(employee.NetSalary)}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.badalatValue}
+                            {Math.floor(employee.badalatValue)}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.elawatValue}
+                            {Math.floor(employee.elawatValue)}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.TotalValueOfSolafTakenAtThatMonth}
+                            {Math.floor(
+                              employee.TotalValueOfSolafTakenAtThatMonth
+                            )}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.TotalValueOfTa2meenAtThatMonth}
+                            {Math.floor(
+                              employee.TotalValueOfTa2meenAtThatMonth
+                            )}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.TotalKhasmSummationValue}
+                            {Math.floor(employee.TotalKhasmSummationValue)}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.TotalHafezSummationValue}
+                            {Math.floor(employee.TotalHafezSummationValue)}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {employee.PersonMorattabAtThatMonth}
+                            {Math.floor(
+                              employee.PersonMorattabAtThatMonth -
+                                employee.elawatValue -
+                                employee.badalatValue
+                            )}
+                          </td>
+                          <td className="justify-center p-4 text-right border-b-2 ">
+                            {Math.floor(employee.PersonMorattabAtThatMonth)}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
                             {employee.PersonName.PersonFirstName +
