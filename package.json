@@ -33,6 +33,8 @@
     "next-redux-wrapper": "^7.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-loading": "^2.0.3",
+    "react-loading-screen": "^0.0.17",
     "react-minimal-side-navigation": "^1.9.2",
     "react-paginate": "^8.1.3",
     "react-toastify": "^9.0.8",
