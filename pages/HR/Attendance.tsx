@@ -178,11 +178,7 @@ function Attendance(props) {
         </div>
         <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
           <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
-            <div> الحضور</div>
-            <div>
-              {" "}
-              &quot;{attendanceState.filterDate.toLocaleDateString()}&quot;{" "}
-            </div>
+            الحضور &quot;{attendanceState.filterDate.toLocaleDateString()}&quot;{" "}
           </p>
 
           {attendanceState.status === "loading" ? (
@@ -252,11 +248,7 @@ function Attendance(props) {
         </div>
         <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
           <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
-            <div> الغياب</div>
-            <div>
-              {" "}
-              &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
-            </div>
+            الغياب &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
           </p>
           <table
             title="الغياب"
@@ -319,11 +311,7 @@ function Attendance(props) {
         </div>
         <div className="flex flex-col justify-center pt-10 pl-10 pr-10 mr-32 bg-white shadow-xl space-y-7 ">
           <p className="flex flex-row justify-center space-x-10 text-3xl text-center text-black font-display">
-            <div> الاجازات</div>
-            <div>
-              {" "}
-              &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
-            </div>
+            الاجازات &quot;{ghyabState.filterDate.toLocaleDateString()}&quot;{" "}
           </p>
           <table
             title="الاجازات"

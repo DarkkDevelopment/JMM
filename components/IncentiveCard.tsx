@@ -112,6 +112,23 @@ function IncentiveCard(props: any) {
                   {lastYearClosed != null || lastMonthClosed != null ? (
                     lastMonthClosed < new Date().getMonth() + 1 ||
                     lastYearClosed < new Date().getFullYear() ? (
+                      <td>
+                        <div>
+                          <button
+                            className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                            onClick={() => {
+                              deleteHafez(hist.hafezId);
+                            }}
+                          >
+                            x
+                          </button>
+                        </div>
+                      </td>
+                    ) : (
+                      <td></td>
+                    )
+                  ) : (
+                    <td>
                       <div>
                         <button
                           className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
@@ -122,20 +139,7 @@ function IncentiveCard(props: any) {
                           x
                         </button>
                       </div>
-                    ) : (
-                      <td></td>
-                    )
-                  ) : (
-                    <div>
-                      <button
-                        className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
-                        onClick={() => {
-                          deleteHafez(hist.hafezId);
-                        }}
-                      >
-                        x
-                      </button>
-                    </div>
+                    </td>
                   )}
 
                   <td>{hist.HafezValue}</td>

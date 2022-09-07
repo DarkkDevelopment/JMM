@@ -15,6 +15,9 @@ const getQardInfo = async () => {
         },
       },
     },
+    orderBy: {
+      PersonId: "asc",
+    },
   });
   return QardInfo;
 };
@@ -44,6 +47,7 @@ const getQoroodHistory = async () => {
     const totalSadadat = await calculateTotalSadadat(qard.id);
     qorodModel.push({
       QardId: qard.id,
+      PersonCode: qard.PersonId,
       PersonName: {
         PersonFirstName: qard.Person.PersonFirstName,
         PersonSecondName: qard.Person.PersonSecondName,

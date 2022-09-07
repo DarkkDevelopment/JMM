@@ -19,6 +19,9 @@ const getOzonatHistory = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       },
     },
+    orderBy: {
+      EznDate: "desc",
+    },
   });
   res.json(history);
 };

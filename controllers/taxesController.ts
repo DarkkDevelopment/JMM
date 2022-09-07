@@ -38,7 +38,7 @@ const renderNewRecords = async (req: NextApiRequest, res: NextApiResponse) => {
       PersonCode: "asc",
     },
   });
-  getEmpkoyeesInfo.forEach(async (employee) => {
+  for (const employee of getEmpkoyeesInfo) {
     const morattabAndPercentage = await getMorattabAndDarebaPercentage(
       employee.PersonCode
     );
@@ -59,7 +59,7 @@ const renderNewRecords = async (req: NextApiRequest, res: NextApiResponse) => {
           morattabAndPercentage.dareebaPercentage) /
         100,
     });
-  });
+  }
   return newRecords;
 };
 
@@ -87,7 +87,7 @@ const renderPastRecords = async (
       PersonCode: "asc",
     },
   });
-  getEmployeesInfo.forEach(async (employee) => {
+  for (const employee of getEmployeesInfo) {
     const getTaxesInfo = await prisma.personDarayebHistory.findFirst({
       where: {
         PersonCode: employee.PersonCode,
@@ -114,7 +114,7 @@ const renderPastRecords = async (
       TaxesPercentage: getTaxesInfo!.PersonDarayebPercentageAtThatMonth,
       TaxesValue: getTaxesInfo!.TotalValueOfDarayeb,
     });
-  });
+  }
   return OldRecords;
 };
 
