@@ -168,15 +168,16 @@ function VacationsCard(props: Props) {
                       {history.map((hist) => {
                         return (
                           <tr key={hist.id}>
-                            <button
-                              className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
-                              onClick={() => {
-                                deleteVacation(hist.id);
-                              }}
-                            >
-                              x
-                            </button>
-
+                            <td>
+                              <button
+                                className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
+                                onClick={() => {
+                                  deleteVacation(hist.id);
+                                }}
+                              >
+                                x
+                              </button>
+                            </td>
                             <td>{hist.AgazaType.AgazaType}</td>
                             <td>{hist.AgazaDate.toString().slice(0, 10)}</td>
                           </tr>

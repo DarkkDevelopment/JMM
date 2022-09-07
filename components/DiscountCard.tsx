@@ -120,7 +120,7 @@ function DiscountCard(props: any) {
                   {lastYearClosed != null || lastMonthClosed != null ? (
                     lastMonthClosed < new Date().getMonth() + 1 ||
                     lastYearClosed < new Date().getFullYear() ? (
-                      <>
+                      <td>
                         <button
                           className="w-5 text-white bg-red-500 font-display hover:bg-red-700"
                           onClick={() => {
@@ -129,7 +129,7 @@ function DiscountCard(props: any) {
                         >
                           x
                         </button>
-                      </>
+                      </td>
                     ) : (
                       <td></td>
                     )
