@@ -23,6 +23,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
+          npm i -g next
           npm run build
           npm next export
           npx prisma generate
