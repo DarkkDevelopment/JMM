@@ -18,6 +18,7 @@ import MonthSeed from "../../utils/MonthsSeed";
 import { DropDownDateComp } from "../../components/DropDownDateComp";
 import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
+import roundToMultipleOfFive from "../../utils/round";
 
 function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const InsuranceModels: InsuranceModel[] = props.newInsurance;
@@ -189,7 +190,7 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
                       .map((employee) => (
                         <tr key={employee.PersonCode} className="p-10">
                           <td className="justify-center p-4 text-right border-b-2 ">
-                            {Math.floor(employee.NetSalary)}
+                            {roundToMultipleOfFive(employee.NetSalary)}
                           </td>
                           <td className="justify-center p-4 text-right border-b-2 ">
                             {Math.floor(employee.badalatValue)}
