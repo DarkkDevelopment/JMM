@@ -7,7 +7,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import logo from "../public/images/logo.png";
@@ -24,11 +26,15 @@ import conslogo from "../public/icons/cons.png";
 import { Icon } from "@iconify/react";
 
 const NestedList = (props: any) => {
-  const [open, setOpen] = React.useState(true);
+  const [HRopen, setHROpen] = React.useState(true);
+  const [INVopen, setINVOpen] = React.useState(true);
   const pageName = props.pageName;
   const router = useRouter();
-  const handleClick = () => {
-    setOpen(!open);
+  const HRhandleClick = () => {
+    setHROpen(!HRopen);
+  };
+  const INVhandleClick = () => {
+    setINVOpen(!INVopen);
   };
 
   return (
@@ -46,12 +52,30 @@ const NestedList = (props: any) => {
           </ListSubheader>
         }
       >
-        <ListItemButton onClick={handleClick}>
-          <Icon icon="fluent:person-28-regular" width={25} height={25} />
-          <ListItemText primary="HR" />
-          {open ? <ExpandLess /> : <ExpandMore />}
+        <ListItemButton
+          onClick={HRhandleClick}
+          sx={{
+            marginTop: 2,
+            marginBottom: 2,
+            justifyContent: "space-between",
+          }}
+        >
+          {HRopen ? <ExpandLess /> : <ExpandMore />}
+          <div className="flex flex-row items-center space-x-4 justify-between">
+            <h3
+              className={
+                "text-md font-bold  cursor-pointer hover:text-red-600 "
+              }
+            >
+              الموارد البشريه
+            </h3>
+            <div>
+              <Icon icon="fluent:person-28-regular" width={25} height={25} />
+            </div>
+          </div>
         </ListItemButton>
-        <Collapse in={open} timeout="auto" unmountOnExit>
+
+        <Collapse in={HRopen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
               sx={{
@@ -370,14 +394,22 @@ const NestedList = (props: any) => {
         </Collapse>
 
         <ListItemButton
-          onClick={handleClick}
+          onClick={INVhandleClick}
           sx={{
             marginTop: 2,
             marginBottom: 2,
             justifyContent: "space-between",
           }}
         >
+          {INVopen ? <ExpandLess /> : <ExpandMore />}
           <div className="flex flex-row items-center space-x-4 justify-between">
+            <h3
+              className={
+                "text-md font-bold  cursor-pointer hover:text-red-600 "
+              }
+            >
+              المخازن
+            </h3>
             <div>
               <Icon
                 icon="material-symbols:inventory-2-outline-rounded"
@@ -385,20 +417,43 @@ const NestedList = (props: any) => {
                 height={25}
               />
             </div>
-
-            <div
-              className={
-                "text-2xl font-bold text-center  cursor-pointer hover:text-red-600 "
-              }
-            >
-              <ListItemText primary="مخازن" />
-            </div>
           </div>
-          {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
-        <Collapse in={open} timeout="auto" unmountOnExit>
+        <Collapse in={INVopen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
+            <ListItemButton
+              sx={{
+                paddingX: 6,
+                marginTop: 2,
+                marginBottom: 2,
+                justifyContent: "space-between",
+              }}
+              onClick={() => {
+                router.push("/Inventory/ViewInventory");
+              }}
+            >
+              <div className="flex flex-row items-center space-x-4 justify-between">
+                <h3
+                  className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
+            ${
+              pageName === "const"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
+                >
+                  المخازن
+                </h3>
+              </div>
+              <div>
+                <Icon
+                  icon="akar-icons:shipping-box-01"
+                  width="50"
+                  height="50"
+                />
+              </div>
+            </ListItemButton>
+
             <ListItemButton
               sx={{
                 paddingX: 6,
@@ -426,8 +481,6 @@ const NestedList = (props: any) => {
                 <Icon icon="heroicons-outline:beaker" width={50} height={50} />
               </div>
             </ListItemButton>
-
-            <ListItemButton sx={{ pl: 4 }}></ListItemButton>
           </List>
         </Collapse>
       </List>

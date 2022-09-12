@@ -2,10 +2,11 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import TSB from "../../components/TSB";
-
+import CheckIcon from "@mui/icons-material/Check";
 import ToggleButtons from "../../components/Toogle";
+import ToggleButton from "@mui/material/ToggleButton";
 
-import ReactLoading from 'react-loading';
+import ReactLoading from "react-loading";
 const Quality: NextPage = () => {
   const router = useRouter();
   return (
@@ -53,8 +54,18 @@ const Quality: NextPage = () => {
               </thead>
 
               <tbody className="p-10 ">
-              <td className="w-20 p-4 text-right border-b-2">
-                  <ToggleButtons />
+                <td className="w-20 p-4 text-right border-b-2">
+                  <ToggleButton
+                    disabled
+                    value="check"
+                    style={{
+                      border: "1px solid grey",
+                      backgroundColor: "green",
+                      color: "white",
+                    }}
+                  >
+                    <CheckIcon />
+                  </ToggleButton>
                 </td>
 
                 <td className="w-20 p-4 text-right border-b-2">٢٢/٣/٢٠٢٠</td>
@@ -79,7 +90,7 @@ const Quality: NextPage = () => {
               </thead>
 
               <tbody className="p-10 ">
-              <td className="w-20 p-4 text-right border-b-2">
+                <td className="w-20 p-4 text-right border-b-2">
                   <ToggleButtons />
                 </td>
 
@@ -93,9 +104,6 @@ const Quality: NextPage = () => {
         </div>
       </div>
       <TSB pageName="ViewInventory" />
-     
-     
-
     </div>
   );
 };

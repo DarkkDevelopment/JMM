@@ -3,27 +3,26 @@ import { useRouter } from "next/router";
 import { InferGetServerSidePropsType } from "next";
 import TSB from "../../components/TSB";
 import React from "react";
+import { Pagination, Stack } from "@mui/material";
 
 const Quality: NextPage = () => {
   const router = useRouter();
+
   return (
     <div className="flex flex-row bg-gray-100">
       <div className="bg-gray-100 font-display basis-5/6">
-     
         <div className="flex flex-col flex-1 p-10 space-y-2 jusify-center ">
           <div className="flex flex-col pt-10 pl-10 pr-10 mr-10 bg-white shadow-xl space-y-7">
             <table className="text-right border-collapse table-auto font-display">
               <thead className="text-right text-white bg-blue-900 ">
-              <tr>
+                <tr>
                   <th className="w-20 p-4 text-right border-b-2"></th>
                   <th className="w-20 p-4 text-right border-b-2"></th>
                   <th className="w-20 p-4 text-right border-b-2"></th>
                   <th className="w-20 p-4 text-right border-b-2"></th>
-                 
+
                   <th className="w-20 p-4 text-right border-b-2">الاسم</th>
                 </tr>
-                
-
               </thead>
 
               <tbody className="p-10 ">
@@ -36,10 +35,9 @@ const Quality: NextPage = () => {
                   >
                     عرض المزيد
                   </button>
-                  
-                  </td>
-                  <td ></td>
-                  <td className="text-center border-b-2 ">
+                </td>
+                <td></td>
+                <td className="text-center border-b-2 ">
                   <button
                     onClick={() => {
                       router.push("/Inventory/History");
@@ -49,14 +47,11 @@ const Quality: NextPage = () => {
                     تاريخ المخزن
                   </button>
                 </td>
-                <td ></td>
-                
-              
+                <td></td>
+
                 <td className="w-20 p-4 text-right border-b-2">مواد خام</td>
               </tbody>
             </table>
-            
-          
           </div>
           <div className="flex flex-row items-center justify-center p-6 space-x-5 ">
             <div>
@@ -70,6 +65,10 @@ const Quality: NextPage = () => {
               </div>
             </div>
           </div>
+
+          <Stack spacing={2} alignItems={"center"}>
+            <Pagination count={4} variant="outlined" color="primary" />
+          </Stack>
         </div>
       </div>
       <TSB pageName="ViewInventory" />

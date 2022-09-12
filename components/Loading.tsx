@@ -3,7 +3,8 @@ import ReactLoading from "react-loading";
 import logo from "../public/images/logo.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
+import "animate.css";
+import { Pagination, Stack } from "@mui/material";
 function Loading() {
   const router = useRouter();
   return (
@@ -11,7 +12,7 @@ function Loading() {
       className="flex items-center flex-col justify-center mt-52"
       onClick={() => router.push("/")}
     >
-      <div className="">
+      <div className="animate__animated animate__headShakeeat">
         <Image src={logo} alt="logo" width={300} height={300} />
       </div>
 
