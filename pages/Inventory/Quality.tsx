@@ -93,7 +93,6 @@ const Quality: NextPage = () => {
                 <td className="w-20 p-4 text-right border-b-2">
                   <ToggleButtons />
                 </td>
-
                 <td className="w-20 p-4 text-right border-b-2">٢٢/٣/٢٠٢٠</td>
                 <td className="w-20 p-4 text-right border-b-2">١٠ كيلو</td>
                 <td className="w-20 p-4 pr-9  text-right border-b-2">مينا</td>
