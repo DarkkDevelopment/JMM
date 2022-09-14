@@ -1,4 +1,3 @@
-import console from "console";
 import prisma from "../lib/prisma";
 import { QoroodHistoryModel } from "../models/QoroodHistoryModel";
 
@@ -63,4 +62,15 @@ const getQoroodHistory = async () => {
   return qorodModel;
 };
 
-export default getQoroodHistory;
+const getRemainingOfQard = async (qardId: number) => {
+  const qard = await prisma.qorood.findFirst({
+    where: {
+      id: qardId,
+    },
+  });
+  const totalSadadat = await calculateTotalSadadat(qardId);
+  const remaining = qard!.TotalQardValue - totalSadadat;
+  return remaining;
+};
+
+export { getQoroodHistory, getRemainingOfQard };

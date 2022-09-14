@@ -2,8 +2,7 @@ import React from "react";
 import SideBar from "../../components/sideBar";
 import { useRouter } from "next/router";
 
-// @ts-ignore
-function Qorood(props) {
+function Qorood() {
   const router = useRouter();
   return (
     <div className="flex flex-row bg-gray-100">

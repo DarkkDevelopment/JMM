@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dropdown from "../../components/DropDown";
 import { InferGetServerSidePropsType } from "next";
 import axios from "../../utils/axios";
@@ -9,6 +9,7 @@ function CreateSadad(
   const AllEmployees = props ? props.employeesOptions : [];
   const [sadadValue, setSadadValue] = React.useState(0);
   const [employee, setEmployee] = React.useState(0);
+  const [remaining, setRemaining] = React.useState(0);
   const [QoroodOptions, setQoroodOptions] = React.useState<
     [
       {
@@ -24,7 +25,6 @@ function CreateSadad(
   ]);
   const [qard, setQard] = React.useState(0);
 
-  // todo: need to use this to filter the qorood with the selected employee code
   const handleChangeEmployee = async (code: number) => {
     const response = await axios({
       method: "POST",
@@ -44,9 +44,16 @@ function CreateSadad(
       };
     });
     setQoroodOptions(qoroodOptions);
+    const remainingAmount = await axios({
+      method: "POST",
+      url: "/api/HR_Endpoints/qorood/getRemainingOfQard",
+      data: {
+        id: qoroodOptions[0].id,
+      },
+    });
+    setRemaining(remainingAmount.data);
   };
 
-  // todo: this to handle the creation logic
   const handleCreateSadad = async (e: any) => {
     e.preventDefault();
     if (QoroodOptions.length === 1) {
@@ -71,7 +78,22 @@ function CreateSadad(
     window.location.reload();
   };
 
-  const handleQardChange = (id: number) => {
+  useEffect(() => {
+    const getRemaining = async () => {
+      const Remaining = await axios({
+        method: "POST",
+        url: "/api/HR_Endpoints/qorood/getRemainingOfQard",
+        data: {
+          id: qard,
+        },
+      });
+      setRemaining(Remaining.data);
+    };
+    getRemaining();
+  }, [qard]);
+
+  // todo : when change Qard the Remaining Value should change
+  const handleQardChange = async (id: number) => {
     setQard(id);
   };
 
@@ -105,6 +127,12 @@ function CreateSadad(
             </label>
           </div>
           <div className="flex flex-row mb-4 space-x-10">
+            <p>{remaining}</p>
+            <label className="text-2xl " htmlFor="name">
+              المبلغ المتبقي
+            </label>
+          </div>
+          <div className="flex flex-row mb-4 space-x-10">
             <input
               value={sadadValue}
               onChange={(e) => setSadadValue(Number(e.target.value))}
@@ -135,12 +163,6 @@ export async function getServerSideProps(context: any) {
     {
       id: 0,
       name: "اختر الموظف",
-    },
-  ];
-  let QoroodOptions: any = [
-    {
-      id: 0,
-      name: "اختر القرض",
     },
   ];
   for (const employee of getQoroodHistoryJson) {

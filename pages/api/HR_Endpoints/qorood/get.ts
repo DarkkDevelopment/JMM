@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import getQoroodHistory from "../../../../controllers/qoroodController";
+import { getQoroodHistory } from "../../../../controllers/qoroodController";
 
 // http://localhost:3000/api/HR_Endpoints/qorood/get
 

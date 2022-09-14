@@ -47,6 +47,7 @@ function CreateQard(
           </div>
           <div className="flex flex-row mb-4 space-x-10">
             <input
+              type={"number"}
               value={qardValue}
               onChange={(e) => setQardValue(Number(e.target.value))}
               className="w-1/2 px-5 py-3 m-auto text-xl font-bold text-center text-white bg-blue-900 rounded-lg shadow-xl cursor-pointer hover:bg-blue-500"
