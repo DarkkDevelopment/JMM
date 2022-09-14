@@ -345,15 +345,6 @@ function Attendance(props) {
             </tbody>
           </table>
         </div>
-        <button
-          disabled={attendanceState.old}
-          onClick={sendAttendanceHandler}
-          className={
-            "px-4 py-2 mt-3 leading-tight text-right text-white bg-blue-400 rounded shadow-lg hover:bg-blue-700 disabled:hover:bg-blue-400"
-          }
-        >
-          حفظ حضور اليوم
-        </button>
       </div>
       <SideBar pageName="attendance" />
     </div>

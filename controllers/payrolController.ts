@@ -19,6 +19,7 @@ const calcTotalKhasmValue = async (
       PersonKhasmId: code,
       MonthOfKhasm: month,
       YearOfKhasm: year,
+      deletedAt: null,
     },
     select: {
       KhasmLateValue: true,
@@ -44,6 +45,7 @@ const calcTotalHafezValue = async (
       PersonHafezId: code,
       MonthOfHafez: month,
       YearOfHafez: year,
+      deletedAt: null,
     },
     select: {
       HafezTotalValue: true,
