@@ -19,6 +19,7 @@ import { DropDownDateComp } from "../../components/DropDownDateComp";
 import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
 import roundToMultipleOfFive from "../../utils/round";
+import TSB from "../../components/TSB";
 
 function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const InsuranceModels: InsuranceModel[] = props.newInsurance;
@@ -324,7 +325,7 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
           </div>
         </div>
       </div>
-      <SideBar pageName="money" />
+      <TSB pageName="money" />
     </div>
   );
 }

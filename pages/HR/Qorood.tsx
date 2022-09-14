@@ -1,6 +1,7 @@
 import React from "react";
 import SideBar from "../../components/sideBar";
 import { useRouter } from "next/router";
+import TSB from "../../components/TSB";
 
 // @ts-ignore
 function Qorood(props) {
@@ -49,7 +50,7 @@ function Qorood(props) {
           </div>
         </div>
       </div>
-      <SideBar pageName="qorood" />
+      <TSB pageName="qorood" />
     </div>
   );
 }

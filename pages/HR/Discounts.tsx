@@ -8,6 +8,7 @@ import { KhasmModelHistory } from "../../models/khasmModel";
 import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
 import Dropdown from "../../components/DropDown";
+import TSB from "../../components/TSB";
 
 // @ts-ignore
 function Discounts(props) {
@@ -126,7 +127,7 @@ function Discounts(props) {
           </div>
         </div>
       </div>
-      <SideBar pageName="discounts" />
+      <TSB pageName="discounts" />
     </div>
   );
 }

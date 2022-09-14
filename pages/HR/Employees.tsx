@@ -7,6 +7,7 @@ import { IAllEmployeesModel } from "../../interfaces/employees";
 import { numberOfItemsPerPage } from "../../utils/constants";
 import { InferGetServerSidePropsType } from "next";
 import { getAllEmployees } from "../../services/employeesServices";
+import TSB from "../../components/TSB";
 
 function Employees(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -154,7 +155,7 @@ function Employees(
           </div>
         </div>
       </div>
-      <SideBar pageName="employees" />
+      <TSB pageName="employees" />
     </div>
   );
 }

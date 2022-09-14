@@ -16,8 +16,14 @@ interface Props {
 }
 
 function VacationsCard(props: Props) {
-  const { name, code, availableVacations, history, reload, agazatConst } =
-    props;
+  const {
+    name,
+    code,
+    availableVacations,
+    history,
+    reload,
+    agazatConst,
+  } = props;
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [selected, setSelected] = useState<string | undefined>(

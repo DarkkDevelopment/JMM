@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Dropdown from "../../components/DropDownComp";
 import RadioButtonComp from "../../components/RadioButtonComp";
 import SideBar from "../../components/sideBar";
+import TSB from "../../components/TSB";
 
 // @ts-ignore
 function Reports(props) {
@@ -40,7 +41,7 @@ function Reports(props) {
           </div>
         </div>
       </div>
-      <SideBar pageName="reports" />
+      <TSB pageName="reports" />
     </div>
   );
 }

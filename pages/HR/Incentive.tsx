@@ -9,14 +9,16 @@ import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
 import Dropdown from "../../components/DropDown";
 import { InferGetServerSidePropsType } from "next";
+import TSB from "../../components/TSB";
 
 function Incentive(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const hawafezModelsData = props.data;
   const hawafezReasonsProps = props.reasons;
-  const [filteredEmployees, setFilteredEmployees] =
-    useState<HawafezModelHistory[]>();
+  const [filteredEmployees, setFilteredEmployees] = useState<
+    HawafezModelHistory[]
+  >();
   const [hwafezReasons, setHwafezReasons] = useState();
 
   const deleteHafez = async (id: number) => {
@@ -102,7 +104,7 @@ function Incentive(
           </div>
         </div>
       </div>
-      <SideBar pageName="incentive" />
+      <TSB pageName="incentive" />
     </div>
   );
 }
