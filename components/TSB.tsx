@@ -75,7 +75,7 @@ const NestedList = (props: any) => {
           </div>
         </ListItemButton>
 
-        <Collapse in={HRopen} timeout="auto" unmountOnExit>
+        <Collapse in={!HRopen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
               sx={{
@@ -420,7 +420,7 @@ const NestedList = (props: any) => {
           </div>
         </ListItemButton>
 
-        <Collapse in={INVopen} timeout="auto" unmountOnExit>
+        <Collapse in={!INVopen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
               sx={{
@@ -479,6 +479,68 @@ const NestedList = (props: any) => {
               </div>
               <div>
                 <Icon icon="heroicons-outline:beaker" width={50} height={50} />
+              </div>
+            </ListItemButton>
+            <ListItemButton
+              sx={{
+                paddingX: 6,
+                marginTop: 2,
+                marginBottom: 2,
+                justifyContent: "space-between",
+              }}
+              onClick={() => {
+                router.push("/Inventory/EnterProduct");
+              }}
+            >
+              <div className="flex flex-row items-center space-x-4 justify-between">
+                <h3
+                  className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
+            ${
+              pageName === "const"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
+                >
+                  اذن دخول
+                </h3>
+              </div>
+              <div>
+                <Icon
+                  icon="majesticons:door-enter-line"
+                  width="50"
+                  height="50"
+                />
+              </div>
+            </ListItemButton>
+            <ListItemButton
+              sx={{
+                paddingX: 6,
+                marginTop: 2,
+                marginBottom: 2,
+                justifyContent: "space-between",
+              }}
+              onClick={() => {
+                router.push("/Inventory/ExitProduct");
+              }}
+            >
+              <div className="flex flex-row items-center space-x-4 justify-between">
+                <h3
+                  className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
+            ${
+              pageName === "const"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
+                >
+                  اذن خروج
+                </h3>
+              </div>
+              <div>
+                <Icon
+                  icon="majesticons:door-exit-line"
+                  width="50"
+                  height="50"
+                />
               </div>
             </ListItemButton>
           </List>
