@@ -398,3 +398,45 @@ model QoroodOzoonatHistory {
   EznDate  DateTime @db.Date
   Qard     Qorood   @relation(fields: [QardId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "QardIdConstraint")
 }
+
+model MakhazenLookup {
+  id                 Int            @id @default(autoincrement())
+  MakhzanName        String         @db.VarChar(50)
+  MakhzanDescription String
+  deletedAt          DateTime?
+  MakhzanItems       MakhzanItems[]
+}
+
+model ItemsLookup {
+  id           Int            @id @default(autoincrement())
+  ItemName     String         @db.VarChar(50)
+  deletedAt    DateTime?
+  MakhzanItems MakhzanItems[]
+  ItemsUnits   ItemsUnits[]
+}
+
+model MeasuringUnitsLookup {
+  id         Int          @id @default(autoincrement())
+  UnitName   String       @db.VarChar(50)
+  deletedAt  DateTime?
+  ItemsUnits ItemsUnits[]
+}
+
+model MakhzanItems {
+  id        Int            @id @default(autoincrement())
+  MakhzanId Int
+  ItemId    Int
+  deletedAt DateTime?
+  Makhzan   MakhazenLookup @relation(fields: [MakhzanId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "MakhzanIdConstraint")
+  Item      ItemsLookup    @relation(fields: [ItemId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ItemIdConstraint")
+}
+
+model ItemsUnits {
+  ItemId    Int
+  UnitId    Int
+  deletedAt DateTime?
+  Item      ItemsLookup          @relation(fields: [ItemId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ItemIdConstraint")
+  Unit      MeasuringUnitsLookup @relation(fields: [UnitId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "UnitIdConstraint")
+
+  @@id([ItemId, UnitId])
+}
