@@ -7,6 +7,7 @@ const createItem = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const name = req.body.name;
     const UnitId = req.body.UnitId;
+    const MakhzanId = req.body.MakhzanId;
     const itemInfo = await prisma.itemsLookup.create({
       data: {
         ItemName: name,
@@ -18,12 +19,14 @@ const createItem = async (req: NextApiRequest, res: NextApiResponse) => {
         UnitId: UnitId,
       },
     });
+    const itemMakhzan = await prisma.makhzanItems.create({
+      data: {
+        ItemId: itemInfo.id,
+        MakhzanId: MakhzanId,
+      },
+    });
     res.json({
       message: "Sent Successfully",
-      data: {
-        itemInfo,
-        itemUnit,
-      },
     });
   } catch (error) {
     res.json(error);
