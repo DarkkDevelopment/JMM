@@ -7,7 +7,7 @@ import { Pagination, Stack } from "@mui/material";
 import { numberOfItemsPerPage } from "../../utils/constants";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 
-const Quality: NextPage = () => {
+const ViewInventory: NextPage = () => {
   const router = useRouter();
   const pageCount = Math.ceil(10 / numberOfItemsPerPage);
   const [pageNumber, setPageNumber] = useState(0);
@@ -142,7 +142,7 @@ const Quality: NextPage = () => {
   );
 };
 
-export default Quality;
+export default ViewInventory;
 function setPageNumber(arg0: number) {
   throw new Error("Function not implemented.");
 }

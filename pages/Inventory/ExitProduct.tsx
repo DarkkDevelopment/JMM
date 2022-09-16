@@ -104,7 +104,7 @@ const ExitProduct: NextPage = () => {
           </div>
         </div>
       </div>
-      <TSB pageName="EnterProduct" />
+      <TSB pageName="ExitProduct" />
     </div>
   );
 };

@@ -4,12 +4,8 @@ import React from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import reportLogo from "../public/icons/report.png";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import logo from "../public/images/logo.png";
@@ -21,7 +17,6 @@ import moneyLogo from "../public/icons/money.png";
 import incentive from "../public/icons/incentive.png";
 import discounts from "../public/icons/discounts.png";
 import attendanceLogo from "../public/icons/user.png";
-import absentLogo from "../public/icons/absent.png";
 import conslogo from "../public/icons/cons.png";
 import { Icon } from "@iconify/react";
 
@@ -341,7 +336,7 @@ const NestedList = (props: any) => {
                 <h3
                   className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
-              pageName === "discounts"
+              pageName === "qorood"
                 ? "text-red-600 text-2xl"
                 : "text-blue-900 text-2xl"
             }`}
@@ -365,7 +360,7 @@ const NestedList = (props: any) => {
                 router.push("/HR/constants");
               }}
             >
-              <div className="flex flex-row items-center space-x-4 justify-between">
+              <div>
                 <h3
                   className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
@@ -428,7 +423,7 @@ const NestedList = (props: any) => {
                 <h3
                   className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
-              pageName === "const"
+              pageName === "ViewInventory"
                 ? "text-red-600 text-2xl"
                 : "text-blue-900 text-2xl"
             }`}
@@ -444,7 +439,6 @@ const NestedList = (props: any) => {
                 />
               </div>
             </ListItemButton>
-
             <ListItemButton
               sx={{
                 paddingX: 6,
@@ -460,7 +454,7 @@ const NestedList = (props: any) => {
                 <h3
                   className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
-              pageName === "const"
+              pageName === "Quality"
                 ? "text-red-600 text-2xl"
                 : "text-blue-900 text-2xl"
             }`}
@@ -472,6 +466,7 @@ const NestedList = (props: any) => {
                 <Icon icon="heroicons-outline:beaker" width={50} height={50} />
               </div>
             </ListItemButton>
+
             <ListItemButton
               sx={{
                 paddingX: 6,
@@ -487,7 +482,7 @@ const NestedList = (props: any) => {
                 <h3
                   className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
-              pageName === "const"
+              pageName === "EnterProduct"
                 ? "text-red-600 text-2xl"
                 : "text-blue-900 text-2xl"
             }`}
@@ -503,6 +498,7 @@ const NestedList = (props: any) => {
                 />
               </div>
             </ListItemButton>
+
             <ListItemButton
               sx={{
                 paddingX: 6,
@@ -518,7 +514,7 @@ const NestedList = (props: any) => {
                 <h3
                   className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
             ${
-              pageName === "const"
+              pageName === "ExitProduct"
                 ? "text-red-600 text-2xl"
                 : "text-blue-900 text-2xl"
             }`}
@@ -532,6 +528,34 @@ const NestedList = (props: any) => {
                   width="50"
                   height="50"
                 />
+              </div>
+            </ListItemButton>
+
+            <ListItemButton
+              sx={{
+                paddingX: 6,
+                marginTop: 2,
+                marginBottom: 2,
+                justifyContent: "space-between",
+              }}
+              onClick={() => {
+                router.push("/Inventory/InvConst");
+              }}
+            >
+              <div>
+                <h3
+                  className={`"text-2xl font-bold text-center  cursor-pointer hover:text-red-600 
+            ${
+              pageName === "InvConst"
+                ? "text-red-600 text-2xl"
+                : "text-blue-900 text-2xl"
+            }`}
+                >
+                  ثوابت المخازن
+                </h3>
+              </div>
+              <div>
+                <Image src={conslogo} alt="employee" width={50} height={50} />
               </div>
             </ListItemButton>
           </List>
