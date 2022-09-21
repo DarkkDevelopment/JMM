@@ -6,6 +6,7 @@ import { IAllEmployeesModel } from "../../interfaces/employees";
 import { Vacatoion } from "../../interfaces/Vactaions";
 import { InferGetServerSidePropsType } from "next";
 import { ToastContainer } from "react-toastify";
+import TSB from "../../components/TSB";
 
 function Vacations(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -43,7 +44,7 @@ function Vacations(
           ))}
         </div>
       </div>
-      <SideBar pageName="vacations" />
+      <TSB pageName="vacations" />
     </div>
   );
 }

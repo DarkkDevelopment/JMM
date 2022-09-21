@@ -21,6 +21,7 @@ const EnterProduct: NextPage = () => {
               اذن الدخول
             </h3>
           </div>
+
           <div className="flex flex-col p-10  mr-10  bg-white shadow-xl space-y-7 rounded-xl">
             <div className="grid gap-9 grid-cols-2 grid-rows-5 align-middle items-center justify-center">
               <div className=" flex items-center justify-center">
@@ -78,15 +79,13 @@ const EnterProduct: NextPage = () => {
                   ]}
                 />
               </div>
-              <div className=" items-center justify-center">
+              <div className="  ">
                 <h3 className="flex text-xl   items-center justify-center">
                   اسم الموظف
                 </h3>
               </div>
-              <div className=" flex items-center justify-center">
-                <h6 className="flex text-sm   items-center justify-center pr-5">
-                  كيلو
-                </h6>
+              <div className=" flex items-center space-x-8 ml-36">
+                <h6>كيلو</h6>
                 <input
                   className="w-20 py-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
                   type="text"
@@ -98,6 +97,7 @@ const EnterProduct: NextPage = () => {
                 </h3>
               </div>
             </div>
+            <div className="flex text-sm items-left mb-10 "></div>
           </div>
           <div className="flex items-center justify-center pt-5">
             <button className="items-center self-center justify-center w-40 px-5 py-3 m-auto text-xl font-bold text-center text-white bg-blue-900 rounded-lg shadow-xl cursor-pointer hover:bg-blue-500">

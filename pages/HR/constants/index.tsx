@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import SideBar from "../../../components/sideBar";
+import TSB from "../../../components/TSB";
 
 // @ts-ignore
 const Home = (props) => {
@@ -112,7 +113,7 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      <SideBar pageName="const" />
+      <TSB pageName="const" />
     </div>
   );
 };

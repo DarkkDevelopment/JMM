@@ -7,6 +7,7 @@ import axios from "../../utils/axios";
 import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
 import Dropdown from "../../components/DropDown";
+import TSB from "../../components/TSB";
 
 function Loan() {
   const [filteredEmployees, setFilteredEmployees] = useState<SolfaModel[]>([]);
@@ -96,7 +97,8 @@ function Loan() {
           )}
         </div>
       </div>
-      <SideBar pageName="loan" />
+
+      <TSB pageName="loan" />
     </div>
   );
 }

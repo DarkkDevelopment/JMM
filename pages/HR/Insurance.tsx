@@ -9,6 +9,7 @@ import { DropDownDateComp } from "../../components/DropDownDateComp";
 import { numberOfItemsPerPage } from "../../utils/constants";
 import axios from "../../utils/axios";
 import { InferGetServerSidePropsType } from "next";
+import TSB from "../../components/TSB";
 
 function Insurance(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -221,7 +222,7 @@ function Insurance(
           </div>
         </div>
       </div>
-      <SideBar pageName="insurance" />
+      <TSB pageName="insurance" />
     </div>
   );
 }

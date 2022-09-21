@@ -83,10 +83,8 @@ const ExitProduct: NextPage = () => {
                   اسم الموظف
                 </h3>
               </div>
-              <div className=" flex items-center justify-center">
-                <h6 className="flex text-sm   items-center justify-center pr-5">
-                  كيلو
-                </h6>
+              <div className=" flex items-center space-x-8 ml-36">
+                <h6>كيلو</h6>
                 <input
                   className="w-20 py-5 leading-tight text-center text-black border rounded shadow-lg appearance-none focus:outline-none focus:border-blue-500"
                   type="text"
@@ -106,7 +104,7 @@ const ExitProduct: NextPage = () => {
           </div>
         </div>
       </div>
-      <TSB pageName="EnterProduct" />
+      <TSB pageName="ExitProduct" />
     </div>
   );
 };

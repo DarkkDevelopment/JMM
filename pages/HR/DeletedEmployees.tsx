@@ -8,6 +8,7 @@ import SideBar from "../../components/sideBar";
 import { Alert } from "../../services/alerts/Alert";
 import axios from "../../utils/axios";
 import { numberOfItemsPerPage } from "../../utils/constants";
+import TSB from "../../components/TSB";
 
 const DeletedEmployees = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -154,7 +155,7 @@ const DeletedEmployees = (
           </div>
         </div>
       </div>
-      <SideBar pageName="employees" />
+      <TSB pageName="employees" />
     </div>
   );
 };

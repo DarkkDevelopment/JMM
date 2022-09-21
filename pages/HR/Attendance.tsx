@@ -22,6 +22,7 @@ import {
   removeGhyab,
 } from "../../utils/redux/features/GhyabSlice";
 import { VacationsModel } from "../../models/vacationsModel";
+import TSB from "../../components/TSB";
 
 // @ts-ignore
 function Attendance(props) {
@@ -346,7 +347,7 @@ function Attendance(props) {
           </table>
         </div>
       </div>
-      <SideBar pageName="attendance" />
+      <TSB pageName="attendance" />
     </div>
   );
 }
