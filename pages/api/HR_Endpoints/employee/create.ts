@@ -52,17 +52,26 @@ const createEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  const userDocuments = await prisma.personDocuments.create({
-    data: {
-      PersonCode: u.PersonCode,
-      Beta2aWesh: u.Beta2aWesh,
-      Beta2aDahr: u.Beta2aDahr,
-      Feesh: u.Feesh,
-      ShehadetMilad: u.ShehadetMilad,
-      ShehadetGeish: u.ShehadetGeish,
-      PersonContract: u.PersonContract,
-    },
-  });
+  if (
+    u.Beta2aWesh &&
+    u.Beta2aDahr &&
+    u.Feesh &&
+    u.ShehadetMilad &&
+    u.ShehadetGeish &&
+    u.PersonContract
+  ) {
+    const userDocuments = await prisma.personDocuments.create({
+      data: {
+        PersonCode: u.PersonCode,
+        Beta2aWesh: u.Beta2aWesh,
+        Beta2aDahr: u.Beta2aDahr,
+        Feesh: u.Feesh,
+        ShehadetMilad: u.ShehadetMilad,
+        ShehadetGeish: u.ShehadetGeish,
+        PersonContract: u.PersonContract,
+      },
+    });
+  }
 
   const userCurrentMorattab =
     await prisma.personCurrentMorattabAndDarayebPercentage.create({
@@ -90,8 +99,6 @@ const createEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
   if (
     user &&
     userAddress &&
-    // userPassword &&
-    userDocuments &&
     userCurrentMorattab &&
     userMobileNumbers &&
     userWazefa &&
@@ -101,8 +108,6 @@ const createEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
       message: "Employee created successfully",
       user,
       userAddress,
-      // userPassword,
-      userDocuments,
       userCurrentMorattab,
       userMobileNumbers,
       userWazefa,

@@ -3,7 +3,8 @@ import SideBar from "../../components/sideBar";
 import { useRouter } from "next/router";
 import TSB from "../../components/TSB";
 
-function Qorood() {
+// @ts-ignore
+function Qorood(props) {
   const router = useRouter();
   return (
     <div className="flex flex-row bg-gray-100">

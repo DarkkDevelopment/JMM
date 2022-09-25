@@ -56,26 +56,30 @@ function CreateSadad(
 
   const handleCreateSadad = async (e: any) => {
     e.preventDefault();
-    if (QoroodOptions.length === 1) {
-      const response = await axios({
-        method: "POST",
-        url: "/api/HR_Endpoints/ozonat/create",
-        data: {
-          QardId: QoroodOptions[0].id,
-          EznValue: sadadValue,
-        },
-      });
+    if (sadadValue <= remaining) {
+      if (QoroodOptions.length === 1) {
+        const response = await axios({
+          method: "POST",
+          url: "/api/HR_Endpoints/ozonat/create",
+          data: {
+            QardId: QoroodOptions[0].id,
+            EznValue: sadadValue,
+          },
+        });
+      } else {
+        const response = await axios({
+          method: "POST",
+          url: "/api/HR_Endpoints/ozonat/create",
+          data: {
+            QardId: qard,
+            EznValue: sadadValue,
+          },
+        });
+      }
+      window.location.reload();
     } else {
-      const response = await axios({
-        method: "POST",
-        url: "/api/HR_Endpoints/ozonat/create",
-        data: {
-          QardId: qard,
-          EznValue: sadadValue,
-        },
-      });
+      alert("المبلغ المدخل اكبر من المتبقي");
     }
-    window.location.reload();
   };
 
   useEffect(() => {

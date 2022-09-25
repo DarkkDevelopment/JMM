@@ -63,7 +63,6 @@ const getEmployee = async (req: NextApiRequest, res: NextApiResponse) => {
   if (
     employeeGeneralInfo &&
     employeeAddress &&
-    employeeDocuments &&
     employeeMoratab &&
     employeeMobile &&
     employeeWazeefa
