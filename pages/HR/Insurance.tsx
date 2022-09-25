@@ -38,7 +38,7 @@ function Insurance(
 
   useEffect(() => {
     if (searchterm == "") {
-      setFilteredEmployees(filteredEmployees);
+      setFilteredEmployees(data);
       setTotalT2menValue(totalT2menValue);
     } else {
       let filteredEmployeesCopy = filteredEmployees.filter((obj) => {
@@ -97,6 +97,7 @@ function Insurance(
                 setMonth={setMonth}
                 setYear={setYear}
               />
+              <SearchField setSearchTerm={setSearchTerm} />
             </div>
           </div>
         </div>

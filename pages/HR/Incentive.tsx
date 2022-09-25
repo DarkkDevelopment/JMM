@@ -10,16 +10,17 @@ import { ToastContainer } from "react-toastify";
 import Dropdown from "../../components/DropDown";
 import { InferGetServerSidePropsType } from "next";
 import TSB from "../../components/TSB";
+import SearchField from "../../components/searchField";
 
 function Incentive(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const hawafezModelsData = props.data;
   const hawafezReasonsProps = props.reasons;
-  const [filteredEmployees, setFilteredEmployees] = useState<
-    HawafezModelHistory[]
-  >();
+  const [filteredEmployees, setFilteredEmployees] =
+    useState<HawafezModelHistory[]>();
   const [hwafezReasons, setHwafezReasons] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const deleteHafez = async (id: number) => {
     await axios
@@ -52,9 +53,20 @@ function Incentive(
   }, []);
 
   useEffect(() => {
-    setFilteredEmployees(hawafezModelsData);
-    setHwafezReasons(hawafezReasonsProps);
-  }, [hawafezModelsData, hawafezReasonsProps]);
+    if (searchTerm === "") {
+      setFilteredEmployees(hawafezModelsData);
+      setHwafezReasons(hawafezReasonsProps);
+    } else {
+      let filteredEmployeesCopy = hawafezModelsData.filter((obj: any) => {
+        return (
+          obj.PersonName.PersonFirstName.toLowerCase().includes(
+            searchTerm.toLowerCase()
+          ) || obj.PersonCode.toString().includes(searchTerm)
+        );
+      });
+      setFilteredEmployees(filteredEmployeesCopy);
+    }
+  }, [hawafezModelsData, hawafezReasonsProps, searchTerm]);
 
   const handleYearChange = async (val: number) => {
     setYear(val);
@@ -66,7 +78,8 @@ function Incentive(
     <div className="flex flex-row bg-gray-100">
       <div className="mr-10 font-display basis-5/6">
         <div className="flex flex-col m-10">
-          <div className="flex justify-center mb-4">
+          <div className="flex flex-row justify-center mb-4 space-x-10">
+            <SearchField setSearchTerm={setSearchTerm} />
             <Dropdown
               options={years!}
               value={year}

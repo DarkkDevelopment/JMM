@@ -8,11 +8,14 @@ import { Alert } from "../../services/alerts/Alert";
 import { ToastContainer } from "react-toastify";
 import Dropdown from "../../components/DropDown";
 import TSB from "../../components/TSB";
+import SearchField from "../../components/searchField";
 
-function Loan() {
+// @ts-ignore
+function Loan(props) {
   const [filteredEmployees, setFilteredEmployees] = useState<SolfaModel[]>([]);
   const [year, setYear] = useState(new Date().getFullYear());
   let [years, setYears] = useState<{ id: number; name: string }[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const deleteSolfa = async (id: number) => {
     await axios
@@ -38,7 +41,18 @@ function Loan() {
           year,
         }
       );
-      setFilteredEmployees(response.data);
+      if (searchTerm === "") {
+        setFilteredEmployees(response.data);
+      } else {
+        let filteredEmployeesCopy = response.data.filter((obj: any) => {
+          return (
+            obj.PersonName.PersonFirstName.toLowerCase().includes(
+              searchTerm.toLowerCase()
+            ) || obj.PersonCode.toString().includes(searchTerm)
+          );
+        });
+        setFilteredEmployees(filteredEmployeesCopy);
+      }
     };
     let yaersArr = [];
     for (let i = 2020; i <= new Date().getFullYear(); i++) {
@@ -49,7 +63,7 @@ function Loan() {
     }
     setYears(yaersArr);
     fetchData();
-  }, [year]);
+  }, [searchTerm, year]);
 
   return (
     <div className="flex flex-row bg-gray-100">
@@ -57,6 +71,7 @@ function Loan() {
       <div className="flex justify-center m-10 font-display basis-5/6">
         <div className="flex flex-col justify-center space-y-10">
           <div className="flex flex-row justify-around">
+            <SearchField setSearchTerm={setSearchTerm} />
             <Dropdown
               options={years!}
               value={year}

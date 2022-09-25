@@ -22,22 +22,6 @@ function Discounts(props) {
   >([]);
   const [discountsReasons, setDiscountReasons] = useState([]);
 
-  useEffect(() => {
-    let filteredEmployeesCopy = filteredEmployeesBackup.filter((obj) => {
-      return (
-        // @ts-ignore
-        obj.name.toLowerCase().includes(searchterm.toLowerCase()) ||
-        // @ts-ignore
-        obj.code.includes(searchterm)
-      );
-    });
-    if (searchterm != "") {
-      setFilteredEmployees(filteredEmployeesCopy);
-    } else {
-      setFilteredEmployees(filteredEmployeesBackup);
-    }
-  }, [filterDate, filteredEmployeesBackup, searchterm]);
-
   const deleteHafez = async (id: number) => {
     await axios
       .post(`/api/HR_Endpoints/khasm/delete`, {
@@ -78,16 +62,29 @@ function Discounts(props) {
         return { id: x.ReasonID, name: x.ReasonDescription };
       });
       setDiscountReasons(discountsReasons);
-      setFilteredEmployees(response.data);
+      if (searchterm === "") {
+        setFilteredEmployees(response.data);
+        setFilteredEmployeesBackup(response.data);
+      } else {
+        let filteredEmployeesCopy = response.data.filter((obj: any) => {
+          return (
+            obj.PersonName.PersonFirstName.toLowerCase().includes(
+              searchterm.toLowerCase()
+            ) || obj.PersonCode.toString().includes(searchterm)
+          );
+        });
+        setFilteredEmployees(filteredEmployeesCopy);
+      }
     };
     fetchData();
-  }, [year]);
+  }, [searchterm, year]);
 
   return (
     <div className="flex flex-row bg-gray-100">
       <div className="fmr-10 font-display basis-5/6">
         <div className="flex flex-col m-10">
-          <div className="flex justify-center mb-4">
+          <div className="flex flex-row justify-center mb-4 space-x-10">
+            <SearchField setSearchTerm={setSearchTerm} />
             <Dropdown
               options={years!}
               value={year}

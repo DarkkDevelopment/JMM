@@ -8,6 +8,7 @@ import { numberOfItemsPerPage } from "../../utils/constants";
 import { InferGetServerSidePropsType } from "next";
 import { getAllEmployees } from "../../services/employeesServices";
 import TSB from "../../components/TSB";
+import SearchField from "../../components/searchField";
 
 function Employees(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
@@ -27,26 +28,46 @@ function Employees(
     links.push(i);
   }
 
+  useEffect(() => {
+    if (searchterm === "") {
+      setFilteredEmployees(employees);
+    } else {
+      setFilteredEmployees(
+        employees.filter((obj: any) => {
+          return (
+            obj.name.toLowerCase().includes(searchterm.toLowerCase()) ||
+            obj.id.toString().includes(searchterm.toLowerCase())
+          );
+        })
+      );
+    }
+  }, [employees, filteredEmployees, searchterm]);
+
   return (
     <div className="flex flex-row bg-gray-100">
       <div className="bg-gray-100 font-display basis-5/6">
         <div className="flex flex-col flex-1 p-10 space-y-2 jusify-center ">
-          <button
-            onClick={() => {
-              router.push("/HR/AddEmployee");
-            }}
-            className="px-4 py-2 font-bold text-red-400 border border-red-400 bg-transparent rounded-xl w-[10vw]  hover:bg-red-500 shadow-md font-display hover:text-white"
-          >
-            اضافة موظف
-          </button>
-          <button
-            onClick={() => {
-              router.push("/HR/DeletedEmployees");
-            }}
-            className="px-4 py-2 font-bold text-red-400 border border-red-400 bg-transparent rounded-xl w-[10vw]  hover:bg-red-500 shadow-md font-display hover:text-white"
-          >
-            قائمة المحذوفين
-          </button>
+          <div className="flex flex-row justify-center mb-4 space-x-10">
+            <SearchField setSearchTerm={setSearchTerm} />
+            <div className="flex flex-col space-y-4">
+              <button
+                onClick={() => {
+                  router.push("/HR/AddEmployee");
+                }}
+                className="px-4 py-2 font-bold text-red-400 border border-red-400 bg-transparent rounded-xl w-[10vw]  hover:bg-red-500 shadow-md font-display hover:text-white"
+              >
+                اضافة موظف
+              </button>
+              <button
+                onClick={() => {
+                  router.push("/HR/DeletedEmployees");
+                }}
+                className="px-4 py-2 font-bold text-red-400 border border-red-400 bg-transparent rounded-xl w-[10vw]  hover:bg-red-500 shadow-md font-display hover:text-white"
+              >
+                قائمة المحذوفين
+              </button>
+            </div>
+          </div>
           <div className="flex flex-col pt-10 pl-10 pr-10 mr-10 bg-white shadow-xl space-y-7">
             <table className="text-right border-collapse table-fixed font-display">
               <thead className="text-right text-white bg-blue-900 ">

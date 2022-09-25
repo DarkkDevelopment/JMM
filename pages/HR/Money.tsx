@@ -34,6 +34,7 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [pageNumber, setPageNumber] = useState(0);
   const pagesVisted = pageNumber * numberOfItemsPerPage;
   const [filterDate, setFilterDate] = useState(new Date());
+  const [searchTerm, setSearchTerm] = useState("");
   const [old, setOld] = useState(false);
   const [month, setMonth] = useState<string>(
     MonthSeed.find((month) => month.id === new Date().getMonth() + 1)!.name
@@ -74,6 +75,20 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     checkForPayrol();
     fetchData();
   }, [isMonthSearch, month, year]);
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      setFilteredEmployees(filteredEmployees);
+    } else {
+      setFilteredEmployees(
+        filteredEmployees.filter((employee) =>
+          employee.PersonName.PersonFirstName.toLowerCase().includes(
+            searchTerm.toLowerCase()
+          )
+        )
+      );
+    }
+  }, [searchTerm, filteredEmployees]);
 
   const [isHovering, setIsHovering] = useState(false);
 
@@ -140,6 +155,7 @@ function Money(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
         <div className="flex flex-col p-10 pr-20">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row justify-center mb-4 space-x-10">
+              <SearchField setSearchTerm={setSearchTerm} />
               <DropDownDateComp
                 month={month}
                 year={year}
